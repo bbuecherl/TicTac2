@@ -7,7 +7,7 @@ import android.preference.PreferenceManager;
 
 import com.tictac2.R;
 
-public class SplashActivity extends Activity {
+public class TicTac2 extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

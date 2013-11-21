@@ -16,7 +16,7 @@
         android:logo="@drawable/ic_launcher"
         android:theme="@style/Theme.AppCompat.Light" >
         <activity
-            android:name="com.tictac2.view.SplashActivity"
+            android:name="com.tictac2.view.TicTac2"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
