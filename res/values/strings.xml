@@ -14,6 +14,11 @@
     <string name="logo">TicTac2</string>
     <string name="about_text">TicTac2 v0.1\nDevelopers Edition\n\nContributors:\nbenjaminaaron\nagarsia\ntuttirh\ngherndl\n\nSource Code available on Github:\nhttps://github.com/agarsia/TicTac2</string>
 
+    <!-- Placeholder -->
+    <string name="player1">{Player1}</string>
+    <string name="player2">{Player2}</string>
+    <string name="placeholder">{Placeholder}</string>
+    
     <!-- Menu Activity -->
     <string name="menu_singleplayer">Singleplayer</string>
     <string name="menu_multiplayer">Multiplayer</string>

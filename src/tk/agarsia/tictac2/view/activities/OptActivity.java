@@ -2,6 +2,7 @@ package tk.agarsia.tictac2.view.activities;
 
 import tk.agarsia.tictac2.R;
 import tk.agarsia.tictac2.controller.ApplicationControl;
+import tk.agarsia.tictac2.controller.ApplicationControl.GameType;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -67,8 +68,10 @@ public class OptActivity extends MainActivity {
 	}
 	
 	private void next() {
-		
-
-		startActivity(new Intent(getApplicationContext(),MultiNameActivity.class));
+		if(ApplicationControl.getGameType()==GameType.SINGLEPLAYER) {
+			startActivity(new Intent(getApplicationContext(),GameActivity.class));
+		} else {
+			startActivity(new Intent(getApplicationContext(),MultiNameActivity.class));
+		}
 	}
 }

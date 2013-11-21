@@ -985,15 +985,16 @@ containing a value of this type.
         public static final int abc_textfield_searchview_holo_light=0x7f020054;
         public static final int abc_textfield_searchview_right_holo_dark=0x7f020055;
         public static final int abc_textfield_searchview_right_holo_light=0x7f020056;
-        public static final int ic_action_about=0x7f020057;
-        public static final int ic_action_back=0x7f020058;
-        public static final int ic_action_next=0x7f020059;
-        public static final int ic_action_settings=0x7f02005a;
-        public static final int ic_launcher=0x7f02005b;
+        public static final int bordered=0x7f020057;
+        public static final int ic_action_about=0x7f020058;
+        public static final int ic_action_back=0x7f020059;
+        public static final int ic_action_next=0x7f02005a;
+        public static final int ic_action_settings=0x7f02005b;
+        public static final int ic_launcher=0x7f02005c;
     }
     public static final class id {
-        public static final int action_about=0x7f060048;
-        public static final int action_back=0x7f060049;
+        public static final int action_about=0x7f06004d;
+        public static final int action_back=0x7f06004e;
         public static final int action_bar=0x7f06001c;
         public static final int action_bar_activity_content=0x7f060015;
         public static final int action_bar_container=0x7f06001b;
@@ -1005,11 +1006,12 @@ containing a value of this type.
         public static final int action_menu_divider=0x7f060016;
         public static final int action_menu_presenter=0x7f060017;
         public static final int action_mode_close_button=0x7f060024;
-        public static final int action_next=0x7f06004a;
-        public static final int action_settings=0x7f060047;
+        public static final int action_next=0x7f06004f;
+        public static final int action_settings=0x7f06004c;
         public static final int activity_chooser_view_content=0x7f060025;
         public static final int always=0x7f06000b;
         public static final int beginning=0x7f060011;
+        public static final int board=0x7f060040;
         public static final int checkbox=0x7f06002d;
         public static final int collapseActionView=0x7f06000d;
         public static final int default_activity_button=0x7f060028;
@@ -1027,18 +1029,22 @@ containing a value of this type.
         public static final int image=0x7f060027;
         public static final int listMode=0x7f060001;
         public static final int list_item=0x7f060029;
-        public static final int menu_achievements=0x7f06003f;
-        public static final int menu_logo=0x7f06003c;
-        public static final int menu_multiplayer=0x7f06003e;
-        public static final int menu_ranks=0x7f060040;
-        public static final int menu_singleplayer=0x7f06003d;
+        public static final int menu_achievements=0x7f060044;
+        public static final int menu_logo=0x7f060041;
+        public static final int menu_multiplayer=0x7f060043;
+        public static final int menu_ranks=0x7f060045;
+        public static final int menu_singleplayer=0x7f060042;
         public static final int middle=0x7f060012;
         public static final int never=0x7f060009;
         public static final int none=0x7f060010;
         public static final int normal=0x7f060000;
-        public static final int opt_boardsize_id=0x7f060042;
-        public static final int opt_mpr_id=0x7f060046;
-        public static final int opt_winlength_id=0x7f060044;
+        public static final int opt_boardsize_id=0x7f060047;
+        public static final int opt_mpr_id=0x7f06004b;
+        public static final int opt_winlength_id=0x7f060049;
+        public static final int player1_img=0x7f06003d;
+        public static final int player1_name=0x7f06003c;
+        public static final int player2_img=0x7f06003f;
+        public static final int player2_name=0x7f06003e;
         public static final int progress_circular=0x7f060018;
         public static final int progress_horizontal=0x7f060019;
         public static final int radio=0x7f06002f;
@@ -1059,9 +1065,9 @@ containing a value of this type.
         public static final int split_action_bar=0x7f06001e;
         public static final int submit_area=0x7f060039;
         public static final int tabMode=0x7f060002;
-        public static final int textView1=0x7f060041;
-        public static final int textView2=0x7f060043;
-        public static final int textView3=0x7f060045;
+        public static final int textView1=0x7f060046;
+        public static final int textView2=0x7f060048;
+        public static final int textView3=0x7f06004a;
         public static final int title=0x7f06002b;
         public static final int top_action_bar=0x7f060020;
         public static final int up=0x7f060021;
@@ -1117,10 +1123,11 @@ containing a value of this type.
         public static final int abc_popup_menu_item_layout=0x7f030014;
         public static final int abc_search_dropdown_item_icons_2line=0x7f030015;
         public static final int abc_search_view=0x7f030016;
-        public static final int activity_menu=0x7f030017;
-        public static final int activity_opt=0x7f030018;
-        public static final int activity_splash=0x7f030019;
-        public static final int support_simple_spinner_dropdown_item=0x7f03001a;
+        public static final int activity_game=0x7f030017;
+        public static final int activity_menu=0x7f030018;
+        public static final int activity_opt=0x7f030019;
+        public static final int activity_splash=0x7f03001a;
+        public static final int support_simple_spinner_dropdown_item=0x7f03001b;
     }
     public static final class menu {
         public static final int main_activity_actions=0x7f0e0000;
@@ -1176,25 +1183,30 @@ containing a value of this type.
         public static final int close=0x7f0b0010;
         public static final int close_text=0x7f0b0011;
         public static final int logo=0x7f0b0016;
-        public static final int menu_achievements=0x7f0b001a;
-        public static final int menu_multiplayer=0x7f0b0019;
-        public static final int menu_ranks=0x7f0b001b;
+        public static final int menu_achievements=0x7f0b001d;
+        public static final int menu_multiplayer=0x7f0b001c;
+        public static final int menu_ranks=0x7f0b001e;
         /**  Menu Activity 
          */
-        public static final int menu_singleplayer=0x7f0b0018;
+        public static final int menu_singleplayer=0x7f0b001b;
         public static final int next=0x7f0b0014;
         public static final int no=0x7f0b0013;
         /**  Opt Activity 
          */
-        public static final int opt_boardsize_prompt=0x7f0b0020;
-        public static final int opt_mpr_prompt=0x7f0b0022;
-        public static final int opt_winlength_prompt=0x7f0b0021;
+        public static final int opt_boardsize_prompt=0x7f0b0023;
+        public static final int opt_mpr_prompt=0x7f0b0025;
+        public static final int opt_winlength_prompt=0x7f0b0024;
+        public static final int placeholder=0x7f0b001a;
+        /**  Placeholder 
+         */
+        public static final int player1=0x7f0b0018;
+        public static final int player2=0x7f0b0019;
         /**  Preferences 
          */
-        public static final int pref_sound=0x7f0b001c;
-        public static final int pref_sound_desc=0x7f0b001d;
-        public static final int pref_vibrate=0x7f0b001e;
-        public static final int pref_vibrate_desc=0x7f0b001f;
+        public static final int pref_sound=0x7f0b001f;
+        public static final int pref_sound_desc=0x7f0b0020;
+        public static final int pref_vibrate=0x7f0b0021;
+        public static final int pref_vibrate_desc=0x7f0b0022;
         public static final int settings=0x7f0b000e;
         public static final int yes=0x7f0b0012;
     }

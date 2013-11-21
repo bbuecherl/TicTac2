@@ -2,7 +2,6 @@ package tk.agarsia.tictac2.view.activities;
 
 import tk.agarsia.tictac2.R;
 import tk.agarsia.tictac2.view.Options;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -37,7 +36,6 @@ public abstract class MainActivity extends ActionBarActivity implements
 					}
 				});
 	
-		final Activity activity = this;
 		close = new AlertDialog.Builder(this)
 		.setTitle(R.string.close)
 		.setMessage(R.string.close_text)
@@ -46,7 +44,7 @@ public abstract class MainActivity extends ActionBarActivity implements
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog,
 							int which) {
-						activity.finish();
+						android.os.Process.killProcess(android.os.Process.myPid());
 					}
 				})
 		.setNegativeButton(getResources().getString(R.string.no),
