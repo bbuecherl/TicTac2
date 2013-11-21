@@ -19,6 +19,7 @@ public abstract class MainActivity extends ActionBarActivity implements
 	
 	public MainActivity(boolean actions) {
 		this.actions = actions;
+		
 	}
 
 	@Override

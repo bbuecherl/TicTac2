@@ -7,8 +7,7 @@
     <string name="about">About</string>
     <string name="close">Close</string>
     <string name="logo">TicTac2</string>
-    <string name="about_text">TicTac2 v0.1
-        Developers Edition</string>
+    <string name="about_text">TicTac2 v0.1\nDevelopers Edition\n\nContributers:\nbenjaminaaron\nagarsia\ntuttirh\ngherndl</string>
     
     <!-- Menu Activity -->
 	<string name="menu_singleplayer">Singleplayer</string>
