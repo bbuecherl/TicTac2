@@ -13,16 +13,41 @@
     <string name="back">Back</string>
     <string name="logo">TicTac2</string>
     <string name="about_text">TicTac2 v0.1\nDevelopers Edition\n\nContributors:\nbenjaminaaron\nagarsia\ntuttirh\ngherndl\n\nSource Code available on Github:\nhttps://github.com/agarsia/TicTac2</string>
-    
+
     <!-- Menu Activity -->
-	<string name="menu_singleplayer">Singleplayer</string>
-	<string name="menu_multiplayer">Multiplayer</string>
-	<string name="menu_achievements">Achievements</string>
-	<string name="menu_ranks">Ranks</string>
-	
-	<!-- Preferences -->
-	<string name="pref_sound">Sound</string>
-	<string name="pref_sound_desc">Enable for sound effects</string>
-	<string name="pref_vibrate">Vibration</string>
-	<string name="pref_vibrate_desc">Enable for physical feedback</string>
+    <string name="menu_singleplayer">Singleplayer</string>
+    <string name="menu_multiplayer">Multiplayer</string>
+    <string name="menu_achievements">Achievements</string>
+    <string name="menu_ranks">Ranks</string>
+
+    <!-- Preferences -->
+    <string name="pref_sound">Sound</string>
+    <string name="pref_sound_desc">Enable for sound effects</string>
+    <string name="pref_vibrate">Vibration</string>
+    <string name="pref_vibrate_desc">Enable for physical feedback</string>
+
+    <!-- Opt Activity -->
+    <string name="opt_boardsize_prompt">Choose board size</string>
+    <string-array name="opt_boardsize">
+        <item>3x3 Board</item>
+        <item>4x4 Board</item>
+        <item>5x5 Board</item>
+        <item>6x6 Board</item>
+    </string-array>
+
+    <string name="opt_winlength_prompt">Choose win length</string>
+    <string-array name="opt_winlength">
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+    </string-array>
+
+    <string name="opt_mpr_prompt">Choose marks per round</string>
+    <string-array name="opt_mpr">
+        <item>1 Mark</item>
+        <item>2 Marks</item>
+        <item>3 Marks</item>
+    </string-array>
+
 </resources>

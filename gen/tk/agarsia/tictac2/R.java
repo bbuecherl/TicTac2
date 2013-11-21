@@ -16,6 +16,11 @@ public final class R {
         public static final int abc_slide_out_bottom=0x7f040004;
         public static final int abc_slide_out_top=0x7f040005;
     }
+    public static final class array {
+        public static final int opt_boardsize=0x7f0d0000;
+        public static final int opt_mpr=0x7f0d0002;
+        public static final int opt_winlength=0x7f0d0001;
+    }
     public static final class attr {
         /**  Custom divider drawable to use for elements in the action bar. 
          <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
@@ -987,8 +992,8 @@ containing a value of this type.
         public static final int ic_launcher=0x7f02005b;
     }
     public static final class id {
-        public static final int action_about=0x7f060042;
-        public static final int action_back=0x7f060043;
+        public static final int action_about=0x7f060048;
+        public static final int action_back=0x7f060049;
         public static final int action_bar=0x7f06001c;
         public static final int action_bar_activity_content=0x7f060015;
         public static final int action_bar_container=0x7f06001b;
@@ -1000,8 +1005,8 @@ containing a value of this type.
         public static final int action_menu_divider=0x7f060016;
         public static final int action_menu_presenter=0x7f060017;
         public static final int action_mode_close_button=0x7f060024;
-        public static final int action_next=0x7f060044;
-        public static final int action_settings=0x7f060041;
+        public static final int action_next=0x7f06004a;
+        public static final int action_settings=0x7f060047;
         public static final int activity_chooser_view_content=0x7f060025;
         public static final int always=0x7f06000b;
         public static final int beginning=0x7f060011;
@@ -1031,6 +1036,9 @@ containing a value of this type.
         public static final int never=0x7f060009;
         public static final int none=0x7f060010;
         public static final int normal=0x7f060000;
+        public static final int opt_boardsize_id=0x7f060042;
+        public static final int opt_mpr_id=0x7f060046;
+        public static final int opt_winlength_id=0x7f060044;
         public static final int progress_circular=0x7f060018;
         public static final int progress_horizontal=0x7f060019;
         public static final int radio=0x7f06002f;
@@ -1051,6 +1059,9 @@ containing a value of this type.
         public static final int split_action_bar=0x7f06001e;
         public static final int submit_area=0x7f060039;
         public static final int tabMode=0x7f060002;
+        public static final int textView1=0x7f060041;
+        public static final int textView2=0x7f060043;
+        public static final int textView3=0x7f060045;
         public static final int title=0x7f06002b;
         public static final int top_action_bar=0x7f060020;
         public static final int up=0x7f060021;
@@ -1112,8 +1123,8 @@ containing a value of this type.
         public static final int support_simple_spinner_dropdown_item=0x7f03001a;
     }
     public static final class menu {
-        public static final int main_activity_actions=0x7f0d0000;
-        public static final int opt_activity_actions=0x7f0d0001;
+        public static final int main_activity_actions=0x7f0e0000;
+        public static final int opt_activity_actions=0x7f0e0001;
     }
     public static final class string {
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 
@@ -1173,6 +1184,11 @@ containing a value of this type.
         public static final int menu_singleplayer=0x7f0b0018;
         public static final int next=0x7f0b0014;
         public static final int no=0x7f0b0013;
+        /**  Opt Activity 
+         */
+        public static final int opt_boardsize_prompt=0x7f0b0020;
+        public static final int opt_mpr_prompt=0x7f0b0022;
+        public static final int opt_winlength_prompt=0x7f0b0021;
         /**  Preferences 
          */
         public static final int pref_sound=0x7f0b001c;

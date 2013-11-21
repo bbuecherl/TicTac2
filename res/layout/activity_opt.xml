@@ -3,6 +3,44 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/opt_boardsize_prompt" />
+
+    <Spinner
+        android:id="@+id/opt_boardsize_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:prompt="@string/opt_boardsize_prompt"
+        android:entries="@array/opt_boardsize" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/opt_winlength_prompt" />
+
+    <Spinner
+        android:id="@+id/opt_winlength_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:prompt="@string/opt_winlength_prompt"
+        android:entries="@array/opt_winlength" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/opt_mpr_prompt" />
+
+    <Spinner
+        android:id="@+id/opt_mpr_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:prompt="@string/opt_mpr_prompt"
+        android:entries="@array/opt_mpr" />
 
 </LinearLayout>

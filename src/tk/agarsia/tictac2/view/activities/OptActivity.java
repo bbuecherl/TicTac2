@@ -2,7 +2,6 @@ package tk.agarsia.tictac2.view.activities;
 
 import tk.agarsia.tictac2.R;
 import tk.agarsia.tictac2.controller.ApplicationControl;
-import tk.agarsia.tictac2.view.Options;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
