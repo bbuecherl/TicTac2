@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <ImageView
+        android:id="@+id/menu_logo"
+        android:src="@drawable/ic_launcher"
+        android:contentDescription="@string/logo"
+        android:layout_width="match_parent"
+        android:layout_height="200dp" />    
+    
+    <Button
+        android:id="@+id/menu_singleplayer"
+        android:text="@string/menu_singleplayer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+   
+    <Button
+        android:id="@+id/menu_multiplayer"
+        android:text="@string/menu_multiplayer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+   
+   <Button
+        android:id="@+id/menu_achievements"
+        android:text="@string/menu_achievements"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+   
+   <Button
+        android:id="@+id/menu_ranks"
+        android:text="@string/menu_ranks"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+        
+</LinearLayout>
