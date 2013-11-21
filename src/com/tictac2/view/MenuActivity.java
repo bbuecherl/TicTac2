@@ -10,7 +10,7 @@ import com.tictac2.controller.ApplicationControl;
 import com.tictac2.controller.ApplicationControl.GameType;
 
 public class MenuActivity extends MainActivity {
-	
+
 	public MenuActivity() {
 		super(true);
 	}
@@ -32,11 +32,11 @@ public class MenuActivity extends MainActivity {
 		switch (arg0.getId()) {
 		case R.id.menu_singleplayer:
 			ApplicationControl.newGame(GameType.SINGLEPLAYER);
-			startActivity(new Intent(getApplicationContext(),OptActivity.class));
+			startActivity(new Intent(getApplicationContext(), OptActivity.class));
 			break;
 		case R.id.menu_multiplayer:
 			ApplicationControl.newGame(GameType.MULTIPLAYER);
-			startActivity(new Intent(getApplicationContext(),OptActivity.class));
+			startActivity(new Intent(getApplicationContext(), OptActivity.class));
 			break;
 		case R.id.menu_ranks:
 			// TODO open GPS/ranks
