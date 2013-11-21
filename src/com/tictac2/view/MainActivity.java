@@ -1,5 +1,6 @@
 package com.tictac2.view;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,13 +15,49 @@ import com.tictac2.R;
 public abstract class MainActivity extends ActionBarActivity implements
 		OnTouchListener {
 
-	private AlertDialog.Builder about;
+	private AlertDialog.Builder about, close;
 	private boolean actions;
 	
 	public MainActivity(boolean actions) {
 		this.actions = actions;
 		
+		about = new AlertDialog.Builder(this)
+		.setTitle(R.string.about)
+		.setMessage(R.string.about_text)
+		.setNeutralButton(
+				getResources().getString(R.string.close),
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog,
+							int which) {
+						dialog.dismiss();
+					}
+				});
+	
+		final Activity activity = this;
+		close = new AlertDialog.Builder(this)
+		.setTitle(R.string.close)
+		.setMessage(R.string.close_text)
+		.setPositiveButton(
+				getResources().getString(R.string.yes),
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog,
+							int which) {
+						activity.finish();
+					}
+				})
+		.setNegativeButton(getResources().getString(R.string.no),
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+					}
+				});
 	}
+	
+	@Override
+	public void onBackPressed() {
+		close.show();		
+        return;
+    }  
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -37,19 +74,6 @@ public abstract class MainActivity extends ActionBarActivity implements
 			startActivity(new Intent(getApplicationContext(), Options.class));
 			return true;
 		} else if (item.getItemId() == R.id.action_about) {
-			if (about == null) {
-				about = new AlertDialog.Builder(this)
-						.setTitle(R.string.about)
-						.setMessage(R.string.about_text)
-						.setNeutralButton(
-								getResources().getString(R.string.close),
-								new DialogInterface.OnClickListener() {
-									public void onClick(DialogInterface dialog,
-											int which) {
-										dialog.dismiss();
-									}
-								});
-			}
 			about.show();
 
 			return true;

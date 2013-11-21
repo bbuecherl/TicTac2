@@ -6,8 +6,11 @@
     <string name="settings">Settings</string>
     <string name="about">About</string>
     <string name="close">Close</string>
+    <string name="close_text">Are you sure, you want to quit the game?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
     <string name="logo">TicTac2</string>
-    <string name="about_text">TicTac2 v0.1\nDevelopers Edition\n\nContributers:\nbenjaminaaron\nagarsia\ntuttirh\ngherndl</string>
+    <string name="about_text">TicTac2 v0.1\nDevelopers Edition\n\nContributors:\nbenjaminaaron\nagarsia\ntuttirh\ngherndl\n\nSource Code available on Github:\nhttps://github.com/agarsia/TicTac2</string>
     
     <!-- Menu Activity -->
 	<string name="menu_singleplayer">Singleplayer</string>

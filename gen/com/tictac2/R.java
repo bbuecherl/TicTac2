@@ -1151,25 +1151,28 @@ containing a value of this type.
          */
         public static final int abc_shareactionprovider_share_with_application=0x7f0b000b;
         public static final int about=0x7f0b000f;
-        public static final int about_text=0x7f0b0012;
+        public static final int about_text=0x7f0b0015;
         /**  Global Values 
          */
         public static final int app_name=0x7f0b000d;
         public static final int close=0x7f0b0010;
-        public static final int logo=0x7f0b0011;
-        public static final int menu_achievements=0x7f0b0015;
-        public static final int menu_multiplayer=0x7f0b0014;
-        public static final int menu_ranks=0x7f0b0016;
+        public static final int close_text=0x7f0b0011;
+        public static final int logo=0x7f0b0014;
+        public static final int menu_achievements=0x7f0b0018;
+        public static final int menu_multiplayer=0x7f0b0017;
+        public static final int menu_ranks=0x7f0b0019;
         /**  Menu Activity 
          */
-        public static final int menu_singleplayer=0x7f0b0013;
+        public static final int menu_singleplayer=0x7f0b0016;
+        public static final int no=0x7f0b0013;
         /**  Preferences 
          */
-        public static final int pref_sound=0x7f0b0017;
-        public static final int pref_sound_desc=0x7f0b0018;
-        public static final int pref_vibrate=0x7f0b0019;
-        public static final int pref_vibrate_desc=0x7f0b001a;
+        public static final int pref_sound=0x7f0b001a;
+        public static final int pref_sound_desc=0x7f0b001b;
+        public static final int pref_vibrate=0x7f0b001c;
+        public static final int pref_vibrate_desc=0x7f0b001d;
         public static final int settings=0x7f0b000e;
+        public static final int yes=0x7f0b0012;
     }
     public static final class style {
         /** 
