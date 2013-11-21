@@ -9,6 +9,8 @@
     <string name="close_text">Are you sure, you want to quit the game?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="next">Next</string>
+    <string name="back">Back</string>
     <string name="logo">TicTac2</string>
     <string name="about_text">TicTac2 v0.1\nDevelopers Edition\n\nContributors:\nbenjaminaaron\nagarsia\ntuttirh\ngherndl\n\nSource Code available on Github:\nhttps://github.com/agarsia/TicTac2</string>
     

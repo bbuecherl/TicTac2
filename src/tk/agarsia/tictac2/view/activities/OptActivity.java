@@ -1,8 +1,13 @@
 package tk.agarsia.tictac2.view.activities;
 
+import tk.agarsia.tictac2.R;
 import tk.agarsia.tictac2.controller.ApplicationControl;
+import tk.agarsia.tictac2.view.Options;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -10,18 +15,19 @@ import android.view.View;
 public class OptActivity extends MainActivity {
 	
 	public OptActivity() {
-		super(true);
+		super(false);
 	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_opt);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		
 		switch(ApplicationControl.getGameType()) {
 		case INIT:
 			//not initialized, go back
-			startActivity(new Intent(getApplicationContext(),MenuActivity.class));
+			back();
 			break;
 		case SINGLEPLAYER:
 			
@@ -31,11 +37,39 @@ public class OptActivity extends MainActivity {
 			break;
 		}
 	}
-
+	
 	@Override
-	public boolean onTouch(View arg0, MotionEvent arg1) {
-		// TODO Auto-generated method stub
+	public boolean onCreateOptionsMenu(Menu menu) {
+			MenuInflater inflater = getMenuInflater();
+			inflater.inflate(R.menu.opt_activity_actions, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (item.getItemId() == R.id.action_next) {
+			next();
+			return true;
+		} else if (item.getItemId() == R.id.action_back) {
+			back();
+			return true;
+		}
 		return false;
 	}
 
+	@Override
+	public boolean onTouch(View arg0, MotionEvent arg1) {
+
+		return false;
+	}
+
+	private void back() {
+		startActivity(new Intent(getApplicationContext(),MenuActivity.class));
+	}
+	
+	private void next() {
+		
+
+		startActivity(new Intent(getApplicationContext(),MultiNameActivity.class));
+	}
 }
