@@ -1,13 +1,13 @@
-package com.tictac2.view;
+package tk.agarsia.tictac2.view;
 
+import tk.agarsia.tictac2.controller.ApplicationControl;
+import tk.agarsia.tictac2.controller.ApplicationControl.GameType;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 
 import com.tictac2.R;
-import com.tictac2.controller.ApplicationControl;
-import com.tictac2.controller.ApplicationControl.GameType;
 
 public class MenuActivity extends MainActivity {
 

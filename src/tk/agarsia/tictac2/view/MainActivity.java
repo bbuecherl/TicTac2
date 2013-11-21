@@ -1,9 +1,10 @@
-package com.tictac2.view;
+package tk.agarsia.tictac2.view;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,7 +21,10 @@ public abstract class MainActivity extends ActionBarActivity implements
 	
 	public MainActivity(boolean actions) {
 		this.actions = actions;
-		
+	}
+	
+	protected void onCreate(Bundle saved) {
+		super.onCreate(saved);
 		about = new AlertDialog.Builder(this)
 		.setTitle(R.string.about)
 		.setMessage(R.string.about_text)

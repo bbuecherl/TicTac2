@@ -17,7 +17,7 @@
         android:logo="@drawable/ic_launcher"
         android:theme="@style/Theme.AppCompat.Light" >
         <activity
-            android:name="com.tictac2.view.TicTac2"
+            android:name="tk.agarsia.tictac2.view.TicTac2"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,49 +26,48 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.tictac2.view.MenuActivity"
+            android:name="tk.agarsia.tictac2.view.MenuActivity"
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name="com.tictac2.view.OptActivity"
+            android:name="tk.agarsia.tictac2.view.OptActivity"
             android:label="@string/app_name"
-            android:parentActivityName="com.tictac2.view.MenuActivity" >
+            android:parentActivityName="tk.agarsia.tictac2.view.MenuActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.tictac2.view.MenuActivity" />
+                android:value="tk.agarsia.tictac2.view.MenuActivity" />
         </activity>
         <activity
-            android:name="com.tictac2.view.MultiNameActivity"
+            android:name="tk.agarsia.tictac2.view.MultiNameActivity"
             android:label="@string/app_name"
-            android:parentActivityName="com.tictac2.view.MenuActivity" >
+            android:parentActivityName="tk.agarsia.tictac2.view.MenuActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.tictac2.view.MenuActivity" />
+                android:value="tk.agarsia.tictac2.view.MenuActivity" />
         </activity>
         <activity
-            android:name="com.tictac2.view.GameActivity"
+            android:name="tk.agarsia.tictac2.view.GameActivity"
             android:label="@string/app_name"
-            android:parentActivityName="com.tictac2.view.PauseActivity" >
+            android:parentActivityName="tk.agarsia.tictac2.view.PauseActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.tictac2.view.PauseActivity" />
+                android:value="tk.agarsia.tictac2.view.PauseActivity" />
         </activity>
         <activity
-            android:name="com.tictac2.view.PauseActivity"
+            android:name="tk.agarsia.tictac2.view.PauseActivity"
             android:label="@string/app_name"
-            android:parentActivityName="com.tictac2.view.GameActivity" >
+            android:parentActivityName="tk.agarsia.tictac2.view.GameActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.tictac2.view.GameActivity" />
+                android:value="tk.agarsia.tictac2.view.GameActivity" />
         </activity>
         <activity
-            android:name="com.tictac2.view.Options"
+            android:name="tk.agarsia.tictac2.view.Options"
             android:label="@string/app_name"
-            android:parentActivityName="com.tictac2.view.MenuActivity" >
+            android:parentActivityName="tk.agarsia.tictac2.view.MenuActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.tictac2.view.MenuActivity" />
+                android:value="tk.agarsia.tictac2.view.MenuActivity" />
         </activity>
     </application>
-
 </manifest>

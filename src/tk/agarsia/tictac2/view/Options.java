@@ -1,4 +1,4 @@
-package com.tictac2.view;
+package tk.agarsia.tictac2.view;
 
 import android.os.Bundle;
 import android.preference.PreferenceActivity;

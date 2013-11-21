@@ -1,4 +1,4 @@
-package com.tictac2.view;
+package tk.agarsia.tictac2.view;
 
 import android.app.Activity;
 import android.content.Intent;

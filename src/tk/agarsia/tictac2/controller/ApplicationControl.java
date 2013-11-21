@@ -1,4 +1,4 @@
-package com.tictac2.controller;
+package tk.agarsia.tictac2.controller;
 
 
 public class ApplicationControl {
