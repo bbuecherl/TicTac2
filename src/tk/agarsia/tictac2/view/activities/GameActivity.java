@@ -1,4 +1,4 @@
-package tk.agarsia.tictac2.view;
+package tk.agarsia.tictac2.view.activities;
 
 import android.app.Activity;
 

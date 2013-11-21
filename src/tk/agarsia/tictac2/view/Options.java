@@ -1,9 +1,8 @@
 package tk.agarsia.tictac2.view;
 
+import tk.agarsia.tictac2.R;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
-
-import com.tictac2.R;
 
 public class Options extends PreferenceActivity {
 

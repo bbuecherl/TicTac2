@@ -1,11 +1,10 @@
-package tk.agarsia.tictac2.view;
+package tk.agarsia.tictac2.view.activities;
 
+import tk.agarsia.tictac2.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-
-import com.tictac2.R;
 
 public class TicTac2 extends Activity {
 

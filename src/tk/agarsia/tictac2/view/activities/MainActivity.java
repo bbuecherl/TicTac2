@@ -1,5 +1,7 @@
-package tk.agarsia.tictac2.view;
+package tk.agarsia.tictac2.view.activities;
 
+import tk.agarsia.tictac2.R;
+import tk.agarsia.tictac2.view.Options;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -10,8 +12,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View.OnTouchListener;
-
-import com.tictac2.R;
 
 public abstract class MainActivity extends ActionBarActivity implements
 		OnTouchListener {
