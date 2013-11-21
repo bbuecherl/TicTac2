@@ -36,7 +36,11 @@ public class Game extends Thread implements GameInterface {
 	@Override
 	public void run(){
 		while(gameRunning){
-			//timer
+			try {
+				Thread.sleep(1);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -66,6 +70,7 @@ public class Game extends Thread implements GameInterface {
 		
 		currentPlayer = players[startPlayerIndex];
 		currentPlayer.myTurn();
+		super.start();
 	}
 	
 	

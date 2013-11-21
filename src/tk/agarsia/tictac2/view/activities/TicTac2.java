@@ -1,6 +1,7 @@
 package tk.agarsia.tictac2.view.activities;
 
 import tk.agarsia.tictac2.R;
+import tk.agarsia.tictac2.controller.ApplicationControl;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,6 +18,9 @@ public class TicTac2 extends Activity {
 		PreferenceManager.setDefaultValues(this, R.xml.prefs, false);
 		
 		//TODO GPS in ASYNC-Task
+		
+		//create local player
+		ApplicationControl.setMe("ME");
 		
 		startActivity(new Intent(getApplicationContext(), MenuActivity.class));
 	}
