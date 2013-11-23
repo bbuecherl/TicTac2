@@ -3,8 +3,8 @@ package tk.agarsia.tictac2.model.board;
 import java.util.ArrayList;
 
 
-public class Field extends Pos{
-
+public class Field {
+	
 	public static enum dir{
 		EAST, WEST, SOUTH, NORTH, SOUTHEAST, SOUTHWEST, NORTHWEST, NORTHEAST,
 	}	
@@ -14,6 +14,8 @@ public class Field extends Pos{
 	private static int winLength;
 	private static ArrayList<dir> snakePath = new ArrayList<dir>();
 	
+	private int row;
+	private int column;
 	private int value = 0;
 	private int pathPos;
 	
@@ -26,6 +28,14 @@ public class Field extends Pos{
 	protected Field northwest = null;
 	protected Field northeast = null;
 	
+	
+	public int getRow(){
+		return row;
+	}
+	
+	public int getColumn(){
+		return column;
+	}
 	
 	protected Field getNeighbour(dir index){
         switch(index) {
@@ -86,7 +96,6 @@ public class Field extends Pos{
 	}
 	
 	public Field(Board board){
-		super(0, 0);
 		Field.board = board;
 		Field.boardDim = board.getBoardDim();
 		Field.winLength = board.getWinLength();

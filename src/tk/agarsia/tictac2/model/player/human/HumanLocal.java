@@ -1,7 +1,6 @@
 package tk.agarsia.tictac2.model.player.human;
 
 import tk.agarsia.tictac2.model.Game;
-import tk.agarsia.tictac2.model.board.Pos;
 import tk.agarsia.tictac2.model.player.AbstractPlayer;
 
 public class HumanLocal extends AbstractPlayer{
@@ -18,8 +17,8 @@ public class HumanLocal extends AbstractPlayer{
 	}
 
 	@Override
-	public boolean myChoice(Pos pos) {
-		return game.placeMark(pos);
+	public boolean myChoice(int row, int column) {
+		return game.placeMark(row, column);
 	}
 	
 

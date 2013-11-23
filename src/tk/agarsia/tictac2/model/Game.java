@@ -1,7 +1,6 @@
 package tk.agarsia.tictac2.model;
 
 import tk.agarsia.tictac2.model.board.Board;
-import tk.agarsia.tictac2.model.board.Pos;
 import tk.agarsia.tictac2.model.player.AbstractPlayer;
 
 public class Game extends Thread implements GameInterface {
@@ -79,9 +78,9 @@ public class Game extends Thread implements GameInterface {
 	}
 	
 	@Override
-	public boolean handleLocalPlayerClick(Pos pos) {
+	public boolean handleLocalPlayerClick(int row, int column) {
 		if(awaitingClick){		
-			boolean temp = currentPlayer.myChoice(pos);	
+			boolean temp = currentPlayer.myChoice(row, column);	
 			if(temp)
 				awaitingClick = true;	
 			else
@@ -91,8 +90,8 @@ public class Game extends Thread implements GameInterface {
 		return false;
 	}
 	
-	public boolean placeMark(Pos pos){
-		boolean temp = board.setField(currentPlayerIndex, pos.getRow(), pos.getColumn());		
+	public boolean placeMark(int row, int column){
+		boolean temp = board.setField(currentPlayerIndex, row, column);		
 		if(temp)
 			markComplete();		
 		return temp;

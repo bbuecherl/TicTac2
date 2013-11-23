@@ -23,7 +23,7 @@ public class Board {
 		history = boardDim + "x" + boardDim + " field:\n";
 		fields2D = new Field[boardDim][boardDim];	
 		
-		new Field(this); //pure awesomeness... the whole board is building itself when just the first one is instantiated :)
+		new Field(this); //pure awesomeness... the whole board is building itself when just the first Field is instantiated :)
 				
 		for(int i = 0; i < boardDim; i++)	
 			for(int j = 0; j < boardDim; j++)
@@ -36,7 +36,7 @@ public class Board {
 	}
 	
 	public void addIsland(Island island){
-		System.out.println(island.show());
+		//System.out.println(island.show());
 		islands.add(island);	
 		
 		if(island.getLength() >= winLength){

@@ -1,6 +1,5 @@
 package tk.agarsia.tictac2.model;
 
-import tk.agarsia.tictac2.model.board.Pos;
 import tk.agarsia.tictac2.model.player.AbstractPlayer;
 
 public interface GameInterface {
@@ -14,7 +13,7 @@ public interface GameInterface {
 	/* true : mark placed
 	 * false : field already taken 
 	 */	 
-	public boolean handleLocalPlayerClick(Pos pos);
+	public boolean handleLocalPlayerClick(int row, int column);
 	
 	public AbstractPlayer getWinner();
 	public String getGameRecording();	
@@ -24,4 +23,5 @@ public interface GameInterface {
 	public int getMarksPerTurn();
 	public int getStartPlayerIndex();
 	public int getCurrentPlayerIndex();
+	
 }
