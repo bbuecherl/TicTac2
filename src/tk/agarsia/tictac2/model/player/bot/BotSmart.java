@@ -1,7 +1,7 @@
 package tk.agarsia.tictac2.model.player.bot;
 
 import tk.agarsia.tictac2.model.Game;
-import tk.agarsia.tictac2.model.board.Pos;
+import tk.agarsia.tictac2.model.board.Board;
 
 public class BotSmart extends AbstractBot{
 
@@ -12,13 +12,14 @@ public class BotSmart extends AbstractBot{
 	}
 
 	@Override
-	public void myTurn() {
-		// TODO Auto-generated method stub	
+	public void myTurn() {		
+		TreeBuilder tree = new TreeBuilder(game.getBoard(), game.getCurrentPlayerIndex(), game.getMarksPerTurn());
+		
 	}
 
 	@Override
-	public boolean myChoice(Pos pos) {
-		return game.placeMark(pos);
+	public boolean myChoice(int row, int column) {
+		return game.placeMark(row, column);
 	}
 
 	
