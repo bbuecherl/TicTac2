@@ -1,7 +1,7 @@
 package tk.agarsia.tictac2.controller;
 
 import tk.agarsia.tictac2.model.Game;
-import tk.agarsia.tictac2.model.board.Pos;
+import tk.agarsia.tictac2.view.BoardView;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -12,10 +12,11 @@ public class BoardTouchListener implements OnTouchListener {
 	private Game game;
 	private int len;
 	private int width;
+	private BoardView view;
 	
-	public BoardTouchListener() {
+	public BoardTouchListener(BoardView view) {
 		game = ApplicationControl.getGame();
-		
+		this.view = view;
 		len = 0;
 		width = 0;
 	}
@@ -37,8 +38,9 @@ public class BoardTouchListener implements OnTouchListener {
 		//debugging *_*
 		Log.i("touch", "("+event.getX()+","+event.getY()+") "+bo+":("+posX+","+posY+")");
 		
-		Log.i("handled", ""+game.handleLocalPlayerClick(new Pos(posX,posY)));
+		Log.i("handled", ""+game.handleLocalPlayerClick(posX,posY));
 		
+		view.postInvalidate();
 		return true;
 	}
 
@@ -46,5 +48,4 @@ public class BoardTouchListener implements OnTouchListener {
 		this.len = len;
 		this.width = width;
 	}
-
 }
