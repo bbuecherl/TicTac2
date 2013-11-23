@@ -1,6 +1,7 @@
 package tk.agarsia.tictac2.view.activities;
 
 import tk.agarsia.tictac2.R;
+import tk.agarsia.tictac2.view.MainActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;

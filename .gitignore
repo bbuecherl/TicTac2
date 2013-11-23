@@ -46,8 +46,10 @@ Desktop.ini
 *.pydevproject
 .metadata
 bin/**
+bin/*
 tmp/**
 tmp/**/*
+R.txt
 *.tmp
 *.bak
 *.swp

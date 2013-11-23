@@ -1,7 +1,6 @@
-package tk.agarsia.tictac2.view.activities;
+package tk.agarsia.tictac2.view;
 
 import tk.agarsia.tictac2.R;
-import tk.agarsia.tictac2.view.Options;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;

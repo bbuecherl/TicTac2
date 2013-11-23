@@ -1,70 +1,58 @@
 package tk.agarsia.tictac2.view;
 
-import tk.agarsia.tictac2.R;
+import tk.agarsia.tictac2.controller.ApplicationControl;
 import tk.agarsia.tictac2.controller.BoardTouchListener;
+import tk.agarsia.tictac2.model.Game;
 import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
+import android.view.View;
 
-public class BoardView extends LinearLayout {
+public class BoardView extends View {
 
-//	private Game game;
-	private ImageButton[][] fields;
-	private BoardTouchListener listener;
+	private Game game;
+	private Paint paint;
 
 	public BoardView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		// for easier reference
-//		game = ApplicationControl.getGame();
+		game = ApplicationControl.getGame();
 
 		Log.i("board", "start");
 
 		// testing purposes
-		// game.initModel(0, 3, 3, 1,0);
+		game.initModel(0, 5, 3, 1,0);
 
-		listener = new BoardTouchListener();
-
-		int len = 3;
-
-		fields = new ImageButton[len][len];
-		for (int i = 0; i < len; i++) {
-			for (int j = 0; j < len; j++) {
-				fields[i][j] = new ImageButton(getContext());
-				fields[i][j].setOnTouchListener(listener);
-				fields[i][j].setImageResource(R.drawable.ic_action_about);
-				fields[i][j].setLayoutParams(new ViewGroup.LayoutParams(160, 160));
-				this.addView(fields[i][j]);
-			}
-		}
-		this.invalidate();
+		this.setOnTouchListener(new BoardTouchListener());
+		
+		paint = new Paint();
+		paint.setColor(Color.LTGRAY);
 	}
-
-//	@Override
-//	protected void onLayout(boolean changed, int top, int left, int right,
-//			int bottom) {
-//		// width, height and stuff
-//		int len = 3;
-//		int width = getWidth() / len;
-//		int height = getHeight() / len;
-//
-//		// make it squared
-//		if (width > height)
-//			width = height;
-//		else
-//			height = width;
-//
-//		Log.i("board", "onLayout(" + changed + "," + top + "," + left + ","
-//				+ right + "," + bottom + ") " + width + "-" + height);
-//
-//		//LayoutParams layout = new LayoutParams(width, height);
-//		// yeah, no iteration, we need the indexes to initialize fields
-//		for (int i = 0; i < len; i++) {
-//			for (int j = 0; j < len; j++) {
-//				//fields[i][j].setLayoutParams(layout);
-//			}
-//		}
-//	}
+	
+	@Override
+	protected void onDraw(Canvas canvas) {
+		int len = 5;
+		
+		//width & tl
+		int width = (canvas.getWidth()>canvas.getHeight())?canvas.getHeight() /len : canvas.getWidth() / len;
+		int tl = 10;
+		width -= tl;
+		
+		for(int i = 0; i<len; i++) {
+			for(int j = 0; j<len; j++) {
+				if(j!=0) {
+					paint.setAlpha(255);
+					//canvas.drawRect(i*width+5*i-5,0,5,len*width+5*(len-1), paint);
+				} else {
+					paint.setAlpha(255);
+					//canvas.drawRect(0,,5,len*width+5*(len-1), paint);
+				}
+				paint.setAlpha(30);
+				canvas.drawRect(tl+i*width+5*i, tl+j*width+5*j, -tl+(i+1)*width+5*i, -tl+(j+1)*width+5*j, paint);
+			}
+		}	
+	}
 }

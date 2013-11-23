@@ -118,7 +118,7 @@ public class Field extends Pos{
 	}
 	
 	private ArrayList<Field> wander(int index){		
-		ArrayList<Field> sum = new ArrayList<>();
+		ArrayList<Field> sum = new ArrayList<Field>();
 		
 		boolean endReached = false;
 		Field next = getDirection(index);

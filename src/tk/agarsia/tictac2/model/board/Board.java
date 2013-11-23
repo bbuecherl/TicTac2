@@ -6,11 +6,11 @@ public class Board {
 
 	private final int boardDim;
 	private final int winLength;
-	private ArrayList<Field> fields = new ArrayList<>();
+	private ArrayList<Field> fields = new ArrayList<Field>();
 	private Field[][] fields2D;
 	private String history;
 	private boolean winState = false;
-	private ArrayList<Island> islands = new ArrayList<>();
+	private ArrayList<Island> islands = new ArrayList<Island>();
 	private Island winningIsland;
 	
 	public Board(int boardDim, int winLength){

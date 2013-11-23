@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Island {
 
-	private ArrayList<Field> members = new ArrayList<>();
+	private ArrayList<Field> members = new ArrayList<Field>();
 		
 	public Island(Field init){
 		members.add(init);
