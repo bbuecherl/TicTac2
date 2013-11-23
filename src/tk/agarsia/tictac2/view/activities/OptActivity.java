@@ -3,6 +3,9 @@ package tk.agarsia.tictac2.view.activities;
 import tk.agarsia.tictac2.R;
 import tk.agarsia.tictac2.controller.ApplicationControl;
 import tk.agarsia.tictac2.controller.ApplicationControl.GameType;
+import tk.agarsia.tictac2.model.player.AbstractPlayer;
+import tk.agarsia.tictac2.model.player.bot.BotRandom;
+import tk.agarsia.tictac2.model.player.human.HumanLocal;
 import tk.agarsia.tictac2.view.MainActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -78,11 +81,19 @@ public class OptActivity extends MainActivity {
 		int boardDim = 3+size.getSelectedItemPosition();
 		int winLength = 3+win.getSelectedItemPosition();
 		int mpt = 1+mpr.getSelectedItemPosition();
-		int spi = 0;
+		int spi = 1;
 		
 		
 		ApplicationControl.getGame().initModel(interval, boardDim, winLength, mpt, spi);
 
+
+		//beta testing
+		AbstractPlayer player1 = new HumanLocal("Fritz", ApplicationControl.getGame());
+		AbstractPlayer player2 = new BotRandom(ApplicationControl.getGame());
+		ApplicationControl.getGame().setPlayers(player1, player2);		
+		ApplicationControl.getGame().start();
+
+		
 		if(ApplicationControl.getGameType()==GameType.SINGLEPLAYER) {
 			ApplicationControl.start(this,GameActivity.class);
 		} else {
