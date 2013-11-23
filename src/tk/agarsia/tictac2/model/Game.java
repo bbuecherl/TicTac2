@@ -1,14 +1,13 @@
 package tk.agarsia.tictac2.model;
 
 import tk.agarsia.tictac2.model.board.Board;
-import tk.agarsia.tictac2.model.board.BoardManager;
 import tk.agarsia.tictac2.model.board.Pos;
 import tk.agarsia.tictac2.model.player.AbstractPlayer;
 
 public class Game extends Thread implements GameInterface {
 	
 	private int interval; // in ms
-	private int boardDimension; // = 3;
+	private int boardDim; // = 3;
 	private int winLength; // = 3;
 	private int marksPerTurn; // = 1;	
 	private int markCount = 0;
@@ -18,7 +17,7 @@ public class Game extends Thread implements GameInterface {
 	
 	private AbstractPlayer[] players;
 	
-	private BoardManager boardManager;
+	private Board board;
 	
 	private boolean gameRunning = false;
 	private boolean awaitingClick = false;
@@ -30,7 +29,7 @@ public class Game extends Thread implements GameInterface {
 	}
 	
 	public Board getBoard(){
-		return boardManager.getBoard();
+		return board;
 	}
 	
 	@Override
@@ -45,14 +44,14 @@ public class Game extends Thread implements GameInterface {
 	}
 	
 	@Override
-	public void initModel(int interval, int boardDimension, int winLength, int marksPerTurn, int startPlayerIndex) {
+	public void initModel(int interval, int boardDim, int winLength, int marksPerTurn, int startPlayerIndex) {
 		this.interval = interval;
-		this.boardDimension = boardDimension;
+		this.boardDim = boardDim;
 		this.winLength = winLength;
 		this.marksPerTurn = marksPerTurn;
 		this.startPlayerIndex = startPlayerIndex;
 		currentPlayerIndex = startPlayerIndex;
-		boardManager = new BoardManager(boardDimension, winLength);
+		board = new Board(boardDim, winLength);
 	}
 	
 	@Override
@@ -66,7 +65,7 @@ public class Game extends Thread implements GameInterface {
 		gameRunning = true;
 		System.out.println("game started with players: " + players[1].getName() + " and " + players[2].getName());
 		
-		System.out.println(boardManager.getBoard().show());
+		System.out.println(board.show());
 		
 		currentPlayer = players[startPlayerIndex];
 		currentPlayer.myTurn();
@@ -93,7 +92,7 @@ public class Game extends Thread implements GameInterface {
 	}
 	
 	public boolean placeMark(Pos pos){
-		boolean temp = boardManager.mark(currentPlayerIndex, pos);		
+		boolean temp = board.setField(currentPlayerIndex, pos.getRow(), pos.getColumn());		
 		if(temp)
 			markComplete();		
 		return temp;
@@ -102,11 +101,10 @@ public class Game extends Thread implements GameInterface {
 	
 	private void markComplete(){
 		System.out.println("board after mark from " + currentPlayer.getName());
-		System.out.println(boardManager.getBoard().show());
-		int winCheck = boardManager.winCheck();		
+		System.out.println(board.show());
 		
-		if(winCheck == 0){	
-			if(!boardManager.getBoard().boardFull()){
+		if(!board.getWinState()){	
+			if(!board.full()){
 				markCount ++;
 				
 				if(markCount == marksPerTurn){
@@ -126,7 +124,7 @@ public class Game extends Thread implements GameInterface {
 		else{			
 			winner = currentPlayer;
 			winner.incrementGameWon();
-			winner.setWinningFields(boardManager.getTubeFieldpositions());
+			winner.setWinningFields(board.getWinnersPositions());
 			gameRunning = false;
 		}
 		
@@ -140,16 +138,16 @@ public class Game extends Thread implements GameInterface {
 	@Override
 	public void reset() {
 		currentPlayerIndex = startPlayerIndex;
-		boardManager.getBoard().reset();
+		board.reset();
 	}
 
 	public String showBoard() {
-		return boardManager.getBoard().show();
+		return board.show();
 	}
 
 	@Override
-	public int getBoardDimension() {
-		return boardDimension;
+	public int getboardDim() {
+		return boardDim;
 	}
 
 	@Override
@@ -184,6 +182,6 @@ public class Game extends Thread implements GameInterface {
 
 	@Override
 	public String getGameRecording() {
-		return boardManager.getBoard().getHistory();
+		return board.getHistory();
 	}
 }

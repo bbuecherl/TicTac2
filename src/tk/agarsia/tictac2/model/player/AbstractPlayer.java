@@ -7,7 +7,7 @@ public abstract class AbstractPlayer implements PlayerInterface {
 	protected Game game;
 	protected String name;
 	protected int gamesWon = 0;
-	protected String winningFields;
+	protected String winningFields = "";
 	
 	/*
 	 * 0 = local human player
@@ -44,8 +44,8 @@ public abstract class AbstractPlayer implements PlayerInterface {
 		gamesWon = 0;
 	}
 	
-	public void setWinningFields(String s){
-		winningFields = s;
+	public void setWinningFields(String winningFields){
+		this.winningFields = winningFields;
 	}
 	
 	public String getWinningFields(){

@@ -5,7 +5,7 @@ import tk.agarsia.tictac2.model.player.AbstractPlayer;
 
 public interface GameInterface {
 
-	public void initModel(int interval, int boardDimension, int winLength, int marksPerTurn, int startPlayerIndex);
+	public void initModel(int interval, int boardDim, int winLength, int marksPerTurn, int startPlayerIndex);
 	public void setPlayers(AbstractPlayer player1, AbstractPlayer player2);
 	public void start();
 	public void pause();
@@ -19,7 +19,7 @@ public interface GameInterface {
 	public AbstractPlayer getWinner();
 	public String getGameRecording();	
 	
-	public int getBoardDimension();
+	public int getboardDim();
 	public int getWinLength();
 	public int getMarksPerTurn();
 	public int getStartPlayerIndex();

@@ -16,7 +16,7 @@ public class DemoMain {
 	public static void main(String[] args) throws IOException {
 
 		Game g = new Game();		
-		g.initModel(0, 3, 3, 1, 1);	//int interval, int boardDimension, int winLength, int marksPerTurn, int startPlayerIndex	
+		g.initModel(0, 4, 3, 1, 1);	//int interval, int boardDim, int winLength, int marksPerTurn, int startPlayerIndex	
 		
 		AbstractPlayer player1 = new BotRandom(g);//HumanLocal("Fritz", g);
 		AbstractPlayer player2 = new BotRandom(g); //HumanLocal("Julia", g);

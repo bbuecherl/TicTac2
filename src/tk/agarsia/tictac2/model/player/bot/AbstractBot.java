@@ -6,12 +6,12 @@ import tk.agarsia.tictac2.model.player.AbstractPlayer;
 
 public abstract class AbstractBot extends AbstractPlayer {
 
-	protected int boardDimension;
+	protected int boardDim;
 	protected Board board;
 	
 	public AbstractBot(Game game){
 		super(game);
-		this.boardDimension = game.getBoardDimension();
+		this.boardDim = game.getboardDim();
 		this.board = game.getBoard();
 	}
 	
