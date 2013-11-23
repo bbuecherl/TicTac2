@@ -8,7 +8,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 public class BoardView extends View {
@@ -21,37 +20,31 @@ public class BoardView extends View {
 		// for easier reference
 		game = ApplicationControl.getGame();
 
-		Log.i("board", "start");
-
-		// testing purposes
-		game.initModel(0, 5, 3, 1,0);
-
 		this.setOnTouchListener(new BoardTouchListener());
 		
 		paint = new Paint();
-		paint.setColor(Color.LTGRAY);
 	}
 	
 	@Override
 	protected void onDraw(Canvas canvas) {
-		int len = 5;
+		int len = game.getboardDim();
 		
 		//width & tl
 		int width = (canvas.getWidth()>canvas.getHeight())?canvas.getHeight() /len : canvas.getWidth() / len;
-		int tl = 10;
+		int tl = 5;
 		width -= tl;
 		
 		for(int i = 0; i<len; i++) {
 			for(int j = 0; j<len; j++) {
-				if(j!=0) {
-					paint.setAlpha(255);
-					//canvas.drawRect(i*width+5*i-5,0,5,len*width+5*(len-1), paint);
-				} else {
-					paint.setAlpha(255);
-					//canvas.drawRect(0,,5,len*width+5*(len-1), paint);
+				paint.setColor(Color.LTGRAY);
+				if(j==0&&i!=0) {
+					canvas.drawRect(tl+i*width,0,tl+i*width+5,width*len, paint);
+				} else if(i==0&&j!=0) {
+					canvas.drawRect(0,tl+j*width,width*len,tl+j*width+5, paint);
 				}
-				paint.setAlpha(30);
-				canvas.drawRect(tl+i*width+5*i, tl+j*width+5*j, -tl+(i+1)*width+5*i, -tl+(j+1)*width+5*j, paint);
+				paint.setColor(Color.MAGENTA);
+				paint.setAlpha(100);
+				canvas.drawRect(tl+i*width+5*i, tl+j*width+5*j, tl+(i+1)*width+5*i, tl+(j+1)*width+5*j, paint);
 			}
 		}	
 	}
