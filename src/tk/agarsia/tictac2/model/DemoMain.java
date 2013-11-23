@@ -18,6 +18,12 @@ public class DemoMain {
 		Game g = new Game();		
 		g.initModel(0, 4, 3, 1, 1);	//int interval, int boardDim, int winLength, int marksPerTurn, int startPlayerIndex	
 		
+		System.out.println(g.getboardDim());
+		System.out.println(g.getWinLength());
+		System.out.println(g.getMarksPerTurn());
+		System.out.println(g.getStartPlayerIndex());
+		System.out.println(g.getCurrentPlayerIndex());
+		
 		AbstractPlayer player1 = new BotRandom(g);//HumanLocal("Fritz", g);
 		AbstractPlayer player2 = new BotRandom(g); //HumanLocal("Julia", g);
 		g.setPlayers(player1, player2);		
@@ -35,7 +41,7 @@ public class DemoMain {
 		else
 			System.out.println(g.getWinner().getName() + " won with the following chain of " + g.getWinLength() + " fields: \n" + g.getWinner().getWinningFields());
 
+		
 	}
 
-}
-*/
+}*/

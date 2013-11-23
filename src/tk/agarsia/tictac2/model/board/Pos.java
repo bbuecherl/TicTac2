@@ -17,4 +17,8 @@ public class Pos {
 		return column;
 	}
 
+	
+	public static enum snakeDelta {
+        EASTWARD, SOUTHWARD, WESTWARD;	
+	}	
 }
