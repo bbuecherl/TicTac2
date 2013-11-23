@@ -39,7 +39,7 @@ public class DemoMain {
 		if(g.getWinner() == null)
 			System.out.println("board is full without winner");
 		else
-			System.out.println(g.getWinner().getName() + " won with the following chain of " + g.getWinLength() + " fields: \n" + g.getWinner().getWinningFields());
+			System.out.println(g.getWinner().getName() + " won with the following chain of " + g.getBoard().getWinningIsland().getLength() + " fields: \n" + g.getWinner().getWinningFields());
 
 		
 	}

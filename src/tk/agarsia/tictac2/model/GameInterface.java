@@ -19,7 +19,7 @@ public interface GameInterface {
 	public AbstractPlayer getWinner();
 	public String getGameRecording();	
 	
-	public int getboardDim();
+	public int getBoardDim();
 	public int getWinLength();
 	public int getMarksPerTurn();
 	public int getStartPlayerIndex();

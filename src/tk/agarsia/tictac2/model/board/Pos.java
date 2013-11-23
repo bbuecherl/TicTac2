@@ -10,15 +10,21 @@ public class Pos {
 		this.column = column;
 	}
 	
+	public Pos(){}
+	
+	public void setRow(int row){
+		this.row = row;
+	}
+	
+	public void setColumn(int column){
+		this.column = column;
+	}
+	
+	
 	public int getRow(){
 		return row;
 	}
 	public int getColumn(){
 		return column;
 	}
-
-	
-	public static enum snakeDelta {
-        EASTWARD, SOUTHWARD, WESTWARD;	
-	}	
 }

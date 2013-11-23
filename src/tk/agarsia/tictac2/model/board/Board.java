@@ -6,7 +6,6 @@ public class Board {
 
 	private final int boardDim;
 	private final int winLength;
-	private ArrayList<Field> fields = new ArrayList<Field>();
 	private Field[][] fields2D;
 	private String history;
 	private boolean winState = false;
@@ -16,27 +15,24 @@ public class Board {
 	public Board(int boardDim, int winLength){
 		this.boardDim = boardDim;
 		this.winLength = winLength;
-		history = boardDim + "x" + boardDim + " field:\n";
 
-		fields2D = new Field[boardDim][boardDim];			
 		reset();
 	}
 	
 	public void reset(){		
-		fields.clear();			
-		Field nextField = new Field(this);	
-		//for(int i = 1; i < boardDim * boardDim; i++) // have them fill it up themselves using a "smart" constructor
-		//	nextField = new Field(fields.get(fields.size() - 1));
+		history = boardDim + "x" + boardDim + " field:\n";
+		fields2D = new Field[boardDim][boardDim];	
 		
-		
-		for(Field field : fields)
-			System.out.println(field.show());
-		
+		new Field(this); //pure awesomeness... the whole board is building itself when just the first one is instantiated :)
+				
+		for(int i = 0; i < boardDim; i++)	
+			for(int j = 0; j < boardDim; j++)
+				System.out.println(fields2D[i][j].show()); // proof
 	}
 	
 	public void addField(Field field){
-		fields.add(field);	
 		fields2D[field.getRow()][field.getColumn()] = field;
+		//System.out.println("added " + field.getPathPos() + " at " + field.getRow() + ", " + field.getColumn());
 	}
 	
 	public void addIsland(Island island){
@@ -55,6 +51,10 @@ public class Board {
 	
 	public boolean getWinState(){
 		return winState;
+	}
+	
+	public Island getWinningIsland(){
+		return winningIsland;
 	}
 	
 	public int getBoardDim(){
@@ -92,7 +92,7 @@ public class Board {
 			for(int j = 0; j < boardDim; j++)
 				if(fields2D[i][j].getValue() == 0)
 					temp ++;
-		return temp;		
+		return temp;	
 	}
 	
 	public boolean full(){

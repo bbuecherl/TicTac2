@@ -146,7 +146,7 @@ public class Game extends Thread implements GameInterface {
 	}
 
 	@Override
-	public int getboardDim() {
+	public int getBoardDim() {
 		return boardDim;
 	}
 

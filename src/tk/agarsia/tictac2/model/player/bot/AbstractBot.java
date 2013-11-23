@@ -11,7 +11,7 @@ public abstract class AbstractBot extends AbstractPlayer {
 	
 	public AbstractBot(Game game){
 		super(game);
-		this.boardDim = game.getboardDim();
+		this.boardDim = game.getBoardDim();
 		this.board = game.getBoard();
 	}
 	
