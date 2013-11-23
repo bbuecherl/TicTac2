@@ -23,14 +23,15 @@ public class Board {
 	}
 	
 	public void reset(){		
-		fields.clear();	
-		
+		fields.clear();			
 		Field nextField = new Field(this);	
-		for(int i = 1; i < boardDim * boardDim; i++) // have them fill it up themselves using a "smart" constructor
-			nextField = new Field(fields.get(fields.size() - 1));		
+		//for(int i = 1; i < boardDim * boardDim; i++) // have them fill it up themselves using a "smart" constructor
+		//	nextField = new Field(fields.get(fields.size() - 1));
+		
 		
 		for(Field field : fields)
-			field.handshakes();			
+			System.out.println(field.show());
+		
 	}
 	
 	public void addField(Field field){
@@ -39,6 +40,7 @@ public class Board {
 	}
 	
 	public void addIsland(Island island){
+		System.out.println(island.show());
 		islands.add(island);	
 		
 		if(island.getLength() >= winLength){
@@ -68,10 +70,6 @@ public class Board {
 		if(row < 0 || row >= boardDim || column < 0 || column >= boardDim)
 			return null;		
 		return fields2D[row][column];
-	}
-	
-	public int getFieldValue(int row, int column){
-		return fields2D[row][column].getValue();
 	}
 	
 	public boolean setField(int playerIndex, int row, int column){
@@ -134,238 +132,4 @@ public class Board {
 		}
 		return buffer;
 	}
-
-
-	
 }
-
-
-
-
-//OLD BOARDMANAGER
-
-/*package tk.agarsia.tictac2.model.board;
-
-public class BoardManager {
-
-	private int boardDim;
-	private Board board;
-	
-	//private Tube tube;
-	
-	public BoardManager(int boardDim, int winLength){		
-		this.boardDim = boardDim;
-		
-		board = new Board(boardDim, winLength);	
-		board.reset();
-				
-		//tube = new Tube(winLength);
-	}
-
-	public Board getBoard(){
-		return board;
-	}
-	
-	public boolean mark(int playerIndex, Pos pos) {
-		if(board.setField(playerIndex, pos.getRow(), pos.getColumn()))
-			return true;
-		else
-			return false;
-	}
-
-	
-	
-	public String getTubeFieldpositions(){
-		return tube.getFieldpositions();
-	}
-	
-	public int winCheck(){	
-		
-		//CHECK ALL ROWS
-		for(int i = 0; i < boardDim; i++){
-			tube.flush();
-			for(int j = 0; j < boardDim; j++){
-				int temp = tube.feed(board.getField(i, j));
-				if(temp != 0)
-					return temp;
-			}
-		}
-		
-		//CHECK ALL COLUMNS
-		for(int i = 0; i < boardDim; i++){
-			tube.flush();
-			for(int j = 0; j < boardDim; j++){
-				int temp = tube.feed(board.getField(j, i));
-				if(temp != 0)
-					return temp;
-			}
-		}
-		
-		//CHECK ALL DIAGONALS	
-		
-		//north-west to east-south direction
-		//part 1
-		for(int i = boardDim - 1; i >= 0; i--){
-			int temp = wanderDiagonal(new WanderField(i, 0).setParams(boardDim, 1, 1));	
-			if(temp != 0)
-				return temp;
-		}
-		//part 2
-		for(int j = 1; j < boardDim; j++){
-			int temp = wanderDiagonal(new WanderField(0, j).setParams(boardDim, 1, 1));	
-			if(temp != 0)
-				return temp;
-		}
-		
-		//south-west to north-east direction
-		//part 1
-		for(int i = 0; i < boardDim; i++){
-			int temp = wanderDiagonal(new WanderField(i, 0).setParams(boardDim, -1, 1));	
-			if(temp != 0)
-				return temp;
-		}		
-		//part 2
-		for(int j = 1; j < boardDim; j++){
-			int temp = wanderDiagonal(new WanderField(boardDim - 1, j).setParams(boardDim, -1, 1));	
-			if(temp != 0)
-				return temp;
-		}
-		
-		return 0;
-	}
-	
-	
-	private int wanderDiagonal(WanderField startField){			
-		tube.flush();
-		tube.feed(board.getField(startField.getRow(), startField.getColumn()));
-	
-		while(startField.nextIsWithin()){
-			int temp = tube.feed(board.getField(startField.getRow(), startField.getColumn()));
-			if(temp != 0)
-				return temp;
-		}
-		return 0;
-	}
-	
-	
-	class WanderField extends Pos{	
-		public WanderField(int row, int column) {
-			super(row, column);
-		}	
-		int boardDim;
-		int dRow;
-		int dColumn;		
-		public WanderField setParams(int boardDim, int dRow, int dColumn){
-			this.boardDim = boardDim;
-			this.dRow = dRow;
-			this.dColumn = dColumn;
-			return this;
-		}		
-		public boolean nextIsWithin(){
-			if(row + dRow >= boardDim || column + dColumn >= boardDim || row + dRow < 0 || column + dColumn < 0)
-				return false;
-			else{
-				row += dRow;
-				column += dColumn;					
-				return true;	
-			}
-		}	
-		public int getRow(){
-			return row;
-		}
-		public int getColumn(){
-			return column;
-		}		
-	}
-
-	
-}*/
-
-// OLD TUBE
-/*package tk.agarsia.tictac2.model.board;
-
-
-
- * used to feed in elements from wandering along horizontals, verticals or diagonals
- * as soon as all are equal the index of the winning player is returned
- 
-public class Tube {
-
-	
-	private Field[] tube;
-	
-	public Tube(int winLength){
-		tube = new Field[winLength];	
-		flush();
-	}
-	
-	public int feed(Field field){
-		for(int i = tube.length - 1; i > 0; i--)
-			tube[i] = tube[i - 1];
-		tube[0] = field;
-		
-		if(allEqual())
-			return tube[0].getValue();
-		else
-			return 0;
-	}
-	
-	public boolean allEqual(){
-		boolean temp = true;
-		for(int i = 0; i < tube.length - 1; i++){
-			if(tube[i].getValue() != tube[i + 1].getValue())
-				temp = false;
-		}
-		return temp;
-	}
-	
-	public void flush(){
-		for(int i = 0; i < tube.length; i++){
-			Field nullField = new Field(-1, -1);
-			nullField.setValue(-1);
-			tube[i] = nullField;
-		}
-	}	
-
-	public String getFieldpositions(){
-		String temp = "";	
-		for(int i = 0; i < tube.length; i++)
-			temp += "[" + tube[i].getRow() + "," + tube[i].getColumn() + "] ";	
-		return temp;
-	}
-	
-		
-	public int getLength(){
-		return tube.length;
-	}
-	
-	public String show(){
-		String buffer = "";
-		for(int i = 0; i < tube.length; i++)
-			buffer += tube[i] + " ";
-		return buffer;
-	}
-	
-	
-	public static void main(String[] args) {	
-		TestTube t = new TestTube(4);
-		System.out.println(" " + t.getLength());
-		System.out.println(t.show());
-		
-		System.out.println(t.feed(2));
-		System.out.println(t.show());
-		
-		System.out.println(t.feed(3));
-		System.out.println(t.show());
-		
-		System.out.println(t.feed(3));
-		System.out.println(t.show());
-		
-		System.out.println(t.feed(3));
-		System.out.println(t.show());
-		
-		System.out.println(t.feed(3));
-		System.out.println(t.show());
-	}	
-}
-*/
