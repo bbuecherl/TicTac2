@@ -2,6 +2,8 @@ package tk.agarsia.tictac2.controller;
 
 import tk.agarsia.tictac2.model.Game;
 import tk.agarsia.tictac2.model.player.human.HumanLocal;
+import android.app.Activity;
+import android.content.Intent;
 
 public class ApplicationControl {
 	public static enum GameType {
@@ -30,5 +32,9 @@ public class ApplicationControl {
 
 	public static HumanLocal getMe() {
 		return me;
+	}
+
+	public static void start(Activity act, Class<?> class1) {
+		act.startActivity(new Intent(act.getApplicationContext(),class1));
 	}
 }

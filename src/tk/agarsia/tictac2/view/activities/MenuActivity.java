@@ -4,7 +4,6 @@ import tk.agarsia.tictac2.R;
 import tk.agarsia.tictac2.controller.ApplicationControl;
 import tk.agarsia.tictac2.controller.ApplicationControl.GameType;
 import tk.agarsia.tictac2.view.MainActivity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -32,11 +31,11 @@ public class MenuActivity extends MainActivity {
 		switch (arg0.getId()) {
 		case R.id.menu_singleplayer:
 			ApplicationControl.newGame(GameType.SINGLEPLAYER);
-			startActivity(new Intent(getApplicationContext(), OptActivity.class));
+			ApplicationControl.start(this,OptActivity.class);
 			break;
 		case R.id.menu_multiplayer:
 			ApplicationControl.newGame(GameType.MULTIPLAYER);
-			startActivity(new Intent(getApplicationContext(), OptActivity.class));
+			ApplicationControl.start(this,OptActivity.class);
 			break;
 		case R.id.menu_ranks:
 			// TODO open GPS/ranks

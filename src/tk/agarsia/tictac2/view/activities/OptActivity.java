@@ -4,13 +4,13 @@ import tk.agarsia.tictac2.R;
 import tk.agarsia.tictac2.controller.ApplicationControl;
 import tk.agarsia.tictac2.controller.ApplicationControl.GameType;
 import tk.agarsia.tictac2.view.MainActivity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Spinner;
 
 
 public class OptActivity extends MainActivity {
@@ -65,14 +65,28 @@ public class OptActivity extends MainActivity {
 	}
 
 	private void back() {
-		startActivity(new Intent(getApplicationContext(),MenuActivity.class));
+		ApplicationControl.start(this,MenuActivity.class);
 	}
 	
 	private void next() {
+
+		Spinner size = (Spinner) findViewById(R.id.opt_boardsize_id);
+		Spinner win = (Spinner) findViewById(R.id.opt_winlength_id);
+		Spinner mpr = (Spinner) findViewById(R.id.opt_mpr_id);
+		
+		int interval = 0;
+		int boardDim = 3+size.getSelectedItemPosition();
+		int winLength = 3+win.getSelectedItemPosition();
+		int mpt = 1+mpr.getSelectedItemPosition();
+		int spi = 0;
+		
+		
+		ApplicationControl.getGame().initModel(interval, boardDim, winLength, mpt, spi);
+
 		if(ApplicationControl.getGameType()==GameType.SINGLEPLAYER) {
-			startActivity(new Intent(getApplicationContext(),GameActivity.class));
+			ApplicationControl.start(this,GameActivity.class);
 		} else {
-			startActivity(new Intent(getApplicationContext(),MultiNameActivity.class));
+			ApplicationControl.start(this,MultiNameActivity.class);
 		}
 	}
 }

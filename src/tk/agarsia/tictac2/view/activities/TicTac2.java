@@ -3,7 +3,6 @@ package tk.agarsia.tictac2.view.activities;
 import tk.agarsia.tictac2.R;
 import tk.agarsia.tictac2.controller.ApplicationControl;
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
@@ -22,7 +21,7 @@ public class TicTac2 extends Activity {
 		//create local player
 		ApplicationControl.setMe("ME");
 		
-		startActivity(new Intent(getApplicationContext(), MenuActivity.class));
+		ApplicationControl.start(this,MenuActivity.class);
 	}
 
 }

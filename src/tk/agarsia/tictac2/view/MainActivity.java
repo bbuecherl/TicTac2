@@ -1,9 +1,9 @@
 package tk.agarsia.tictac2.view;
 
 import tk.agarsia.tictac2.R;
+import tk.agarsia.tictac2.controller.ApplicationControl;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -23,6 +23,8 @@ public abstract class MainActivity extends ActionBarActivity implements
 	
 	protected void onCreate(Bundle saved) {
 		super.onCreate(saved);
+		final MainActivity act = this;
+		
 		about = new AlertDialog.Builder(this)
 		.setTitle(R.string.about)
 		.setMessage(R.string.about_text)
@@ -43,7 +45,8 @@ public abstract class MainActivity extends ActionBarActivity implements
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog,
 							int which) {
-						android.os.Process.killProcess(android.os.Process.myPid());
+						act.finishDown();
+						dialog.dismiss();
 					}
 				})
 		.setNegativeButton(getResources().getString(R.string.no),
@@ -53,12 +56,23 @@ public abstract class MainActivity extends ActionBarActivity implements
 					}
 				});
 	}
-	
 	@Override
 	public void onBackPressed() {
 		close.show();		
         return;
     }  
+	
+	public void finishDown() {
+		finishFromChild(this);
+		
+		if(getParent()!=null) {
+			if(getParent() instanceof MainActivity) {
+				((MainActivity) getParent()).finishDown();
+			} else {
+				getParent().finish();
+			}
+		}
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -72,7 +86,7 @@ public abstract class MainActivity extends ActionBarActivity implements
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId() == R.id.action_settings) {
-			startActivity(new Intent(getApplicationContext(), Options.class));
+			ApplicationControl.start(this,Options.class);
 			return true;
 		} else if (item.getItemId() == R.id.action_about) {
 			about.show();

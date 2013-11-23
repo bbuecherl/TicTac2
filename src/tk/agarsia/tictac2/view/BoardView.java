@@ -14,13 +14,16 @@ public class BoardView extends View {
 
 	private Game game;
 	private Paint paint;
+	private BoardTouchListener listener;
 
 	public BoardView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		// for easier reference
 		game = ApplicationControl.getGame();
 
-		this.setOnTouchListener(new BoardTouchListener());
+		listener = new BoardTouchListener();
+		
+		this.setOnTouchListener(listener);
 		
 		paint = new Paint();
 	}
@@ -37,15 +40,19 @@ public class BoardView extends View {
 		for(int i = 0; i<len; i++) {
 			for(int j = 0; j<len; j++) {
 				paint.setColor(Color.LTGRAY);
+				paint.setAlpha(255);
 				if(j==0&&i!=0) {
-					canvas.drawRect(tl+i*width,0,tl+i*width+5,width*len, paint);
+					canvas.drawRect(tl+i*width,tl/2,tl+i*width+5,width*len+tl*(len-1), paint);
 				} else if(i==0&&j!=0) {
-					canvas.drawRect(0,tl+j*width,width*len,tl+j*width+5, paint);
+					canvas.drawRect(tl/2,tl+j*width,width*len+tl*(len-1),tl+j*width+5, paint);
 				}
-				paint.setColor(Color.MAGENTA);
+				paint.setColor(Color.RED);
 				paint.setAlpha(100);
-				canvas.drawRect(tl+i*width+5*i, tl+j*width+5*j, tl+(i+1)*width+5*i, tl+(j+1)*width+5*j, paint);
+				canvas.drawRect(tl/2+i*width+5*i, tl/2+j*width+5*j, tl/2+(i+1)*width+5*i,tl/2+(j+1)*width+5*j, paint);
 			}
 		}	
+		
+		//update listener dimensions too!
+		listener.updateDim(len,width);
 	}
 }
