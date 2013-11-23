@@ -5,77 +5,83 @@ import java.util.ArrayList;
 
 public class Field extends Pos{
 
+	public static enum dir{
+		EAST, WEST, SOUTH, NORTH, SOUTHEAST, SOUTHWEST, NORTHWEST, NORTHEAST,
+	}	
+	
 	private static Board board;
 	private static int boardDim;
 	private static int winLength;
-	private static ArrayList<Integer> snakePath = new ArrayList<Integer>();
+	private static ArrayList<dir> snakePath = new ArrayList<dir>();
 	
 	private int value = 0;
 	private int pathPos;
-		
-	private Field north = null;
-	private Field northeast = null;
-	private Field east = null;
-	private Field southeast = null;
-	private Field south = null;
-	private Field southwest = null;
-	private Field west = null;
-	private Field northwest = null;		
 	
-	public Field getNeighbour(int index){
+	protected Field east = null;
+	protected Field west = null;
+	protected Field south = null;
+	protected Field north = null;
+	protected Field southeast = null;
+	protected Field southwest = null;
+	protected Field northwest = null;
+	protected Field northeast = null;
+	
+	
+	protected Field getNeighbour(dir index){
         switch(index) {
-	        case 1: return east;
-	        case 2: return west;
-	        case 3: return south;
-	        case 4: return north;
-	        case 5: return southeast;
-	        case 6: return southwest;
-	        case 7: return northwest;
-	        case 8: return northeast;     
+	        case EAST: return east;
+	        case WEST: return west;
+	        case SOUTH: return south;
+	        case NORTH: return north;
+	        case SOUTHEAST: return southeast;
+	        case SOUTHWEST: return southwest;
+	        case NORTHWEST: return northwest;
+	        case NORTHEAST: return northeast;     
             default: return null;
         }		
 	}
 	
 	
-	public void setNeighbour(int index, Field field){    			
-		
-		switch(index) {
-			case 1: east = field; 
-					if(field.getNeighbour(2) == null)
-							field.setNeighbour(2, this);
-					break;
-			case 2: west = field;
-					if(field.getNeighbour(1) == null)
-						field.setNeighbour(1, this);
-					break;
-			case 3: south = field; 
-					if(field.getNeighbour(4) == null)
-						field.setNeighbour(4, this);
-					break;
-			case 4: north = field; 
-					if(field.getNeighbour(3) == null)
-						field.setNeighbour(3, this);
-					break;					
-			case 5: southeast = field; 
-					if(field.getNeighbour(7) == null)
-							field.setNeighbour(7, this);
-					break;
-			case 6: southwest = field;
-					if(field.getNeighbour(8) == null)
-						field.setNeighbour(8, this);
-					break;
-			case 7: northwest = field; 
-					if(field.getNeighbour(5) == null)
-						field.setNeighbour(5, this);
-					break;
-			case 8: northeast = field; 
-					if(field.getNeighbour(6) == null)
-						field.setNeighbour(6, this);
-					break;			
-		}	
+	protected void setNeighbour(dir index, Field field){    					
+		if(field != null){	
+			switch(index) {
+				case EAST: east = field; 
+						if(field.getNeighbour(dir.WEST) == null)
+								field.setNeighbour(dir.WEST, this);
+						break;
+				case WEST: west = field;
+						if(field.getNeighbour(dir.EAST) == null)
+							field.setNeighbour(dir.EAST, this);
+						break;
+				case SOUTH: south = field; 
+						if(field.getNeighbour(dir.NORTH) == null)
+							field.setNeighbour(dir.NORTH, this);
+						break;
+				case NORTH: north = field; 
+						if(field.getNeighbour(dir.SOUTH) == null)
+							field.setNeighbour(dir.SOUTH, this);
+						break;					
+				case SOUTHEAST: southeast = field; 
+						if(field.getNeighbour(dir.NORTHWEST) == null)
+								field.setNeighbour(dir.NORTHWEST, this);
+						break;
+				case SOUTHWEST: southwest = field;
+						if(field.getNeighbour(dir.NORTHEAST) == null)
+							field.setNeighbour(dir.NORTHEAST, this);
+						break;
+				case NORTHWEST: northwest = field; 
+						if(field.getNeighbour(dir.SOUTHEAST) == null)
+							field.setNeighbour(dir.SOUTHEAST, this);
+						break;
+				case NORTHEAST: northeast = field; 
+						if(field.getNeighbour(dir.SOUTHWEST) == null)
+							field.setNeighbour(dir.SOUTHWEST, this);
+						break;			
+			}	
+		}
 	}
 	
-	public int getPathPos(){
+	protected int getPathPos(){
 		return pathPos;
 	}
 	
@@ -86,103 +92,96 @@ public class Field extends Pos{
 		Field.winLength = board.getWinLength();
 		
 		pathPos = 0;		
-		int direction = 2;
+		dir direction = dir.WEST;
 				
+		//"snake" iterator-pfad erstellen
 		for(int i = 0; i < boardDim; i++){		
-			if(direction == 2) direction = 1; else direction = 2; //toggle direction btwn east & west
+			if(direction == dir.WEST) direction = dir.EAST; else direction = dir.WEST; //toggle direction btwn east & west
 			for(int j = 0; j < boardDim - 1; j++)
 				snakePath.add(direction);
-			snakePath.add(3);
+			snakePath.add(dir.SOUTH);
 		} snakePath.remove(snakePath.size() - 1);			
-			
-		
-		for(int i : snakePath)
-			System.out.println(i);
-
+				
+//		for(dir i : snakePath)
+//			System.out.println(i);
 		
 		board.addField(this);
-		next();
+		initNextField();
 	}
 
 	
-	private void next(){			
+	private void initNextField(){			
 		Field field = new Field(this);
-		setNeighbour(snakePath.get(pathPos), field);			
-		field.moveOn();
+		setNeighbour(snakePath.get(pathPos), field);
+		
+		int newCol = column;
+		if(snakePath.get(pathPos) == dir.EAST)
+			newCol = column + 1;
+		else 
+			if(snakePath.get(pathPos) == dir.WEST)
+				newCol = column - 1;
+		
+		field.setPos((pathPos + 1) / boardDim, newCol);	
+		
+		field.finishFieldAndInitNext();
 	}
 	
-	public Field(Field field){
-		super(0, 0);
-		pathPos = field.getPathPos() + 1;
-		board.addField(this);
+	protected Field(Field field){
+		pathPos = field.getPathPos() + 1;				
+	}
+	
+	protected void setPos(int newRow, int newCol){
+		row = newRow;
+		column = newCol;
+	}
+
+	protected void finishFieldAndInitNext(){
 		
 		if(row > 0){
-			
-			
-			
-/*			if(column == boardDim - 1)
-				setNeighbour(7, north.getNeighbour(2));
-			else if (column == 0)
-				setNeighbour()*/
-		}
-		
-	}
-	
-	public void moveOn(){
-		if(pathPos < snakePath.size())
-			next();
-		else{
-			
-		}
-	}
-	
-/*	private static int calcRow(Field prevField){		
-		return (prevField.getPathPos() + 1) % boardDim;	
-	}
-	
-	private static int calcColumn(Field prevField){
-		int prevRow = prevField.getRow(); 
-		int prevCol = prevField.getColumn();
-		
-		int nowRow = calcRow(prevField);
-		if(nowRow > prevRow && (prevCol == 0 || prevCol == boardDim - 1)){
-			return prevCol;
-		}
 
-		boolean evenRow = (nowRow + 1) % 2 == 0;
-		if(evenRow)
-			return prevCol - 1;
-		else
-			return prevCol + 1;
-	}*/
-	
-	
-	
-/*	private void handshakes() {
-		north 		= board.getField(row - 1, 	column		);
-		northeast 	= board.getField(row - 1, 	column + 1	);
-		east 		= board.getField(row	, 	column + 1	);
-		southeast 	= board.getField(row + 1, 	column + 1	);
-		south 		= board.getField(row + 1, 	column		);
-		southwest 	= board.getField(row + 1, 	column - 1	);
-		west 		= board.getField(row	,	column - 1	);
-		northwest 	= board.getField(row - 1, 	column - 1	);		
-	}*/
-	
+			if((row + 1) % 2 == 0){ //even rows				
+				if(column == boardDim - 1){ //RIGHT border in EVEN row					
+					setNeighbour(dir.NORTHWEST, north.west);
+				}
+				else 
+					if(column == 0){ //LEFT border in EVEN row
+						setNeighbour(dir.NORTHEAST, east.north);
+						setNeighbour(dir.NORTH, east.north.west);
+					}
+					else{ //everything in between the borders of EVEN rows
+						
+						setNeighbour(dir.NORTHEAST, east.north);
+						setNeighbour(dir.NORTH, northeast.west);
+						setNeighbour(dir.NORTHWEST, north.west);					
+					}				
+			}
+			else{ //odd rows
+			
+				if(column == 0){ //LEFT border in ODD row					
+					setNeighbour(dir.NORTHEAST, north.east);
+				}
+				else 
+					if(column == boardDim - 1){ //RIGHT border in ODD row
+						setNeighbour(dir.NORTHWEST, west.north);
+						setNeighbour(dir.NORTH, northwest.east);
+					}
+					else{ //everything in between the borders of ODD rows						
+						setNeighbour(dir.NORTHWEST, west.north);
+						setNeighbour(dir.NORTH, northwest.east);
+						setNeighbour(dir.NORTHEAST, north.east);
+					}
+			}	
+		}
+		
+		board.addField(this);
+
+		if(pathPos < snakePath.size())
+			initNextField();
+	}
+		
 	
 	public boolean isFree(){
 		return value == 0;
-	}
-	
-	public int countFree(){
-		int sum = 0;
-		
-		Field field = this;
-		for(int i = 0; i < boardDim * boardDim; i++){			
-		}
-		
-		
-		return sum;
 	}
 	
 	public int getValue(){
@@ -195,29 +194,29 @@ public class Field extends Pos{
 	}
 	
 	
-	private void ping360(){		
+	private void ping360(){				
 		Island horizontal = new Island(this);
-		horizontal.addMembers(wander(4));
-		horizontal.addMembers(wander(3));
+		horizontal.addMembers(wander(dir.NORTH));
+		horizontal.addMembers(wander(dir.SOUTH));
 		board.addIsland(horizontal);
 		
 		Island vertical = new Island(this);
-		vertical.addMembers(wander(1));
-		vertical.addMembers(wander(2));
+		vertical.addMembers(wander(dir.EAST));
+		vertical.addMembers(wander(dir.WEST));
 		board.addIsland(vertical);
 		
 		Island backslash = new Island(this);
-		backslash.addMembers(wander(7));
-		backslash.addMembers(wander(5));
+		backslash.addMembers(wander(dir.NORTHWEST));
+		backslash.addMembers(wander(dir.SOUTHEAST));
 		board.addIsland(backslash);
 		
 		Island slash = new Island(this);
-		slash.addMembers(wander(6));
-		slash.addMembers(wander(8));
+		slash.addMembers(wander(dir.SOUTHWEST));
+		slash.addMembers(wander(dir.NORTHEAST));
 		board.addIsland(slash);							
 	}
 	
-	private ArrayList<Field> wander(int index){		
+	private ArrayList<Field> wander(dir index){		
 		ArrayList<Field> sum = new ArrayList<Field>();
 		
 		boolean endReached = false;
@@ -251,6 +250,17 @@ public class Field extends Pos{
 	}
 }
 
+//from earlier, when handshakes where made based on the 2D array
+/*	private void handshakes() {
+	north 		= board.getField(row - 1, 	column		);
+	northeast 	= board.getField(row - 1, 	column + 1	);
+	east 		= board.getField(row	, 	column + 1	);
+	southeast 	= board.getField(row + 1, 	column + 1	);
+	south 		= board.getField(row + 1, 	column		);
+	southwest 	= board.getField(row + 1, 	column - 1	);
+	west 		= board.getField(row	,	column - 1	);
+	northwest 	= board.getField(row - 1, 	column - 1	);		
+}*/
 
 //field.getColumn() == boardDim - 1 ? field.getRow() + 1 : field.getRow(), //row
 //field.getColumn() == boardDim - 1 ? 0 : field.getColumn() + 1			 //column 
