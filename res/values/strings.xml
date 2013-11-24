@@ -30,7 +30,9 @@
     <string name="pref_sound_desc">Enable for sound effects</string>
     <string name="pref_vibrate">Vibration</string>
     <string name="pref_vibrate_desc">Enable for physical feedback</string>
-
+	<string name="pref_player">Your name</string>
+	<string name="pref_player_desc">Your displayed username</string>
+    
     <!-- Opt Activity -->
     <string name="opt_boardsize_prompt">Choose board size</string>
     <string-array name="opt_boardsize">

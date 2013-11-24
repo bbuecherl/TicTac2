@@ -1193,14 +1193,16 @@ containing a value of this type.
         public static final int no=0x7f0b0013;
         /**  Opt Activity 
          */
-        public static final int opt_boardsize_prompt=0x7f0b0023;
-        public static final int opt_mpr_prompt=0x7f0b0025;
-        public static final int opt_winlength_prompt=0x7f0b0024;
+        public static final int opt_boardsize_prompt=0x7f0b0025;
+        public static final int opt_mpr_prompt=0x7f0b0027;
+        public static final int opt_winlength_prompt=0x7f0b0026;
         public static final int placeholder=0x7f0b001a;
         /**  Placeholder 
          */
         public static final int player1=0x7f0b0018;
         public static final int player2=0x7f0b0019;
+        public static final int pref_player=0x7f0b0023;
+        public static final int pref_player_desc=0x7f0b0024;
         /**  Preferences 
          */
         public static final int pref_sound=0x7f0b001f;

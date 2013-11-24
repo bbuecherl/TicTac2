@@ -4,7 +4,6 @@ import tk.agarsia.tictac2.R;
 import tk.agarsia.tictac2.controller.ApplicationControl;
 import tk.agarsia.tictac2.controller.ApplicationControl.GameType;
 import tk.agarsia.tictac2.model.player.AbstractPlayer;
-import tk.agarsia.tictac2.model.player.bot.BotRandom;
 import tk.agarsia.tictac2.model.player.human.HumanLocal;
 import tk.agarsia.tictac2.view.MainActivity;
 import android.os.Bundle;
@@ -81,8 +80,8 @@ public class OptActivity extends MainActivity {
 
 
 		//beta testing
-		AbstractPlayer player1 = new HumanLocal("Fritz", ApplicationControl.getGame());
-		AbstractPlayer player2 = new BotRandom(ApplicationControl.getGame());
+		AbstractPlayer player1 = ApplicationControl.getMe();
+		AbstractPlayer player2 = new HumanLocal("test", ApplicationControl.getGame());
 		ApplicationControl.getGame().setPlayers(player1, player2);		
 		ApplicationControl.getGame().start();
 

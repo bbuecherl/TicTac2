@@ -27,6 +27,10 @@ public class Game extends Thread implements GameInterface {
 		players[0] = null;
 	}
 	
+	public AbstractPlayer[] getPlayers() {
+		return players;
+	}
+	
 	public Board getBoard(){
 		return board;
 	}

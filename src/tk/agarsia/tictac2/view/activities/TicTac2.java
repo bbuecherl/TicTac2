@@ -17,13 +17,15 @@ public class TicTac2 extends Activity {
 		//load preferences
 		PreferenceManager.setDefaultValues(this, R.xml.prefs, false);
 		
-		//TODO GPS in ASYNC-Task
-		
-		//create local player
-		ApplicationControl.setMe("ME");
+		//init controller
+		ApplicationControl.init(getApplicationContext());
+		ApplicationControl.setMe("{}");
 		
 		//load File I/O
 		FileController.init();
+		
+		//TODO GPS in ASYNC-Task
+
 		
 		ApplicationControl.start(this,MenuActivity.class);
 	}

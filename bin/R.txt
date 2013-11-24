@@ -372,12 +372,14 @@ int string menu_ranks 0x7f0b001e
 int string menu_singleplayer 0x7f0b001b
 int string next 0x7f0b0014
 int string no 0x7f0b0013
-int string opt_boardsize_prompt 0x7f0b0023
-int string opt_mpr_prompt 0x7f0b0025
-int string opt_winlength_prompt 0x7f0b0024
+int string opt_boardsize_prompt 0x7f0b0025
+int string opt_mpr_prompt 0x7f0b0027
+int string opt_winlength_prompt 0x7f0b0026
 int string placeholder 0x7f0b001a
 int string player1 0x7f0b0018
 int string player2 0x7f0b0019
+int string pref_player 0x7f0b0023
+int string pref_player_desc 0x7f0b0024
 int string pref_sound 0x7f0b001f
 int string pref_sound_desc 0x7f0b0020
 int string pref_vibrate 0x7f0b0021
