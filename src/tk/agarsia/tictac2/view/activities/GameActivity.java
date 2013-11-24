@@ -3,7 +3,6 @@ package tk.agarsia.tictac2.view.activities;
 import tk.agarsia.tictac2.R;
 import tk.agarsia.tictac2.view.MainActivity;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
 
 public class GameActivity extends MainActivity {
@@ -24,9 +23,7 @@ public class GameActivity extends MainActivity {
 	}
 
 	@Override
-	public boolean onTouch(View arg0, MotionEvent arg1) {
-
-		return false;
+	public void onClick(View v) {
 	}
 
 }

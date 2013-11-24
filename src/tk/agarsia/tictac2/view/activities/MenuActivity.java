@@ -5,7 +5,6 @@ import tk.agarsia.tictac2.controller.ApplicationControl;
 import tk.agarsia.tictac2.controller.ApplicationControl.GameType;
 import tk.agarsia.tictac2.view.MainActivity;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
 
 public class MenuActivity extends MainActivity {
@@ -20,15 +19,15 @@ public class MenuActivity extends MainActivity {
 		setContentView(R.layout.activity_menu);
 		ApplicationControl.newGame(GameType.INIT);
 
-		findViewById(R.id.menu_singleplayer).setOnTouchListener(this);
-		findViewById(R.id.menu_multiplayer).setOnTouchListener(this);
-		findViewById(R.id.menu_ranks).setOnTouchListener(this);
-		findViewById(R.id.menu_achievements).setOnTouchListener(this);
+		findViewById(R.id.menu_singleplayer).setOnClickListener(this);
+		findViewById(R.id.menu_multiplayer).setOnClickListener(this);
+		findViewById(R.id.menu_ranks).setOnClickListener(this);
+		findViewById(R.id.menu_achievements).setOnClickListener(this);
 	}
 
 	@Override
-	public boolean onTouch(View arg0, MotionEvent arg1) {
-		switch (arg0.getId()) {
+	public void onClick(View v) {
+		switch(v.getId()) {
 		case R.id.menu_singleplayer:
 			ApplicationControl.newGame(GameType.SINGLEPLAYER);
 			ApplicationControl.start(this,OptActivity.class);
@@ -37,13 +36,6 @@ public class MenuActivity extends MainActivity {
 			ApplicationControl.newGame(GameType.MULTIPLAYER);
 			ApplicationControl.start(this,OptActivity.class);
 			break;
-		case R.id.menu_ranks:
-			// TODO open GPS/ranks
-			break;
-		case R.id.menu_achievements:
-			// TODO open GPS/achievements
-			break;
 		}
-		return false;
 	}
 }

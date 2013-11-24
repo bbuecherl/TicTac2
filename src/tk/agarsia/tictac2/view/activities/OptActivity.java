@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Spinner;
 
@@ -26,7 +25,7 @@ public class OptActivity extends MainActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_opt);
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		//getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		
 		switch(ApplicationControl.getGameType()) {
 		case INIT:
@@ -58,12 +57,6 @@ public class OptActivity extends MainActivity {
 			back();
 			return true;
 		}
-		return false;
-	}
-
-	@Override
-	public boolean onTouch(View arg0, MotionEvent arg1) {
-
 		return false;
 	}
 
@@ -99,5 +92,9 @@ public class OptActivity extends MainActivity {
 		} else {
 			ApplicationControl.start(this,MultiNameActivity.class);
 		}
+	}
+
+	@Override
+	public void onClick(View v) {	
 	}
 }

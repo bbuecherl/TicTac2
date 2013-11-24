@@ -31,8 +31,10 @@ public class BoardTouchListener implements OnTouchListener {
 		int posY = (int) event.getY()/(width+5);
 		boolean bo = false;
 		
-		if(posX<=len&&posX>=0&&posY>=0&&posY<=len) {
+		if(posX<len&&posX>=0&&posY>=0&&posY<len) {
 			bo = true;
+		} else { //not on board touch
+			return false;
 		}
 		
 		//debugging *_*

@@ -9,12 +9,11 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View.OnTouchListener;
+import android.view.View;
 
-public abstract class MainActivity extends ActionBarActivity implements
-		OnTouchListener {
+public abstract class MainActivity extends ActionBarActivity  implements View.OnClickListener {
 
-	private AlertDialog.Builder about, close;
+	private AlertDialog.Builder about;
 	private boolean actions;
 	
 	public MainActivity(boolean actions) {
@@ -23,7 +22,6 @@ public abstract class MainActivity extends ActionBarActivity implements
 	
 	protected void onCreate(Bundle saved) {
 		super.onCreate(saved);
-		final MainActivity act = this;
 		
 		about = new AlertDialog.Builder(this)
 		.setTitle(R.string.about)
@@ -36,42 +34,6 @@ public abstract class MainActivity extends ActionBarActivity implements
 						dialog.dismiss();
 					}
 				});
-	
-		close = new AlertDialog.Builder(this)
-		.setTitle(R.string.close)
-		.setMessage(R.string.close_text)
-		.setPositiveButton(
-				getResources().getString(R.string.yes),
-				new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog,
-							int which) {
-						act.finishDown();
-						dialog.dismiss();
-					}
-				})
-		.setNegativeButton(getResources().getString(R.string.no),
-				new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.dismiss();
-					}
-				});
-	}
-	@Override
-	public void onBackPressed() {
-		close.show();		
-        return;
-    }  
-	
-	public void finishDown() {
-		finishFromChild(this);
-		
-		if(getParent()!=null) {
-			if(getParent() instanceof MainActivity) {
-				((MainActivity) getParent()).finishDown();
-			} else {
-				getParent().finish();
-			}
-		}
 	}
 
 	@Override
@@ -90,7 +52,6 @@ public abstract class MainActivity extends ActionBarActivity implements
 			return true;
 		} else if (item.getItemId() == R.id.action_about) {
 			about.show();
-
 			return true;
 		}
 		return false;
