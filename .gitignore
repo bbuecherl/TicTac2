@@ -54,6 +54,7 @@ R.txt
 *.bak
 *.swp
 *~.nib
+*.log
 local.properties
 .classpath
 .settings/
