@@ -68,7 +68,7 @@ public class Game extends Thread implements GameInterface {
 		gameRunning = true;
 		System.out.println("game started with players: " + players[1].getName() + " and " + players[2].getName());
 		
-		System.out.println(board.show());
+		System.out.println(board.show(true));
 		
 		currentPlayer = players[startPlayerIndex];
 		currentPlayer.myTurn();
@@ -112,7 +112,7 @@ public class Game extends Thread implements GameInterface {
 	
 	private void markComplete(){
 		System.out.println("board after mark from " + currentPlayer.getName());
-		System.out.println(board.show());
+		System.out.println(board.show(true));
 		
 		if(!board.getWinState()){	
 			if(!board.full()){
@@ -153,7 +153,7 @@ public class Game extends Thread implements GameInterface {
 	}
 
 	public String showBoard() {
-		return board.show();
+		return board.show(true);
 	}
 
 	@Override

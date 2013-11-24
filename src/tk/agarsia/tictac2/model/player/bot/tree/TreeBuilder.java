@@ -1,9 +1,10 @@
-package tk.agarsia.tictac2.model.player.bot;
+package tk.agarsia.tictac2.model.player.bot.tree;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 import tk.agarsia.tictac2.model.board.Board;
+import tk.agarsia.tictac2.model.board.Field;
 
 public class TreeBuilder {
 
@@ -29,13 +30,14 @@ public class TreeBuilder {
 		this.currentPlayerIndex = currentPlayerIndex;
 		this.marksPerTurn = marksPerTurn;
 		
-		rootnode = new Node(this);
-			
+		rootnode = new Node(this, null, initialBoard, currentPlayerIndex);
+		
 		try {
 			Exporter.doExport(this, "BotSmart_DecisionTree.graphml");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
+		System.out.println("export of decision tree sucessfull");		
 		
 		System.exit(0);
 	}

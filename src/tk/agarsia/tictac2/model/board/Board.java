@@ -135,23 +135,25 @@ public class Board {
 		getFreeFields().get(target - 1).setValue(currentPlayerIndex);
 	}
 	
-	public String show(){
+	public String show(boolean numbering){
 		String buffer = "";
 		
-		String columnNumbers = "    ";
-		String dashLine = "    ";
+		if(numbering){		
+			String columnNumbers = "    ";
+			String dashLine = "    ";
+			for(int i = 0; i < boardDim; i++){
+				columnNumbers += i + " ";
+				dashLine += "__";
+			} dashLine = dashLine.substring(0, dashLine.length() - 1);
+			
+			buffer += columnNumbers + "\n" + dashLine + "\n";	
+		}
 		for(int i = 0; i < boardDim; i++){
-			columnNumbers += i + " ";
-			dashLine += "__";
-		} dashLine = dashLine.substring(0, dashLine.length() - 1);
-		
-		buffer += columnNumbers + "\n" + dashLine + "\n";
-		
-		for(int i = 0; i < boardDim; i++){
-			buffer += i + "  |";
+			if(numbering) 
+				buffer += i + "  |";
 			for(int j = 0; j < boardDim; j++)
 				buffer += fields2D[i][j].getValue() + " ";
-			buffer += "\n";
+			buffer = buffer.substring(0, buffer.length() - 1) + "\n";
 		}
 		return buffer;
 	}

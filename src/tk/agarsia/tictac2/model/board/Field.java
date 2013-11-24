@@ -192,7 +192,8 @@ public class Field {
 	public ArrayList<Field> getFreeFields(){
 		ArrayList<Field> collect = new ArrayList<Field>();	
 		Field field = this;
-		collect.add(field);		
+		if(value == 0) //oh my... important!
+			collect.add(field);		
 		for(int i = 0; i < boardDim * boardDim - 1; i++){
 			field = field.getNeighbour(snakePath.get(field.pathPos)); //walk along snakePath
 			if(field.getValue() == 0)

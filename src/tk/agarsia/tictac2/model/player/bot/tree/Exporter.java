@@ -1,4 +1,4 @@
-package tk.agarsia.tictac2.model.player.bot;
+package tk.agarsia.tictac2.model.player.bot.tree;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -23,7 +23,7 @@ public class Exporter {
         output.println("<graph>");
 
         for (Node node : nodes) {
-            node(node.getID(), node.getContent());
+            node(node.getID(), node.getContent(), node.getBoard().getBoardDim());
         }
         for (Edge edge : edges) {
             edge(edge.hashCode(), edge.getSource().getID(), edge.getTarget().getID()); //generating hash-code just here, not needed before. but yED needs it to read the graphml-file
@@ -35,14 +35,14 @@ public class Exporter {
 
     }
 
-    private static void node(int ID, String value) {
+    private static void node(int ID, String value, int boardDim) {
         output.println("<node id=" + '"' + ID + '"' + ">" +
                 "<data key=\"d5\"><![CDATA[Node ID: " + ID + "]]></data>" +
                 "<data key=\"d6\">" +
-                "<y:ShapeNode><y:Fill color=\"#FFCC00\" transparent=\"false\"/>" +
+                "<y:ShapeNode><y:Geometry height=\"" + (18 * boardDim) + "\" width=\"" + (14 * boardDim) + "\"/><y:Fill color=\"#FFCC00\" transparent=\"false\"/>" +
                 "<y:BorderStyle color=\"#FF0000\" type=\"line\" width=\"1.0\"/>" +
                 "<y:NodeLabel textColor=\"#000000\">" + value + "</y:NodeLabel>" +
-                "<y:Shape type=\"ellipse\"/></y:ShapeNode></data></node>");
+                "<y:Shape type=\"roundrectangle\"/></y:ShapeNode></data></node>");
     }
 
     private static void edge(int ID, int sourceID, int targetID) {

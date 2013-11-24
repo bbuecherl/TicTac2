@@ -1,4 +1,4 @@
-package tk.agarsia.tictac2.model.player.bot;
+package tk.agarsia.tictac2.model.player.bot.tree;
 
 public class Edge {
 

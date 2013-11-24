@@ -16,10 +16,10 @@ public class DemoMain {
 	public static void main(String[] args) throws IOException {
 
 		Game g = new Game();		
-		g.initModel(0, 4, 3, 1, 1);	//int interval, int boardDim, int winLength, int marksPerTurn, int startPlayerIndex	
+		g.initModel(0, 3, 3, 1, 1);	//int interval, int boardDim, int winLength, int marksPerTurn, int startPlayerIndex	
 		
-		AbstractPlayer player1 = new BotRandom(g);//HumanLocal("Fritz", g);
-		AbstractPlayer player2 = new BotSmart(g); //HumanLocal("Julia", g);
+		AbstractPlayer player1 = new BotSmart(g);//HumanLocal("Fritz", g);
+		AbstractPlayer player2 = new BotRandom(g); //HumanLocal("Julia", g);
 		g.setPlayers(player1, player2);		
 		g.start();
 		
@@ -34,8 +34,6 @@ public class DemoMain {
 			System.out.println("board is full without winner");
 		else
 			System.out.println(g.getWinner().getName() + " won with the following chain of " + g.getBoard().getWinningIsland().getSize() + " fields: \n" + g.getWinner().getWinningFields());
-
-		
 	}
 
 }*/
