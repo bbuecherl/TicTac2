@@ -5,14 +5,14 @@ import java.util.ArrayList;
 
 public class Field {
 	
-	public static enum dir{
+	public enum dir{
 		EAST, WEST, SOUTH, NORTH, SOUTHEAST, SOUTHWEST, NORTHWEST, NORTHEAST,
 	}	
 	
-	private static Board board;
-	private static int boardDim;
-	private static int winLength;
-	private static ArrayList<dir> snakePath = new ArrayList<dir>();
+	private Board board;
+	private int boardDim;
+	private int winLength;
+	private ArrayList<dir> snakePath;
 	
 	private int row;
 	private int column;
@@ -50,7 +50,6 @@ public class Field {
             default: return null;
         }		
 	}
-	
 	
 	protected void setNeighbour(dir index, Field field){    					
 		if(field != null){	
@@ -96,14 +95,15 @@ public class Field {
 	}
 	
 	public Field(Board board){
-		Field.board = board;
-		Field.boardDim = board.getBoardDim();
-		Field.winLength = board.getWinLength();
+		this.board = board;
+		boardDim = board.getBoardDim();
+		winLength = board.getWinLength();
 		
 		pathPos = 0;		
 		dir direction = dir.WEST;
 				
 		//"snake" iterator-pfad erstellen
+		snakePath = new ArrayList<dir>();
 		for(int i = 0; i < boardDim; i++){		
 			if(direction == dir.WEST) direction = dir.EAST; else direction = dir.WEST; //toggle direction btwn east & west
 			for(int j = 0; j < boardDim - 1; j++)
@@ -120,7 +120,7 @@ public class Field {
 
 	
 	private void initNextField(){			
-		Field field = new Field(this);
+		Field field = new Field(this, board, snakePath);
 		setNeighbour(snakePath.get(pathPos), field);
 		
 		int newCol = column;
@@ -128,14 +128,16 @@ public class Field {
 			newCol = column + 1;
 		else 
 			if(snakePath.get(pathPos) == dir.WEST)
-				newCol = column - 1;
-		
-		field.setPos((pathPos + 1) / boardDim, newCol);	
-		
+				newCol = column - 1;	
+		field.setPos((pathPos + 1) / boardDim, newCol);			
 		field.finishFieldAndInitNext();
 	}
 	
-	protected Field(Field field){
+	protected Field(Field field, Board board, ArrayList<dir> snakePath){
+		this.board = board;
+		this.snakePath = snakePath;
+		boardDim = board.getBoardDim();
+		winLength = board.getWinLength();
 		pathPos = field.getPathPos() + 1;				
 	}
 	
@@ -144,10 +146,8 @@ public class Field {
 		column = newCol;
 	}
 
-	protected void finishFieldAndInitNext(){
-		
+	protected void finishFieldAndInitNext(){		
 		if(row > 0){
-
 			if((row + 1) % 2 == 0){ //even rows				
 				if(column == boardDim - 1){ //RIGHT border in EVEN row					
 					setNeighbour(dir.NORTHWEST, north.west);
@@ -189,6 +189,18 @@ public class Field {
 	}
 		
 	
+	public ArrayList<Field> getFreeFields(){
+		ArrayList<Field> collect = new ArrayList<Field>();	
+		Field field = this;
+		collect.add(field);		
+		for(int i = 0; i < boardDim * boardDim - 1; i++){
+			field = field.getNeighbour(snakePath.get(field.pathPos)); //walk along snakePath
+			if(field.getValue() == 0)
+				collect.add(field);
+		}	
+		return collect;
+	}	
+	
 	public boolean isFree(){
 		return value == 0;
 	}
@@ -206,23 +218,27 @@ public class Field {
 	private void ping360(){				
 		Island horizontal = new Island(this);
 		horizontal.addMembers(wander(dir.NORTH));
-		horizontal.addMembers(wander(dir.SOUTH));
-		board.addIsland(horizontal);
+		horizontal.addMembers(wander(dir.SOUTH));		
+		if(horizontal.getSize() >= winLength)
+			board.islandWon(horizontal);
 		
 		Island vertical = new Island(this);
 		vertical.addMembers(wander(dir.EAST));
 		vertical.addMembers(wander(dir.WEST));
-		board.addIsland(vertical);
+		if(vertical.getSize() >= winLength)
+			board.islandWon(vertical);
 		
 		Island backslash = new Island(this);
 		backslash.addMembers(wander(dir.NORTHWEST));
 		backslash.addMembers(wander(dir.SOUTHEAST));
-		board.addIsland(backslash);
+		if(backslash.getSize() >= winLength)
+			board.islandWon(backslash);
 		
 		Island slash = new Island(this);
 		slash.addMembers(wander(dir.SOUTHWEST));
 		slash.addMembers(wander(dir.NORTHEAST));
-		board.addIsland(slash);							
+		if(slash.getSize() >= winLength)
+			board.islandWon(slash);						
 	}
 	
 	private ArrayList<Field> wander(dir index){		
@@ -258,18 +274,3 @@ public class Field {
 				;
 	}
 }
-
-//from earlier, when handshakes where made based on the 2D array
-/*	private void handshakes() {
-	north 		= board.getField(row - 1, 	column		);
-	northeast 	= board.getField(row - 1, 	column + 1	);
-	east 		= board.getField(row	, 	column + 1	);
-	southeast 	= board.getField(row + 1, 	column + 1	);
-	south 		= board.getField(row + 1, 	column		);
-	southwest 	= board.getField(row + 1, 	column - 1	);
-	west 		= board.getField(row	,	column - 1	);
-	northwest 	= board.getField(row - 1, 	column - 1	);		
-}*/
-
-//field.getColumn() == boardDim - 1 ? field.getRow() + 1 : field.getRow(), //row
-//field.getColumn() == boardDim - 1 ? 0 : field.getColumn() + 1			 //column 

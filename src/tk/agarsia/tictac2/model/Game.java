@@ -91,10 +91,18 @@ public class Game extends Thread implements GameInterface {
 	}
 	
 	public boolean placeMark(int row, int column){
-		boolean temp = board.setField(currentPlayerIndex, row, column);		
-		if(temp)
+		
+		if(row == -1 && column == -1){
+			board.placeRandomly(currentPlayerIndex);
 			markComplete();		
-		return temp;
+			return true;
+		}
+		else{		
+			boolean temp = board.setField(currentPlayerIndex, row, column);		
+			if(temp)
+				markComplete();		
+			return temp;
+		}
 	}
 
 	

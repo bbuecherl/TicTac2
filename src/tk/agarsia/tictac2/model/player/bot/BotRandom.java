@@ -1,9 +1,6 @@
 package tk.agarsia.tictac2.model.player.bot;
 
-import java.util.Random;
-
 import tk.agarsia.tictac2.model.Game;
-import tk.agarsia.tictac2.model.board.Field;
 
 
 public class BotRandom extends AbstractBot{
@@ -14,12 +11,9 @@ public class BotRandom extends AbstractBot{
 		setName("RandomBot" + this.hashCode());
 	}
 
-
 	@Override
 	public void myTurn() {
-		int choice = 1 + (int) (new Random().nextDouble() * board.getEmptyFieldCount());	
-		Field chosenField = board.getChosenFreeField(choice);		
-		myChoice(chosenField.getRow(), chosenField.getColumn());
+		myChoice(-1, -1); //"secret code" for game to call the placeRandomly method on board
 	}
 
 	@Override

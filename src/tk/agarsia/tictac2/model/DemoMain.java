@@ -1,4 +1,4 @@
-package tk.agarsia.tictac2.model;
+/*package tk.agarsia.tictac2.model;
 
 
 import java.io.BufferedReader;
@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 
 import tk.agarsia.tictac2.model.player.AbstractPlayer;
 import tk.agarsia.tictac2.model.player.bot.BotRandom;
+import tk.agarsia.tictac2.model.player.bot.BotSmart;
 import tk.agarsia.tictac2.model.player.human.HumanLocal;
 
 
@@ -18,7 +19,7 @@ public class DemoMain {
 		g.initModel(0, 4, 3, 1, 1);	//int interval, int boardDim, int winLength, int marksPerTurn, int startPlayerIndex	
 		
 		AbstractPlayer player1 = new BotRandom(g);//HumanLocal("Fritz", g);
-		AbstractPlayer player2 = new BotRandom(g); //HumanLocal("Julia", g);
+		AbstractPlayer player2 = new BotSmart(g); //HumanLocal("Julia", g);
 		g.setPlayers(player1, player2);		
 		g.start();
 		
@@ -32,9 +33,9 @@ public class DemoMain {
 		if(g.getWinner() == null)
 			System.out.println("board is full without winner");
 		else
-			System.out.println(g.getWinner().getName() + " won with the following chain of " + g.getBoard().getWinningIsland().getLength() + " fields: \n" + g.getWinner().getWinningFields());
+			System.out.println(g.getWinner().getName() + " won with the following chain of " + g.getBoard().getWinningIsland().getSize() + " fields: \n" + g.getWinner().getWinningFields());
 
 		
 	}
 
-}
+}*/

@@ -1,7 +1,6 @@
 package tk.agarsia.tictac2.model.player.bot;
 
 import tk.agarsia.tictac2.model.Game;
-import tk.agarsia.tictac2.model.board.Board;
 
 public class BotSmart extends AbstractBot{
 
@@ -15,6 +14,8 @@ public class BotSmart extends AbstractBot{
 	public void myTurn() {		
 		TreeBuilder tree = new TreeBuilder(game.getBoard(), game.getCurrentPlayerIndex(), game.getMarksPerTurn());
 		
+		//tree.export();
+		//tree.getDecision... and feed into myChoice
 	}
 
 	@Override
