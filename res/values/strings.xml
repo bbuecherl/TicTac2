@@ -15,8 +15,6 @@
     <string name="about_text">TicTac2 v0.1\nDevelopers Edition\n\nContributors:\nbenjaminaaron\nagarsia\ntuttirh\ngherndl\n\nSource Code available on Github:\nhttps://github.com/agarsia/TicTac2</string>
 
     <!-- Placeholder -->
-    <string name="player1">{Player1}</string>
-    <string name="player2">{Player2}</string>
     <string name="placeholder">{Placeholder}</string>
     
     <!-- Menu Activity -->
@@ -33,7 +31,21 @@
     <string name="pref_vibrate_desc">Enable for physical feedback</string>
 	<string name="pref_player">Your name</string>
 	<string name="pref_player_desc">Your displayed username</string>
-    
+	<string name="pref_color_me">Your mark color</string>
+	<string name="pref_color_me_desc">Color your captured fields will be displayed in</string>
+	<string name="pref_color_other">Your enemies mark color</string>
+	<string name="pref_color_other_desc">Color your enemies fields will be displayed in</string>
+	<string-array name="pref_color_entries">
+	    <item>Green</item>
+	    <item>Red</item>
+	    <item>Blue</item>
+	</string-array>
+    <string-array name="pref_color_values">
+        <item>#007200</item>
+        <item>#720000</item>
+        <item>#000072</item>
+    </string-array>
+	
     <!-- Opt Activity -->
     <string name="opt_subtitle">Game settings</string>
     <string name="opt_boardsize_prompt">Choose board size</string>

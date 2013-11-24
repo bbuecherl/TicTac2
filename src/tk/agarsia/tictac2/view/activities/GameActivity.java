@@ -3,10 +3,8 @@ package tk.agarsia.tictac2.view.activities;
 import tk.agarsia.tictac2.R;
 import tk.agarsia.tictac2.controller.ApplicationControl;
 import tk.agarsia.tictac2.view.MainActivity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
 
 public class GameActivity extends MainActivity {
 
@@ -20,15 +18,12 @@ public class GameActivity extends MainActivity {
 		setContentView(R.layout.activity_game);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
+		//update player name...
 		ApplicationControl.getMe().setName(
 				ApplicationControl.getStringPref("pref_player"));
 
-		// populate information views
-		((TextView) findViewById(R.id.player1_name)).setText(ApplicationControl
-				.getGame().getPlayers()[1].getName());
-		((TextView) findViewById(R.id.player2_name)).setText(ApplicationControl
-				.getGame().getPlayers()[2].getName());
-
+		//start the game!
+		ApplicationControl.start(this);
 	}
 
 	@Override
