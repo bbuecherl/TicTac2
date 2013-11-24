@@ -10,15 +10,16 @@ import android.view.View;
 public class MenuActivity extends MainActivity {
 
 	public MenuActivity() {
-		super(true);
+		super(true,R.string.menu_subtitle);
 	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_menu);
+		
 		ApplicationControl.newGame(GameType.INIT);
-
+		
 		findViewById(R.id.menu_singleplayer).setOnClickListener(this);
 		findViewById(R.id.menu_multiplayer).setOnClickListener(this);
 		findViewById(R.id.menu_ranks).setOnClickListener(this);
@@ -36,6 +37,7 @@ public class MenuActivity extends MainActivity {
 			ApplicationControl.newGame(GameType.MULTIPLAYER);
 			ApplicationControl.start(this,OptActivity.class);
 			break;
+		//TODO ranks & achievements
 		}
 	}
 }

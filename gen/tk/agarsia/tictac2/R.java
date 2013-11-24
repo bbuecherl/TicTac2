@@ -1183,32 +1183,37 @@ containing a value of this type.
         public static final int close=0x7f0b0010;
         public static final int close_text=0x7f0b0011;
         public static final int logo=0x7f0b0016;
-        public static final int menu_achievements=0x7f0b001d;
-        public static final int menu_multiplayer=0x7f0b001c;
-        public static final int menu_ranks=0x7f0b001e;
+        public static final int menu_achievements=0x7f0b001e;
+        public static final int menu_multiplayer=0x7f0b001d;
+        public static final int menu_ranks=0x7f0b001f;
+        public static final int menu_singleplayer=0x7f0b001c;
         /**  Menu Activity 
          */
-        public static final int menu_singleplayer=0x7f0b001b;
+        public static final int menu_subtitle=0x7f0b001b;
         public static final int next=0x7f0b0014;
         public static final int no=0x7f0b0013;
+        public static final int opt_boardsize_prompt=0x7f0b0027;
+        public static final int opt_mpr_prompt=0x7f0b0029;
         /**  Opt Activity 
          */
-        public static final int opt_boardsize_prompt=0x7f0b0025;
-        public static final int opt_mpr_prompt=0x7f0b0027;
-        public static final int opt_winlength_prompt=0x7f0b0026;
+        public static final int opt_subtitle=0x7f0b0026;
+        public static final int opt_winlength_prompt=0x7f0b0028;
+        /**  Pause Activity 
+         */
+        public static final int pause_subtitle=0x7f0b002a;
         public static final int placeholder=0x7f0b001a;
         /**  Placeholder 
          */
         public static final int player1=0x7f0b0018;
         public static final int player2=0x7f0b0019;
-        public static final int pref_player=0x7f0b0023;
-        public static final int pref_player_desc=0x7f0b0024;
+        public static final int pref_player=0x7f0b0024;
+        public static final int pref_player_desc=0x7f0b0025;
         /**  Preferences 
          */
-        public static final int pref_sound=0x7f0b001f;
-        public static final int pref_sound_desc=0x7f0b0020;
-        public static final int pref_vibrate=0x7f0b0021;
-        public static final int pref_vibrate_desc=0x7f0b0022;
+        public static final int pref_sound=0x7f0b0020;
+        public static final int pref_sound_desc=0x7f0b0021;
+        public static final int pref_vibrate=0x7f0b0022;
+        public static final int pref_vibrate_desc=0x7f0b0023;
         public static final int settings=0x7f0b000e;
         public static final int yes=0x7f0b0012;
     }

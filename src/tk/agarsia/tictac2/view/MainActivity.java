@@ -15,13 +15,18 @@ public abstract class MainActivity extends ActionBarActivity  implements View.On
 
 	private AlertDialog.Builder about;
 	private boolean actions;
+	private int subtitle;
 	
-	public MainActivity(boolean actions) {
+	public MainActivity(boolean actions, int subtitle) {
 		this.actions = actions;
+		this.subtitle = subtitle;
 	}
 	
 	protected void onCreate(Bundle saved) {
 		super.onCreate(saved);
+		
+		if(subtitle!=0)
+			getSupportActionBar().setSubtitle(subtitle);
 		
 		about = new AlertDialog.Builder(this)
 		.setTitle(R.string.about)

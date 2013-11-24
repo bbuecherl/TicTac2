@@ -44,23 +44,24 @@ public class BoardView extends View {
 				paint.setColor(Color.LTGRAY);
 				paint.setAlpha(255);
 				if(j==0&&i!=0) {
-					canvas.drawRect(tl+i*width,tl/2,tl+i*width+5,width*len+tl*(len-1), paint);
+					canvas.drawRect(tl/2+i*width+tl*(i-1),tl/2,tl/2+i*width+tl*i,width*len+tl*(len-0.5f), paint);
 				} else if(i==0&&j!=0) {
-					canvas.drawRect(tl/2,tl+j*width,width*len+tl*(len-1),tl+j*width+5, paint);
+					canvas.drawRect(tl/2,tl/2+j*width+tl*(j-1),width*len+tl*(len-0.5f),tl/2+j*width+tl*j, paint);
 				}
 				
 				val = game.getBoard().getField(i, j).getValue();
 				if(val==0) {
 					paint.setColor(Color.LTGRAY);
+					paint.setAlpha(0);
 				} else if(val==1) {
 					paint.setColor(Color.GREEN);
+					paint.setAlpha(255);
 				} else {
 					paint.setColor(Color.RED);
+					paint.setAlpha(255);
 				}
-				
-				
-				paint.setAlpha(100);
-				canvas.drawRect(tl/2+i*width+5*i, tl/2+j*width+5*j, tl/2+(i+1)*width+5*i,tl/2+(j+1)*width+5*j, paint);
+	
+				canvas.drawRect(tl/2+i*width+tl*i, tl/2+j*width+tl*j, tl/2+(i+1)*width+tl*i,tl/2+(j+1)*width+tl*j, paint);
 			}
 		}	
 		

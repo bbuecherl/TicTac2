@@ -6,6 +6,7 @@ import tk.agarsia.tictac2.controller.ApplicationControl.GameType;
 import tk.agarsia.tictac2.model.player.AbstractPlayer;
 import tk.agarsia.tictac2.model.player.human.HumanLocal;
 import tk.agarsia.tictac2.view.MainActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,14 +18,14 @@ import android.widget.Spinner;
 public class OptActivity extends MainActivity {
 	
 	public OptActivity() {
-		super(false);
+		super(false,R.string.opt_subtitle);
 	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_opt);
-		//getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		
 		switch(ApplicationControl.getGameType()) {
 		case INIT:
@@ -38,6 +39,11 @@ public class OptActivity extends MainActivity {
 			
 			break;
 		}
+	}
+	
+	@Override
+	public Intent getSupportParentActivityIntent() {
+		return new Intent(getApplicationContext(),MenuActivity.class);
 	}
 	
 	@Override

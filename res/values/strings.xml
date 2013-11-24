@@ -20,6 +20,7 @@
     <string name="placeholder">{Placeholder}</string>
     
     <!-- Menu Activity -->
+    <string name="menu_subtitle">Menu</string>
     <string name="menu_singleplayer">Singleplayer</string>
     <string name="menu_multiplayer">Multiplayer</string>
     <string name="menu_achievements">Achievements</string>
@@ -34,6 +35,7 @@
 	<string name="pref_player_desc">Your displayed username</string>
     
     <!-- Opt Activity -->
+    <string name="opt_subtitle">Game settings</string>
     <string name="opt_boardsize_prompt">Choose board size</string>
     <string-array name="opt_boardsize">
         <item>3x3 Board</item>
@@ -41,7 +43,6 @@
         <item>5x5 Board</item>
         <item>6x6 Board</item>
     </string-array>
-
     <string name="opt_winlength_prompt">Choose win length</string>
     <string-array name="opt_winlength">
         <item>3</item>
@@ -49,12 +50,13 @@
         <item>5</item>
         <item>6</item>
     </string-array>
-
     <string name="opt_mpr_prompt">Choose marks per round</string>
     <string-array name="opt_mpr">
         <item>1 Mark</item>
         <item>2 Marks</item>
         <item>3 Marks</item>
     </string-array>
-
+    
+    <!-- Pause Activity -->
+    <string name="pause_subtitle">Paused</string>
 </resources>
