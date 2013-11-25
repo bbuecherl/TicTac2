@@ -47,10 +47,12 @@ public class OptActivity extends MainActivity {
 			((RadioButton) findViewById(R.id.opt_start_other)).setText(getString(R.string.opt_bot));
 			findViewById(R.id.opt_name_desc).setVisibility(View.GONE);
 			findViewById(R.id.opt_name).setVisibility(View.GONE);
+			findViewById(R.id.space4).setVisibility(View.GONE);
 			break;
 		case MULTIPLAYER:
 			findViewById(R.id.opt_name_desc).setVisibility(View.VISIBLE);
 			findViewById(R.id.opt_name).setVisibility(View.VISIBLE);			
+			findViewById(R.id.space4).setVisibility(View.VISIBLE);
 			break;
 		}
 	}

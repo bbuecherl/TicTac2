@@ -40,7 +40,7 @@ public class GameActivity extends MainActivity {
 										"{win}",
 										(winner == null) ? getString(R.string.game_noone)
 												: winner.getName()))
-				.setNeutralButton(getString(R.string.share),
+				.setPositiveButton(getString(R.string.share),
 						new DialogInterface.OnClickListener() {
 							@Override
 							public void onClick(DialogInterface dialog, int which) {
