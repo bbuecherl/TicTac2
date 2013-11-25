@@ -2,9 +2,10 @@ package tk.agarsia.tictac2.view;
 
 import tk.agarsia.tictac2.R;
 import tk.agarsia.tictac2.controller.ApplicationControl;
-import tk.agarsia.tictac2.view.activities.MenuActivity;
+import tk.agarsia.tictac2.view.activities.TicTac2;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -28,7 +29,7 @@ public abstract class MainActivity extends ActionBarActivity  implements View.On
 		
 		//game must be initialized
 		if(!ApplicationControl.isInit())
-			ApplicationControl.start(this,MenuActivity.class);
+			startActivity(new Intent(getApplicationContext(),TicTac2.class));
 		
 		if(subtitle!=0)
 			getSupportActionBar().setSubtitle(subtitle);
