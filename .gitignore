@@ -49,6 +49,7 @@ bin/**
 bin/*
 tmp/**
 tmp/**/*
+bin/R.txt
 R.txt
 *.tmp
 *.bak

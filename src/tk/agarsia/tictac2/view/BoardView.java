@@ -16,6 +16,8 @@ public class BoardView extends View {
 	private Game game;
 	private Paint paint;
 	private BoardTouchListener listener;
+	private int me;
+	private int you;
 
 	public BoardView(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -28,6 +30,9 @@ public class BoardView extends View {
 
 		paint = new Paint();
 		paint.setTextSize(20);
+		
+		me = Color.parseColor(ApplicationControl.getStringPref("pref_color_me","#007200"));
+		you = Color.parseColor(ApplicationControl.getStringPref("pref_color_other","#720000"));
 	}
 
 	@Override
@@ -49,11 +54,11 @@ public class BoardView extends View {
 	}
 	
 	private void drawInfo(Canvas canvas) {
-		paint.setColor(Color.GREEN);
+		paint.setColor(me);
 		paint.setAlpha(255);
 		paint.setTextAlign(Align.LEFT);
 		canvas.drawText(game.getPlayers()[1].getName(), 0, 30, paint);
-		paint.setColor(Color.RED);
+		paint.setColor(you);
 		paint.setAlpha(255);
 		paint.setTextAlign(Align.RIGHT);
 		canvas.drawText(game.getPlayers()[2].getName(), canvas.getWidth(), 30, paint);
@@ -88,10 +93,10 @@ public class BoardView extends View {
 					paint.setColor(Color.LTGRAY);
 					paint.setAlpha(0);
 				} else if (val == 1) {
-					paint.setColor(Color.GREEN);
+					paint.setColor(me);
 					paint.setAlpha(255);
 				} else {
-					paint.setColor(Color.RED);
+					paint.setColor(you);
 					paint.setAlpha(255);
 				}
 

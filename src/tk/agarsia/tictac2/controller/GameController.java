@@ -16,11 +16,8 @@ public class GameController {
 		
 		//now test for winners
 		if(!game.getGameRunning()) {
-			if(game.getWinner()==null) {
-				//no winner
-			} else {
-				//someone won!
-			}
+			if(ApplicationControl.getGameActivity()!=null)
+				ApplicationControl.getGameActivity().gameFinished(game.getWinner());
 		}
 	}
 }

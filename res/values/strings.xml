@@ -13,7 +13,9 @@
     <string name="back">Back</string>
     <string name="logo">TicTac2</string>
     <string name="about_text">TicTac2 v0.1\nDevelopers Edition\n\nContributors:\nbenjaminaaron\nagarsia\ntuttirh\ngherndl\n\nSource Code available on Github:\nhttps://github.com/agarsia/TicTac2</string>
-
+	<string name="ok">OK</string>
+	<string name="share">Share</string>
+	
     <!-- Placeholder -->
     <string name="placeholder">{Placeholder}</string>
     
@@ -71,4 +73,10 @@
     
     <!-- Pause Activity -->
     <string name="pause_subtitle">Paused</string>
+    
+    <!-- Game Activity -->
+    <string name="game_won">You won!</string>
+    <string name="game_over">Game over!</string>
+    <string name="game_whowon">Game has been finished, {win} won the game.</string>
+    <string name="game_noone">no one</string>
 </resources>

@@ -70,7 +70,8 @@ public class OptActivity extends MainActivity {
 	}
 	
 	private void next() {
-
+		ApplicationControl.reinit();
+		
 		Spinner size = (Spinner) findViewById(R.id.opt_boardsize_id);
 		Spinner win = (Spinner) findViewById(R.id.opt_winlength_id);
 		Spinner mpr = (Spinner) findViewById(R.id.opt_mpr_id);
@@ -80,7 +81,6 @@ public class OptActivity extends MainActivity {
 		int winLength = 3+win.getSelectedItemPosition();
 		int mpt = 1+mpr.getSelectedItemPosition();
 		int spi = 1;
-		
 		
 		ApplicationControl.getGame().initModel(interval, boardDim, winLength, mpt, spi);
 		

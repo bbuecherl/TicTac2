@@ -25,12 +25,21 @@ public class ApplicationControl {
 	
 	public static void init(Context context) {
 		prefs = PreferenceManager.getDefaultSharedPreferences(context);
+		reinit();
+	}
+	
+	public static void reinit() {
 		game = new Game();
 		controller = new GameController(game);
+		setMe(getStringPref("pref_player"));
 	}
 	
 	public static String getStringPref(String key) {
-		return prefs.getString(key, "");
+		return getStringPref(key, "");
+	}
+	
+	public static String getStringPref(String key, String def) {
+		return prefs.getString(key, def);
 	}
 	
 	public static boolean getBooleanPref(String key) {
