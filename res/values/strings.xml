@@ -76,6 +76,9 @@
     </string-array>
     <string name="opt_name">Guest players name</string>
     <string name="opt_default">Guest</string>
+    <string name="opt_start">Who starts the game</string>
+    <string name="opt_random">Random</string>
+    <string name="opt_bot">Computer</string>
     
     <!-- Pause Activity -->
     <string name="pause_subtitle">Paused</string>

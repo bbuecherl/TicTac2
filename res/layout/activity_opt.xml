@@ -1,63 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollView1"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:layout_height="match_parent" >
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/opt_boardsize_prompt" />
-
-    <Spinner
-        android:id="@+id/opt_boardsize_id"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:entries="@array/opt_boardsize"
-        android:prompt="@string/opt_boardsize_prompt" />
+        android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/opt_winlength_prompt" />
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/opt_boardsize_prompt" />
 
-    <Spinner
-        android:id="@+id/opt_winlength_id"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:entries="@array/opt_winlength"
-        android:prompt="@string/opt_winlength_prompt" />
+        <Spinner
+            android:id="@+id/opt_boardsize_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/opt_boardsize"
+            android:prompt="@string/opt_boardsize_prompt" />
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/opt_mpr_prompt" />
+        <tk.agarsia.tictac2.view.Space
+            android:id="@+id/space1"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp" />
 
-    <Spinner
-        android:id="@+id/opt_mpr_id"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:entries="@array/opt_mpr"
-        android:prompt="@string/opt_mpr_prompt" />
-    
-    
-    <TextView
-        android:id="@+id/opt_name_desc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/opt_name" />
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/opt_winlength_prompt" />
 
-    <EditText
-        android:id="@+id/opt_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/opt_default" >
+        <Spinner
+            android:id="@+id/opt_winlength_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/opt_winlength"
+            android:prompt="@string/opt_winlength_prompt" />
 
-        <requestFocus />
-    </EditText>
+        <tk.agarsia.tictac2.view.Space
+            android:id="@+id/space2"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp" />
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/opt_mpr_prompt" />
+
+        <Spinner
+            android:id="@+id/opt_mpr_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/opt_mpr"
+            android:prompt="@string/opt_mpr_prompt" />
+
+        <tk.agarsia.tictac2.view.Space
+            android:id="@+id/space3"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp" />
+
+        <TextView
+            android:id="@+id/opt_name_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/opt_name" />
+
+        <EditText
+            android:id="@+id/opt_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/opt_default" >
+
+            <requestFocus />
+        </EditText>
+
+        <tk.agarsia.tictac2.view.Space
+            android:id="@+id/space4"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/opt_start" />
+
+        <RadioGroup
+            android:id="@+id/opt_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <RadioButton
+                android:id="@+id/opt_start_me"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/placeholder" />
+
+            <RadioButton
+                android:id="@+id/opt_start_other"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/opt_default" />
+
+            <RadioButton
+                android:id="@+id/opt_start_random"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/opt_random" />
+        </RadioGroup>
+    </LinearLayout>
+
+</ScrollView>

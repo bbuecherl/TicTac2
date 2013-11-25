@@ -995,8 +995,8 @@ containing a value of this type.
         public static final int ic_launcher=0x7f02005c;
     }
     public static final class id {
-        public static final int action_about=0x7f06004c;
-        public static final int action_back=0x7f06004d;
+        public static final int action_about=0x7f060056;
+        public static final int action_back=0x7f060057;
         public static final int action_bar=0x7f06001c;
         public static final int action_bar_activity_content=0x7f060015;
         public static final int action_bar_container=0x7f06001b;
@@ -1008,8 +1008,8 @@ containing a value of this type.
         public static final int action_menu_divider=0x7f060016;
         public static final int action_menu_presenter=0x7f060017;
         public static final int action_mode_close_button=0x7f060024;
-        public static final int action_next=0x7f06004e;
-        public static final int action_settings=0x7f06004b;
+        public static final int action_next=0x7f060058;
+        public static final int action_settings=0x7f060055;
         public static final int activity_chooser_view_content=0x7f060025;
         public static final int always=0x7f06000b;
         public static final int beginning=0x7f060011;
@@ -1041,14 +1041,19 @@ containing a value of this type.
         public static final int never=0x7f060009;
         public static final int none=0x7f060010;
         public static final int normal=0x7f060000;
-        public static final int opt_boardsize_id=0x7f060044;
-        public static final int opt_mpr_id=0x7f060048;
-        public static final int opt_name=0x7f06004a;
-        public static final int opt_name_desc=0x7f060049;
-        public static final int opt_winlength_id=0x7f060046;
+        public static final int opt_boardsize_id=0x7f060045;
+        public static final int opt_mpr_id=0x7f06004b;
+        public static final int opt_name=0x7f06004e;
+        public static final int opt_name_desc=0x7f06004d;
+        public static final int opt_start=0x7f060051;
+        public static final int opt_start_me=0x7f060052;
+        public static final int opt_start_other=0x7f060053;
+        public static final int opt_start_random=0x7f060054;
+        public static final int opt_winlength_id=0x7f060048;
         public static final int progress_circular=0x7f060018;
         public static final int progress_horizontal=0x7f060019;
         public static final int radio=0x7f06002f;
+        public static final int scrollView1=0x7f060043;
         public static final int search_badge=0x7f060032;
         public static final int search_bar=0x7f060031;
         public static final int search_button=0x7f060033;
@@ -1063,12 +1068,17 @@ containing a value of this type.
         public static final int showCustom=0x7f060007;
         public static final int showHome=0x7f060004;
         public static final int showTitle=0x7f060006;
+        public static final int space1=0x7f060046;
+        public static final int space2=0x7f060049;
+        public static final int space3=0x7f06004c;
+        public static final int space4=0x7f06004f;
         public static final int split_action_bar=0x7f06001e;
         public static final int submit_area=0x7f060039;
         public static final int tabMode=0x7f060002;
-        public static final int textView1=0x7f060043;
-        public static final int textView2=0x7f060045;
-        public static final int textView3=0x7f060047;
+        public static final int textView1=0x7f060044;
+        public static final int textView2=0x7f060047;
+        public static final int textView3=0x7f06004a;
+        public static final int textView4=0x7f060050;
         public static final int title=0x7f06002b;
         public static final int top_action_bar=0x7f060020;
         public static final int up=0x7f060021;
@@ -1183,12 +1193,12 @@ containing a value of this type.
         public static final int back=0x7f0b0015;
         public static final int close=0x7f0b0010;
         public static final int close_text=0x7f0b0011;
-        public static final int game_noone=0x7f0b0036;
-        public static final int game_over=0x7f0b0034;
-        public static final int game_whowon=0x7f0b0035;
+        public static final int game_noone=0x7f0b0039;
+        public static final int game_over=0x7f0b0037;
+        public static final int game_whowon=0x7f0b0038;
         /**  Game Activity 
          */
-        public static final int game_won=0x7f0b0033;
+        public static final int game_won=0x7f0b0036;
         public static final int logo=0x7f0b0016;
         public static final int menu_achievements=0x7f0b0020;
         public static final int menu_local=0x7f0b001e;
@@ -1202,16 +1212,19 @@ containing a value of this type.
         public static final int no=0x7f0b0013;
         public static final int ok=0x7f0b0018;
         public static final int opt_boardsize_prompt=0x7f0b002d;
+        public static final int opt_bot=0x7f0b0034;
         public static final int opt_default=0x7f0b0031;
         public static final int opt_mpr_prompt=0x7f0b002f;
         public static final int opt_name=0x7f0b0030;
+        public static final int opt_random=0x7f0b0033;
+        public static final int opt_start=0x7f0b0032;
         /**  Opt Activity 
          */
         public static final int opt_subtitle=0x7f0b002c;
         public static final int opt_winlength_prompt=0x7f0b002e;
         /**  Pause Activity 
          */
-        public static final int pause_subtitle=0x7f0b0032;
+        public static final int pause_subtitle=0x7f0b0035;
         /**  Placeholder 
          */
         public static final int placeholder=0x7f0b001b;

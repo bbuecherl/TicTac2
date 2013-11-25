@@ -1,0 +1,66 @@
+package tk.agarsia.tictac2.controller;
+
+import android.app.Application;
+import android.content.Context;
+import android.os.Vibrator;
+
+public class Vibration {
+	// Patterns
+	public static final long[] CLICK = new long[] { 0, 20, 0 };
+	public static final long[] ERROR = new long[] { 0, 50, 10, 50, 0 };
+	public static final long[] WON = new long[] {0, 150,20,80,30,50,20,100,70,200,0};
+
+	/**
+	 * static instance of the vibrator
+	 */
+	private static Vibrator vibrator;
+
+	/**
+	 * Function to get or initialize the static instance of the vibrator service
+	 */
+	public static void init(Context context) {
+		vibrator = (Vibrator) context
+				.getSystemService(Application.VIBRATOR_SERVICE);
+	}
+
+	/**
+	 * Function to vibrate for a given amount of time
+	 * 
+	 * @param time
+	 *            time in ms
+	 */
+	public static void time(int time) {
+		if (vibrator != null && ApplicationControl.getBooleanPref("pref_vibrate"))
+			vibrator.vibrate(time);
+	}
+
+	/**
+	 * Function to loop vibrate a given pattern.
+	 * 
+	 * @param pattern
+	 *            pattern
+	 */
+	public static void loop(long[] pattern) {
+		if (vibrator != null && ApplicationControl.getBooleanPref("pref_vibrate"))
+			vibrator.vibrate(pattern, 0);
+	}
+
+	/**
+	 * Function to vibrate a pattern once.
+	 * 
+	 * @param pattern
+	 *            pattern
+	 */
+	public static void pattern(long[] pattern) {
+		if (vibrator != null && ApplicationControl.getBooleanPref("pref_vibrate"))
+			vibrator.vibrate(pattern, -1);
+	}
+
+	/**
+	 * Function to cancel current vibration.
+	 */
+	public static void cancel() {
+		if (vibrator != null)
+			vibrator.cancel();
+	}
+}

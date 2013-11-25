@@ -20,12 +20,18 @@ public class ApplicationControl {
 	private static Game game;
 	private static GameActivity act;
 	private static GameController controller;
-	
+	private static boolean isInit = false;
 	
 	
 	public static void init(Context context) {
+		isInit = true;
 		prefs = PreferenceManager.getDefaultSharedPreferences(context);
+		Vibration.init(context);
 		reinit();
+	}
+	
+	public static boolean isInit() {
+		return isInit;
 	}
 	
 	public static void reinit() {

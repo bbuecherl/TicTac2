@@ -12,7 +12,7 @@ public class TicTac2 extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_splash);
+		setContentView(R.layout.activity_splash);			
 		
 		//load preferences
 		PreferenceManager.setDefaultValues(this, R.xml.prefs, false);
