@@ -65,10 +65,15 @@ public class BoardView extends View {
 		paint.setAlpha(255);
 		paint.setTextAlign(Align.LEFT);
 		canvas.drawText(game.getPlayers()[1].getName(), 10, 50, paint);
+		if(game.getCurrentPlayerIndex()==1)
+			canvas.drawRect(0, 70, canvas.getWidth()/2, 75, paint);
+		
 		paint.setColor(you);
 		paint.setAlpha(255);
 		paint.setTextAlign(Align.RIGHT);
 		canvas.drawText(game.getPlayers()[2].getName(), canvas.getWidth()-10, 50, paint);
+		if(game.getCurrentPlayerIndex()==2)
+			canvas.drawRect(canvas.getWidth()/2, 70, canvas.getWidth(), 75, paint);
 	}
 
 	private void drawGrid(Canvas canvas, int offset) {

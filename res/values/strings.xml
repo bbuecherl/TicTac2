@@ -16,13 +16,17 @@
 	<string name="ok">OK</string>
 	<string name="share">Share</string>
 	
+	<!-- TODO -->
+	<string name="todo">This feature is coming soon&#8230;</string>
+	
     <!-- Placeholder -->
     <string name="placeholder">{Placeholder}</string>
     
     <!-- Menu Activity -->
     <string name="menu_subtitle">Menu</string>
     <string name="menu_singleplayer">Singleplayer</string>
-    <string name="menu_multiplayer">Multiplayer</string>
+    <string name="menu_local">Local Multiplayer</string>
+    <string name="menu_online">Online Multiplayer</string>
     <string name="menu_achievements">Achievements</string>
     <string name="menu_ranks">Ranks</string>
 
@@ -70,6 +74,8 @@
         <item>2 Marks</item>
         <item>3 Marks</item>
     </string-array>
+    <string name="opt_name">Guest players name</string>
+    <string name="opt_default">Guest</string>
     
     <!-- Pause Activity -->
     <string name="pause_subtitle">Paused</string>

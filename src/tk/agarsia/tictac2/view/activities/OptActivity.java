@@ -5,6 +5,7 @@ import tk.agarsia.tictac2.controller.ApplicationControl;
 import tk.agarsia.tictac2.controller.ApplicationControl.GameType;
 import tk.agarsia.tictac2.model.player.AbstractPlayer;
 import tk.agarsia.tictac2.model.player.bot.BotRandom;
+import tk.agarsia.tictac2.model.player.human.HumanLocal;
 import tk.agarsia.tictac2.view.MainActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Spinner;
 
 
@@ -33,10 +35,12 @@ public class OptActivity extends MainActivity {
 			back();
 			break;
 		case SINGLEPLAYER:
-			
+			findViewById(R.id.opt_name_desc).setVisibility(View.GONE);
+			findViewById(R.id.opt_name_desc).setVisibility(View.GONE);
 			break;
 		case MULTIPLAYER:
-			
+			findViewById(R.id.opt_name_desc).setVisibility(View.VISIBLE);
+			findViewById(R.id.opt_name_desc).setVisibility(View.VISIBLE);			
 			break;
 		}
 	}
@@ -82,16 +86,26 @@ public class OptActivity extends MainActivity {
 		int mpt = 1+mpr.getSelectedItemPosition();
 		int spi = 1;
 		
-		ApplicationControl.getGame().initModel(interval, boardDim, winLength, mpt, spi);
-		
+		AbstractPlayer player2;
+		//init other player
 		if(ApplicationControl.getGameType()==GameType.SINGLEPLAYER) {
 			//start singleplayer
-			AbstractPlayer player2 = new BotRandom(ApplicationControl.getGame());
-			ApplicationControl.getGame().setPlayers(ApplicationControl.getMe(), player2);
-			ApplicationControl.start(this,GameActivity.class);
+			 player2 = new BotRandom(ApplicationControl.getGame());
 		} else {
-			ApplicationControl.start(this,MultiNameActivity.class);
+			//start guest player
+			String name = ((EditText) findViewById(R.id.opt_name)).getText().toString();
+			if(name=="")
+				name = getString(R.string.opt_default);
+			
+			player2 = new HumanLocal(name,ApplicationControl.getGame());
 		}
+		
+		//TODO add start index
+
+		ApplicationControl.getGame().initModel(interval, boardDim, winLength, mpt, spi);
+
+		ApplicationControl.getGame().setPlayers(ApplicationControl.getMe(), player2);
+		ApplicationControl.start(this,GameActivity.class);
 	}
 
 	@Override

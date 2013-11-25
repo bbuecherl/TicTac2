@@ -18,11 +18,17 @@
         android:layout_height="wrap_content" />
    
     <Button
-        android:id="@+id/menu_multiplayer"
-        android:text="@string/menu_multiplayer"
+        android:id="@+id/menu_local"
+        android:text="@string/menu_local"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
    
+    <Button
+        android:id="@+id/menu_online"
+        android:text="@string/menu_online"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    
    <Button
         android:id="@+id/menu_achievements"
         android:text="@string/menu_achievements"
