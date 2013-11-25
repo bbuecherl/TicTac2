@@ -18,15 +18,15 @@ public class DemoMain {
 		Game g = new Game();		
 		g.initModel(0, 3, 3, 1, 1);	//int interval, int boardDim, int winLength, int marksPerTurn, int startPlayerIndex	
 		
-		AbstractPlayer player1 = new BotSmart(g);//HumanLocal("Fritz", g);
-		AbstractPlayer player2 = new BotRandom(g); //HumanLocal("Julia", g);
+		AbstractPlayer player1 = new BotRandom(g);
+		AbstractPlayer player2 = new BotRandom(g);
 		g.setPlayers(player1, player2);		
 		g.start();
 		
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));			
 		String input = "";		
 		
-		while(g.getWinner() == null && g.getGameRunning()){
+		while(g.getGameRunning()){
 			input = br.readLine();		
 			g.handleLocalPlayerClick(Integer.parseInt(input.split(" ")[0]), Integer.parseInt(input.split(" ")[1])); //expects exact format "row column" so for instance "0 2"		
 		}

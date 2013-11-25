@@ -85,9 +85,7 @@ public class Game extends Thread implements GameInterface {
 	public boolean handleLocalPlayerClick(int row, int column) {
 		if(awaitingClick){		
 			boolean temp = currentPlayer.myChoice(row, column);	
-			if(temp)
-				awaitingClick = true;	
-			else
+			if(!temp)
 				System.out.println("field already taken, choose another one");
 			return temp;
 		}		
@@ -127,6 +125,7 @@ public class Game extends Thread implements GameInterface {
 					
 					currentPlayer = players[currentPlayerIndex];
 				}
+				awaitingClick = false;
 				currentPlayer.myTurn();
 			}
 			else

@@ -114,12 +114,13 @@ public class Board {
 				if(fields2D[i][j].getValue() == 0)
 					collect.add(fields2D[i][j]);
 		return collect;*/
+		
 		return fields2D[0][0].getFreeFields();
 	}
 	
 	
-	public int getFreeFieldCount(){
-		return getFreeFields().size() - 1;
+	public int getFreeFieldCount(){		
+		return getFreeFields().size();
 	}
 	
 	public boolean full(){
@@ -127,7 +128,7 @@ public class Board {
 	}
 	
 	public void placeRandomly(int currentPlayerIndex) {
-		int choice = 1 + (int) (new Random().nextDouble() * getFreeFieldCount());
+		int choice = (int) (new Random().nextDouble() * getFreeFieldCount());	
 		getFreeFields().get(choice).setValue(currentPlayerIndex);
 	}
 	
