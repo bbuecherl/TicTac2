@@ -29,12 +29,19 @@ public class BoardView extends View {
 		this.setOnTouchListener(listener);
 
 		paint = new Paint();
-		paint.setTextSize(20);
+		paint.setTextSize(25);
 		
 		me = Color.parseColor(ApplicationControl.getStringPref("pref_color_me","#007200"));
 		you = Color.parseColor(ApplicationControl.getStringPref("pref_color_other","#720000"));
 	}
-
+	
+	@Override
+	protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+		super.onLayout(changed, left, top, right, bottom);
+		//redraw
+		invalidate();
+	}
+	
 	@Override
 	protected void onDraw(Canvas canvas) {
 		int offset = 100;
@@ -57,11 +64,11 @@ public class BoardView extends View {
 		paint.setColor(me);
 		paint.setAlpha(255);
 		paint.setTextAlign(Align.LEFT);
-		canvas.drawText(game.getPlayers()[1].getName(), 0, 30, paint);
+		canvas.drawText(game.getPlayers()[1].getName(), 10, 50, paint);
 		paint.setColor(you);
 		paint.setAlpha(255);
 		paint.setTextAlign(Align.RIGHT);
-		canvas.drawText(game.getPlayers()[2].getName(), canvas.getWidth(), 30, paint);
+		canvas.drawText(game.getPlayers()[2].getName(), canvas.getWidth()-10, 50, paint);
 	}
 
 	private void drawGrid(Canvas canvas, int offset) {
