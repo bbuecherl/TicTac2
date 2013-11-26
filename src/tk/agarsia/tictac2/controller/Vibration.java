@@ -4,19 +4,38 @@ import android.app.Application;
 import android.content.Context;
 import android.os.Vibrator;
 
+/**
+ * Class to enable vibration support.
+ * 
+ * This controller requires initialisation by ApplicationControl.init().
+ * It enables the phone to vibrate in patterns and to cancel vibration.
+ * This requires the android.permission.VIBRATE permission.
+ * 
+ * @author agarsia (Bernhard Bücherl)
+ * @version 1.0
+ * @since 1.0
+ */
 public class Vibration {
-	// Patterns
-	public static final long[] CLICK = new long[] { 0, 20, 0 };
-	public static final long[] ERROR = new long[] { 0, 50, 10, 50, 0 };
-	public static final long[] WON = new long[] {0, 150,20,80,30,50,20,100,70,200,0};
-
 	/**
-	 * static instance of the vibrator
+	 * click vibration pattern {0,20,0}
 	 */
+	public static final long[] CLICK = new long[] { 0, 20, 0 };
+	/**
+	 * error vibration pattern {0,50,10,50,0}
+	 */
+	public static final long[] ERROR = new long[] { 0, 50, 10, 50, 0 };
+	/**
+	 * game end vibration pattern {0,150,20,80,30,50,20,100,70,200,0}
+	 */
+	public static final long[] END = new long[] {0, 150,20,80,30,50,20,100,70,200,0};
+
+	// static instance of the vibrator
 	private static Vibrator vibrator;
 
 	/**
-	 * Function to get or initialize the static instance of the vibrator service
+	 * Function to initialize the static instance of the vibrator service
+	 * 
+	 * @param context context object of the application
 	 */
 	public static void init(Context context) {
 		vibrator = (Vibrator) context

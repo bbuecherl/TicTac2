@@ -9,10 +9,27 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 
+/**
+ * Class for the menu activity
+ * 
+ * This activity implements MainActivity, displays the (TODO logo and) menu and
+ * implements the menu button actions.
+ * The layout file is located at res/layout/activity_menu.xml
+ * 
+ * @author agarisa (Bernhard Bücherl)
+ * @version 1.0
+ * @since 1.0
+ */
 public class MenuActivity extends MainActivity {
 
+	// todo message
 	private AlertDialog.Builder todo;
 
+	/**
+	 * Custom constructor
+	 * 
+	 * Initializes with enabled actions and the menu subtitle.
+	 */
 	public MenuActivity() {
 		super(true, R.string.menu_subtitle);
 	}
@@ -22,7 +39,7 @@ public class MenuActivity extends MainActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_menu);
 
-		// for unimplemented buttons
+		// 'todo' alert dialog for unimplemented features
 		todo = new AlertDialog.Builder(this).setMessage(
 				getString(R.string.todo)).setNeutralButton(
 				getString(R.string.ok), new DialogInterface.OnClickListener() {
@@ -31,8 +48,10 @@ public class MenuActivity extends MainActivity {
 					}
 				});
 
+		// initialize the game type
 		ApplicationControl.newGame(GameType.INIT);
 
+		// set this activity as click listener for the menu buttons
 		findViewById(R.id.menu_singleplayer).setOnClickListener(this);
 		findViewById(R.id.menu_local).setOnClickListener(this);
 		findViewById(R.id.menu_online).setOnClickListener(this);
@@ -43,15 +62,15 @@ public class MenuActivity extends MainActivity {
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.menu_singleplayer:
+		case R.id.menu_singleplayer: // singleplayer button was pressed
 			ApplicationControl.newGame(GameType.SINGLEPLAYER);
 			ApplicationControl.start(this, OptActivity.class);
 			break;
-		case R.id.menu_local:
+		case R.id.menu_local: // local multiplayer button was pressed
 			ApplicationControl.newGame(GameType.MULTIPLAYER);
 			ApplicationControl.start(this, OptActivity.class);
 			break;
-		default:
+		default: // all other features are not implemented yet
 			todo.show();
 			break;
 		}

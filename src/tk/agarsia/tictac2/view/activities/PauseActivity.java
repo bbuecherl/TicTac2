@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+//TODO this still needs to be implemented and included into the GameActivity...
 public class PauseActivity extends MainActivity {
 
 	public PauseActivity() {
