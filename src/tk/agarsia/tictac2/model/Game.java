@@ -21,77 +21,52 @@ public class Game extends Thread implements GameInterface {
 	private boolean gameRunning = false;
 	private boolean awaitingClick = false;
 	private AbstractPlayer winner = null;
-		
+	
 	public Game(){
 		players = new AbstractPlayer[3];
 		players[0] = null;
 	}
 	
+	
+	/**
+	 * Function to get AbstractPlayer.
+	 *            
+	 * 		@return returns a player object
+	 * 
+	 */
 	public AbstractPlayer[] getPlayers() {
 		return players;
 	}
 	
+	/**
+	 * Function to get the game board.
+	 *     
+	 * 		@return returns an board object
+	 *          
+	 */
 	public Board getBoard(){
 		return board;
 	}
 	
-	@Override
-	public void run(){
-		while(gameRunning){
-			try {
-				Thread.sleep(1);
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
-	
-	@Override
-	public void initModel(int interval, int boardDim, int winLength, int marksPerTurn, int startPlayerIndex) {
-		this.interval = interval;
-		this.boardDim = boardDim;
-		this.winLength = winLength;
-		this.marksPerTurn = marksPerTurn;
-		this.startPlayerIndex = startPlayerIndex;
-		currentPlayerIndex = startPlayerIndex;
-		board = new Board(boardDim, winLength);
-	}
-	
-	@Override
-	public void setPlayers(AbstractPlayer player1, AbstractPlayer player2){
-		players[1] = player1;
-		players[2] = player2;	
-	}
-	
-	@Override
-	public void start(){	
-		gameRunning = true;
-		System.out.println("game started with players: " + players[1].getName() + " and " + players[2].getName());
-		
-		System.out.println(board.show(true));
-		
-		currentPlayer = players[startPlayerIndex];
-		currentPlayer.myTurn();
-		super.start();
-	}
-	
-	
+
+	/**
+	 * Function to awaiting a click from current player.
+	 */
 	public void awaitingClick(){
 		System.out.println("awaiting click from " + currentPlayer.getName());
 		awaitingClick = true;
 	}
 	
-	@Override
-	public boolean handleLocalPlayerClick(int row, int column) {
-		if(awaitingClick){		
-			boolean temp = currentPlayer.myChoice(row, column);	
-			if(!temp)
-				System.out.println("field already taken, choose another one");
-			return temp;
-		}		
-		return false;
-	}
 	
+	/**
+	 * Function to mark the current placement.
+	 * 
+	 * 		@param row
+	 * 		@param column
+	 * 
+	 * 		@return returns a true value if mark was correct, else value is false.
+	 * 
+	 */
 	public boolean placeMark(int row, int column){
 		
 		if(row == -1 && column == -1){
@@ -107,7 +82,10 @@ public class Game extends Thread implements GameInterface {
 		}
 	}
 
-	
+	/**
+	 * Function to check if mark placement is complete and check if there is already a winner.
+	 * 
+	 */
 	private void markComplete(){
 		System.out.println("board after mark from " + currentPlayer.getName());
 		System.out.println(board.show(true));
@@ -140,56 +118,200 @@ public class Game extends Thread implements GameInterface {
 		
 	}
 	
-	
+	/**
+	 * Function to check if game board is finished.
+	 * 
+	 *     @return returns the status if the game is still running.
+	 * 
+	 */
 	public boolean getGameRunning(){
 		return gameRunning;
 	}
 	
+	
+	/**
+	 * Function to show current game board.
+	 * 
+	 *     @return returns an string that shows the current game board.
+	 * 
+	 */
+	public String showBoard() {
+		return board.show(true);
+	}
+	
+	/**
+	 * Function to run the application.
+	 * 
+	 */
+	
+	@Override
+	public void run(){
+		while(gameRunning){
+			try {
+				Thread.sleep(1);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	/**
+	 * Funktion to handle local player click
+	 * 
+	 * @param row
+	 * @param column
+	 * 
+	 * @return returns a true oder false value for the awaiting click.
+	 */
+	@Override
+	public boolean handleLocalPlayerClick(int row, int column) {
+		if(awaitingClick){		
+			boolean temp = currentPlayer.myChoice(row, column);	
+			if(!temp)
+				System.out.println("field already taken, choose another one");
+			return temp;
+		}		
+		return false;
+	}
+	
+	/**
+	 * Function to initialize options for the board to play.
+	 * 
+	 * @param interval
+	 * 			in ms.
+	 * @param boardDim
+	 * 			set board dimension.
+	 * @param winLength
+	 * 			set win Length.
+	 * @param marksPerTurn
+	 * 			set how many marks per round are allowed.
+	 * @param startPlayerIndex
+	 * 			which player starts.
+	 * 
+	 */
+	@Override
+	public void initModel(int interval, int boardDim, int winLength, int marksPerTurn, int startPlayerIndex) {
+		this.interval = interval;
+		this.boardDim = boardDim;
+		this.winLength = winLength;
+		this.marksPerTurn = marksPerTurn;
+		this.startPlayerIndex = startPlayerIndex;
+		currentPlayerIndex = startPlayerIndex;
+		board = new Board(boardDim, winLength);
+	}
+	
+	/**
+	 * Function to initialize Player1 and Player 2.
+	 *    
+	 *            @param player1
+	 *            			Set an AbspractPlayer 1.
+	 *            @param player2
+	 *            			Set an AbspractPlayer 2.
+	 *            
+	 */
+	@Override
+	public void setPlayers(AbstractPlayer player1, AbstractPlayer player2){
+		players[1] = player1;
+		players[2] = player2;	
+	}
+	
+	/**
+	 * Function to start a game.
+	 */
+	@Override
+	public void start(){	
+		gameRunning = true;
+		System.out.println("game started with players: " + players[1].getName() + " and " + players[2].getName());
+		
+		System.out.println(board.show(true));
+		
+		currentPlayer = players[startPlayerIndex];
+		currentPlayer.myTurn();
+		super.start();
+	}
+	
+	/**
+	 * Function to reset the Player who starts and the game board.
+	 */
 	@Override
 	public void reset() {
 		currentPlayerIndex = startPlayerIndex;
 		board.reset();
 	}
 
-	public String showBoard() {
-		return board.show(true);
-	}
-
+	/**
+	 * Function to get the board dimensions.
+	 * 
+	 * @return returns the current game board dimension.
+	 */
 	@Override
 	public int getBoardDim() {
 		return boardDim;
 	}
 
+	/**
+	 * Function to get win length.
+	 * 
+	 * @return returns the set win Length.
+	 */
 	@Override
 	public int getWinLength() {
 		return winLength;
 	}
 
+	/**
+	 * Function to get how many marks per round are allowed.
+	 * 
+	 * @return returns the set marks allowed per turn.
+	 */
 	@Override
 	public int getMarksPerTurn() {
 		return marksPerTurn;
 	}
 
+	/**
+	 * Function to get the player to start the game.
+	 * 
+	 * @return returns the player index who start the game.
+	 */
 	@Override
 	public int getStartPlayerIndex() {
 		return startPlayerIndex;
 	}
 
+	/**
+	 * Function to hold the game.
+	 */
 	@Override
 	public void pause() {}
 
 
+	/**
+	 * Function to get the current player index.
+	 * 
+	 * @return returns the current player index.
+	 */
 	@Override
 	public int getCurrentPlayerIndex() {
 		return currentPlayerIndex;
 	}
 
 
+	/**
+	 * Function to get the winner.
+	 * 
+	 * @return returns the winner.
+	 */
 	@Override
 	public AbstractPlayer getWinner() {
 		return winner;
 	}
 
+	/**
+	 * Function to get current game history.
+	 * 
+	 * @return returns a string of the board history.
+	 */
 	@Override
 	public String getGameRecording() {
 		return board.getHistory();

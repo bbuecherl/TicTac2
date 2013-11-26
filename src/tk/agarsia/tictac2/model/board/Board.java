@@ -13,7 +13,13 @@ public class Board {
 	//protected ArrayList<Island> islands = new ArrayList<Island>();
 	protected Island winningIsland;
 	
-	
+	/**
+	 * Function to set init game board.
+	 * 
+	 * @param boardDim
+	 * @param winLength
+	 * 
+	 */
 	public Board(int boardDim, int winLength){
 		this.boardDim = boardDim;
 		this.winLength = winLength;
@@ -21,6 +27,9 @@ public class Board {
 		reset();
 	}
 	
+	/**
+	 * Copy Constructor of Board.
+	 */
 	public Board(Board board){ // copy-constructor
 		this.boardDim = board.boardDim;
 		this.winLength = board.winLength;
@@ -35,7 +44,9 @@ public class Board {
 				fields2D[i][j].setValue(board.getField(i, j).getValue());	
 	}
 
-	
+	/**
+	 * Function to reset game board.
+	 */
 	public void reset(){		
 		history = boardDim + "x" + boardDim + " field:\n";
 		fields2D = new Field[boardDim][boardDim];	
@@ -47,6 +58,9 @@ public class Board {
 				System.out.println(fields2D[i][j].show()); // proof
 	}
 	
+	/**
+	 * Function to add a field to the game board.
+	 */
 	public void addField(Field field){
 		fields2D[field.getRow()][field.getColumn()] = field;
 		//System.out.println("added " + field.getPathPos() + " at " + field.getRow() + ", " + field.getColumn());
