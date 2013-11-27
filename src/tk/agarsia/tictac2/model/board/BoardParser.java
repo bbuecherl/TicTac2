@@ -1,25 +1,26 @@
 package tk.agarsia.tictac2.model.board;
 
 public class BoardParser {
-	public static boolean testForEmpty(byte[] arr) {
+	
+	public static boolean testForEmpty(int[] arr) {
 		// 'for(int i=0;i<arr.len;i++)' takes 220~240ns
-		// iterating is slightly faster with 190~200ns
-		for (byte b : arr)
+		// iterating is slightly faster with 170~190ns
+		for (int b : arr)
 			if (b == 0)
 				return true;
 
 		return false;
 	}
 
-	public static byte testBoardForWinner(byte[] arr, int len, int wLen) {
-		// this test method executes in 140~160ns
+	public static int testBoardForWinner(int[] arr, int len, int wLen) {
+		// this test method executes in 130~140ns
 		// could be slightly faster by iterating, but we currently need x & y
 		// values
 
 		// actually i have no clue, why this win test is so much faster than the
 		// simple testForEmpty() method
 
-		byte tfh, tfb, tfv, tfs;
+		int tfh, tfb, tfv, tfs;
 
 		for (int x = 0; x < len; x++) {
 			for (int y = 0; y < len; y++) {
@@ -71,7 +72,7 @@ public class BoardParser {
 	
 	public static void main(String...args) {
 		//need to test all cases...
-		byte[] arr6 = new byte[] {
+		int[] arr6 = new int[] {
 				2,2,1,1,2,2,
 				1,1,2,2,1,1,
 				2,2,1,1,2,2, 
@@ -79,7 +80,7 @@ public class BoardParser {
 				2,2,1,1,2,2,
 				1,1,2,2,1,1
 		};
-		byte[] arr6b = new byte[] {
+		int[] arr6b = new int[] {
 				1,1,2,2,1,1,
 				2,2,1,1,2,2, 
 				1,1,2,2,1,1,
@@ -100,12 +101,14 @@ public class BoardParser {
 		System.out.println("Starting performance tests:\ntest for winner");
 		int times = 10000000;
 		int t2 = times/2;
+		int size = 6;
+		int wLen = 3;
 		long start = System.nanoTime();
 
 		for(int j = 0; j<t2; j++) {
-				testBoardForWinner(arr6,6,3);
+				testBoardForWinner(arr6,size,wLen);
 				//testing two different arrays to prevent caching...
-				testBoardForWinner(arr6b,6,3);
+				testBoardForWinner(arr6b,size,wLen);
 		}
 		
 		long total = (System.nanoTime()-start);
