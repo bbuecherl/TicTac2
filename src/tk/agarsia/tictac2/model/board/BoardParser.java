@@ -1,298 +1,128 @@
 package tk.agarsia.tictac2.model.board;
 
 public class BoardParser {
+	public static boolean testForEmpty(byte[] arr) {
+		// 'for(int i=0;i<arr.len;i++)' takes 220~240ns
+		// iterating is slightly faster with 190~200ns
+		for (byte b : arr)
+			if (b == 0)
+				return true;
 
-
-	public static int testBoardForWinner9(int[] arr, int len, int wLen) {
-		int count = 0;
-		
-		for (int x = 0; x < len; x++) {
-			// horizontal testing
-			for (int y = 0; y < len - (wLen - 1); y++) {
-				int tf = arr[y + x * len];
-				//System.out.println("(" + x + "," + y + ") " + tf);
-				if (tf != 0) {
-					for (int z = 1; z <= wLen; z++) {
-						count++;
-						//System.out.println("- (" + x + "," + y + "," + z + ") "
-						//		+ tf);
-						if (wLen == z)
-							return tf;
-						else if (wLen > z && arr[y + x * len + z] != tf)
-							break;
-					}
-				}
-			}
-
-			if (x < len - (wLen - 1)) {
-				// vertical testing
-				for (int y = 0; y < len; y++) {
-					int tf = arr[y + x * len];
-					//System.out.println("(" + x + "," + y + ") " + tf);
-					if (tf != 0) {
-						for (int z = 1; z <= wLen; z++) {
-							count++;
-						//	System.out.println("- (" + x + "," + y + "," + z
-						//			+ ") " + tf);
-							if (wLen == z)
-								return tf;
-							else if (wLen > z && arr[y + (x + z) * len] != tf)
-								break;
-						}
-					}
-				}
-
-				// diagonals top left
-				for (int y = 0; y < len - (wLen - 1); y++) {
-					int tf = arr[y + x * len];
-					//System.out.println("(" + x + "," + y + ") " + tf);
-					if (tf != 0) {
-						for (int z = 1; z <= wLen; z++) {
-							count++;
-						//	System.out.println("- (" + x + "," + y + "," + z
-						//			+ ") " + tf);
-							if (wLen == z)
-								return tf;
-							else if (wLen > z
-									&& arr[y + (x + z) * len + z] != tf)
-								break;
-						}
-					}
-				}
-
-				// diagonals top right
-				for (int y = len - 1; y > len - wLen; y--) {
-					int tf = arr[y + x * len];
-					//System.out.println("(" + x + "," + y + ") " + tf);
-					if (tf != 0) {
-						for (int z = 1; z <= wLen; z++) {
-							count++;
-						//	System.out.println("- (" + x + "," + y + "," + z
-						//			+ ") " + tf);
-							if (wLen == z)
-								return tf;
-							else if (wLen > z
-									&& arr[y + (x + z) * len - z] != tf)
-								break;
-						}
-					}
-				}
-			}
-		}
-
-		System.out.println("------"+count);
-
-		return 0;
+		return false;
 	}
-	
-	public static int testBoardForWinner5(int[] arr, int len, int wLen) {
-		int count = 0;
-		int tfh,tfb,tfv,tfs;
-		
-		for (int x = 0; x < len; x++) {
-			for (int y = 0; y < len - (wLen - 1); y++) {
-				tfh = arr[y + x * len]; //tfh for horizontals
-				tfb = arr[y + x * len]; //tfb for backslash
-				
-				if (tfh != 0) { //abort if field are free (tfh==tfb==0)
-					for (int z = 1; z <= wLen; z++) {
-						System.out.println("- (" + x + "," + y + "," + z + ") "
-								+ tfh+ " - "+tfb);
-						
-						if(tfh!=0) //horizontal
-							if (wLen == z)
-								return tfh;
-							else if (wLen > z && arr[y + x * len + z] != tfh) {
-								count++;
-								tfh = 0;
-							}
-						
-						if (x < len - (wLen - 1)&&tfb!=0) //backslash
-							if (wLen == z)
-								return tfb;
-							else if (wLen > z
-									&& arr[y + (x + z) * len + z] != tfb) {
-								count++;
-								tfb = 0;
-							}
-					}
-				}
-			}
 
-			if (x < len - (wLen - 1)) {
-				// vertical testing
-				for (int y = 0; y < len; y++) {
-					tfv = arr[y + x * len]; //for vertical
-					tfs = arr[y + x * len]; //for slash
-					
-					if (tfv != 0) { //free field no need to test (tfv==tfs==0)
-						for (int z = 1; z <= wLen; z++) {
-							System.out.println("- (" + x + "," + y + "," + z
-									+ ") " + tfv);
-							
-							//vertical
-							if(tfv!=0)
-								if (wLen == z)
-									return tfv;
-								else if (wLen > z && arr[y + (x + z) * len] != tfv) {
-									count++;
-									tfv=0;
-								}
-									
-							//slash
-							if(y>len-wLen&&y<len&&tfs!=0)
-								if (wLen == z)
-									return tfs;
-								else if (wLen > z
-										&& arr[y + (x + z) * len - z] != tfs) {
-									count++;
-									tfs=0;
-								}
-						}
-					}
-				}
+	public static byte testBoardForWinner(byte[] arr, int len, int wLen) {
+		// this test method executes in 140~160ns
+		// could be slightly faster by iterating, but we currently need x & y
+		// values
 
-			}
-		}
+		// actually i have no clue, why this win test is so much faster than the
+		// simple testForEmpty() method
 
-		System.out.println("------"+count);
-
-		return 0;
-	}
-	
-	public static int testBoardForWinner(int[] arr, int len, int wLen) {
-		int count = 0;
-		int tfh, tfb, tfv, tfs;
+		byte tfh, tfb, tfv, tfs;
 
 		for (int x = 0; x < len; x++) {
 			for (int y = 0; y < len; y++) {
-				tfv = arr[y + x * len]; // tfv for vertical
-				tfs = arr[y + x * len]; // tfs for slash
-				tfh = arr[y + x * len]; // tfh for horizontals
-				tfb = arr[y + x * len]; // tfb for backslash
+				// initialize parent values...
+				tfv = arr[y + x * len]; 
+				tfs = arr[y + x * len]; 
+				tfh = arr[y + x * len]; 
+				tfb = arr[y + x * len]; 
 
-				if (y < len - (wLen - 1) && tfh != 0) { // abort if field are
-														// free (tfh==tfb==0)
-					for (int z = 1; z <= wLen; z++) {
-						//System.out.println("- (" + x + "," + y + "," + z + ") "
-						//		+ tfh + " - " + tfb);
-
-						if (tfh != 0) // horizontal
-							if (wLen == z)
-								return tfh;
-							else if (wLen > z && arr[y + x * len + z] != tfh) {
-								count++;
+				if (tfh != 0) { // abort if field is free (no testing required)
+					for (int z = 1; z < wLen; z++) {
+						// test horizontal
+						if (y < len - (wLen - 1)&&tfh != 0 && arr[y + x * len + z] != tfh)
 								tfh = 0;
-							}
 
-						if (x < len - (wLen - 1) && tfb != 0) // backslash
-							if (wLen == z)
-								return tfb;
-							else if (wLen > z
-									&& arr[y + (x + z) * len + z] != tfb) {
-								count++;
+						
+						// test diagonal backslash
+						if (y < len - (wLen - 1)&&x < len - (wLen - 1) && tfb != 0 && arr[y + (x + z) * len + z] != tfb)
 								tfb = 0;
-							}
-					}
-				}
-
-				if (x < len - (wLen - 1) && tfv != 0) { // free field no
-														// need to test
-														// (tfv==tfs==0)
-					for (int z = 1; z <= wLen; z++) {
-						//System.out.println("- (" + x + "," + y + "," + z + ") "
-						//		+ tfv);
-
-						// vertical
-						if (tfv != 0)
-							if (wLen == z)
-								return tfv;
-							else if (wLen > z && arr[y + (x + z) * len] != tfv) {
-								count++;
+					
+						
+						// test vertical
+						if (x < len - (wLen - 1) && tfv != 0 && arr[y + (x + z) * len] != tfv)
 								tfv = 0;
-							}
+						
 
-						// slash TODO debug
-						if (y > len - wLen && y < len && tfs != 0)
-							if (wLen == z)
-								return tfs;
-							else if (wLen > z
-									&& arr[y + (x + z) * len - z] != tfs) {
-								count++;
+						// test diagonal slash
+						if (x < len - (wLen - 1) && y >= len - wLen && y < len && tfs != 0 && arr[y + (x + z) * len - z] != tfs)
 								tfs = 0;
-							}
 					}
+					
+					//output the winner if we got one
+					if(tfv!=0)
+						return tfv;
+					if(tfs!=0)
+						return tfs;
+					if(tfh!=0)
+						return tfh;
+					if(tfb!=0)
+						return tfb;
 				}
 			}
 		}
 
-		System.out.println("------" + count);
-
+		//we have no winner :(
 		return 0;
 	}
 
 	
 	public static void main(String...args) {
-		int[] arr = new int[] {
-						0,1,2,2, 
-						1,1,0,1, 
-						2,0,2,1, 
-						2,0,0,1
-				};
-
-		int[] arr2 = new int[] {
-				0,1,0,0,1,2,
-				1,1,2,2,1,0,
-				1,2,1,1,0,2, 
-				0,1,2,0,1,2,
-				0,1,2,1,1,0,
-				1,2,1,1,2,2
-		};
-		
-
-		int[] arr3 = new int[] {
+		//need to test all cases...
+		byte[] arr6 = new byte[] {
 				2,2,1,1,2,2,
 				1,1,2,2,1,1,
-				2,2,0,0,2,2, 
-				1,0,1,1,0,1,
-				2,2,1,0,2,2,
+				2,2,1,1,2,2, 
+				1,1,2,2,1,1,
+				2,2,1,1,2,2,
 				1,1,2,2,1,1
 		};
-
-		int[] arr4 = new int[] {
+		byte[] arr6b = new byte[] {
+				1,1,2,2,1,1,
+				2,2,1,1,2,2, 
+				1,1,2,2,1,1,
 				2,2,1,1,2,2,
 				1,1,2,2,1,1,
-				2,2,0,0,2,2, 
-				1,0,1,0,1,1,
-				2,2,0,1,2,2,
-				1,0,1,2,1,1
+				2,2,1,1,2,2
 		};
 
-		int[] arr5 = new int[] {
-				2,2,1,1,2,2,
-				1,1,2,2,1,1,
-				2,2,0,0,2,2, 
-				1,0,1,0,0,1,
-				2,2,0,0,1,2,
-				1,0,2,1,0,1
-		};
-
-
+		System.out.println("Test Board: (Board requires resolving all test cases)");
+		System.out.println("2 2 1 1 2 2       1 1 2 2 1 1");
+		System.out.println("1 1 2 2 1 1       2 2 1 1 2 2");
+		System.out.println("2 2 1 1 2 2  and  1 1 2 2 1 1");
+		System.out.println("1 1 2 2 1 1       2 2 1 1 2 2");
+		System.out.println("2 2 1 1 2 2       1 1 2 2 1 1");
+		System.out.println("1 1 2 2 1 1       2 2 1 1 2 2");
+		
+		
+		System.out.println("Starting performance tests:\ntest for winner");
+		int times = 10000000;
+		int t2 = times/2;
 		long start = System.nanoTime();
-		System.out.println(testBoardForWinner9(arr,4,3));
-		System.out.println(testBoardForWinner9(arr2,6,3));
-		System.out.println(testBoardForWinner9(arr3,6,3));
-		System.out.println((System.nanoTime()-start)+"ns");
 
-		System.out.println("\n\n=========================================================\n");
-
+		for(int j = 0; j<t2; j++) {
+				testBoardForWinner(arr6,6,3);
+				//testing two different arrays to prevent caching...
+				testBoardForWinner(arr6b,6,3);
+		}
+		
+		long total = (System.nanoTime()-start);
+		System.out.println();
+		System.out.println("tested "+times+ "times in "+total+"ns, resulting an avarage of "+total/times+"ns per test!");
+		
+		System.out.println("\ntest for empty fields");
 		start = System.nanoTime();
-		System.out.println(testBoardForWinner(arr,4,3));
-		System.out.println(testBoardForWinner(arr2,6,3));
-		System.out.print("Problematic case: ");
-		System.out.println(testBoardForWinner(arr3,6,3));
-		System.out.println(testBoardForWinner(arr4,6,3));
-		System.out.println(testBoardForWinner(arr5,6,3));
-		System.out.println((System.nanoTime()-start)+"ns");
+
+		for(int j = 0; j<t2; j++) {
+				testForEmpty(arr6);
+				//testing two different arrays to prevent caching...
+				testForEmpty(arr6b);
+		}
+		
+		total = (System.nanoTime()-start);
+		System.out.println();
+		System.out.println("tested "+times+ "times in "+total+"ns, resulting an avarage of "+total/times+"ns per test!");
 	}
 }
