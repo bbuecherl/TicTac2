@@ -891,10 +891,6 @@ containing a value of this type.
          */
         public static final int abc_search_view_text_min_width=0x7f09000c;
         /**  Default screen margins, per the Android Design guidelines. 
-
-         Customize dimensions originally defined in res/values/dimens.xml (such as
-         screen margins) for sw720dp devices (e.g. 10" tablets) in landscape here.
-    
          */
         public static final int activity_horizontal_margin=0x7f090011;
         public static final int activity_vertical_margin=0x7f090012;
@@ -1192,12 +1188,12 @@ containing a value of this type.
         public static final int back=0x7f0b0015;
         public static final int close=0x7f0b0010;
         public static final int close_text=0x7f0b0011;
-        public static final int game_noone=0x7f0b0039;
-        public static final int game_over=0x7f0b0037;
-        public static final int game_whowon=0x7f0b0038;
+        public static final int game_noone=0x7f0b0038;
+        public static final int game_over=0x7f0b0036;
+        public static final int game_whowon=0x7f0b0037;
         /**  Game Activity 
          */
-        public static final int game_won=0x7f0b0036;
+        public static final int game_won=0x7f0b0035;
         public static final int logo=0x7f0b0016;
         public static final int menu_achievements=0x7f0b0020;
         public static final int menu_local=0x7f0b001e;
@@ -1221,9 +1217,8 @@ containing a value of this type.
          */
         public static final int opt_subtitle=0x7f0b002c;
         public static final int opt_winlength_prompt=0x7f0b002e;
-        /**  Pause Activity 
-         */
-        public static final int pause_subtitle=0x7f0b0035;
+        public static final int pause=0x7f0b0039;
+        public static final int pause_text=0x7f0b003a;
         /**  Placeholder 
          */
         public static final int placeholder=0x7f0b001b;
@@ -1239,6 +1234,7 @@ containing a value of this type.
         public static final int pref_sound_desc=0x7f0b0023;
         public static final int pref_vibrate=0x7f0b0024;
         public static final int pref_vibrate_desc=0x7f0b0025;
+        public static final int resume=0x7f0b003b;
         public static final int settings=0x7f0b000e;
         public static final int share=0x7f0b0019;
         /**  TODO 
@@ -1247,32 +1243,6 @@ containing a value of this type.
         public static final int yes=0x7f0b0012;
     }
     public static final class style {
-        /** 
-        Base application theme, dependent on API level. This theme is replaced
-        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
-    
-
-            Theme customizations available in newer API levels can go in
-            res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
-        
-
-        Base application theme for API 11+. This theme completely replaces
-        AppBaseTheme from res/values/styles.xml on API 11+ devices.
-    
- API 11 theme customizations can go here. 
-
-        Base application theme for API 14+. This theme completely replaces
-        AppBaseTheme from BOTH res/values/styles.xml and
-        res/values-v11/styles.xml on API 14+ devices.
-    
- API 14 theme customizations can go here. 
-         */
-        public static final int AppBaseTheme=0x7f0c0083;
-        /**  Application theme. 
- All customizations that are NOT specific to a particular API-level can go here. 
-         */
-        public static final int AppTheme=0x7f0c0084;
         /**  Mimic text appearance in select_dialog_item.xml 
          */
         public static final int TextAppearance_AppCompat_Base_CompactMenu_Dialog=0x7f0c0063;

@@ -3,7 +3,7 @@ package tk.agarsia.tictac2.model;
 import tk.agarsia.tictac2.model.board.Board;
 import tk.agarsia.tictac2.model.player.AbstractPlayer;
 
-public class Game extends Thread implements GameInterface {
+public class Game extends Thread {
 	
 	private int interval; // in ms
 	private int boardDim; // = 3;
@@ -163,7 +163,6 @@ public class Game extends Thread implements GameInterface {
 	 * 
 	 * @return returns a true oder false value for the awaiting click.
 	 */
-	@Override
 	public boolean handleLocalPlayerClick(int row, int column) {
 		if(awaitingClick){		
 			boolean temp = currentPlayer.myChoice(row, column);	
@@ -189,7 +188,6 @@ public class Game extends Thread implements GameInterface {
 	 * 			which player starts.
 	 * 
 	 */
-	@Override
 	public void initModel(int interval, int boardDim, int winLength, int marksPerTurn, int startPlayerIndex) {
 		this.interval = interval;
 		this.boardDim = boardDim;
@@ -209,7 +207,6 @@ public class Game extends Thread implements GameInterface {
 	 *            			Set an AbspractPlayer 2.
 	 *            
 	 */
-	@Override
 	public void setPlayers(AbstractPlayer player1, AbstractPlayer player2){
 		players[1] = player1;
 		players[2] = player2;	
@@ -218,7 +215,6 @@ public class Game extends Thread implements GameInterface {
 	/**
 	 * Function to start a game.
 	 */
-	@Override
 	public void start(){	
 		gameRunning = true;
 		System.out.println("game started with players: " + players[1].getName() + " and " + players[2].getName());
@@ -233,7 +229,6 @@ public class Game extends Thread implements GameInterface {
 	/**
 	 * Function to reset the Player who starts and the game board.
 	 */
-	@Override
 	public void reset() {
 		currentPlayerIndex = startPlayerIndex;
 		board.reset();
@@ -244,7 +239,6 @@ public class Game extends Thread implements GameInterface {
 	 * 
 	 * @return returns the current game board dimension.
 	 */
-	@Override
 	public int getBoardDim() {
 		return boardDim;
 	}
@@ -254,7 +248,6 @@ public class Game extends Thread implements GameInterface {
 	 * 
 	 * @return returns the set win Length.
 	 */
-	@Override
 	public int getWinLength() {
 		return winLength;
 	}
@@ -264,7 +257,6 @@ public class Game extends Thread implements GameInterface {
 	 * 
 	 * @return returns the set marks allowed per turn.
 	 */
-	@Override
 	public int getMarksPerTurn() {
 		return marksPerTurn;
 	}
@@ -274,7 +266,6 @@ public class Game extends Thread implements GameInterface {
 	 * 
 	 * @return returns the player index who start the game.
 	 */
-	@Override
 	public int getStartPlayerIndex() {
 		return startPlayerIndex;
 	}
@@ -282,7 +273,6 @@ public class Game extends Thread implements GameInterface {
 	/**
 	 * Function to hold the game.
 	 */
-	@Override
 	public void pause() {}
 
 
@@ -291,7 +281,6 @@ public class Game extends Thread implements GameInterface {
 	 * 
 	 * @return returns the current player index.
 	 */
-	@Override
 	public int getCurrentPlayerIndex() {
 		return currentPlayerIndex;
 	}
@@ -302,7 +291,6 @@ public class Game extends Thread implements GameInterface {
 	 * 
 	 * @return returns the winner.
 	 */
-	@Override
 	public AbstractPlayer getWinner() {
 		return winner;
 	}
@@ -312,7 +300,6 @@ public class Game extends Thread implements GameInterface {
 	 * 
 	 * @return returns a string of the board history.
 	 */
-	@Override
 	public String getGameRecording() {
 		return board.getHistory();
 	}

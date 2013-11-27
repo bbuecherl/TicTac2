@@ -13,14 +13,16 @@ import android.view.View;
 /**
  * Class for the main game activity.
  * 
- * This activity implements MainActivity and displays all the game magic.
- * The layout file is located at res/layout/activity_game.xml
+ * This activity implements MainActivity and displays all the game magic. The
+ * layout file is located at res/layout/activity_game.xml
  * 
  * @author agarsia (Bernhard Bücherl)
  * @version 1.0
  * @since 1.0
  */
 public class GameActivity extends MainActivity {
+
+	private AlertDialog.Builder alert;
 
 	/**
 	 * Custom constructor
@@ -39,12 +41,44 @@ public class GameActivity extends MainActivity {
 		// disable "up" navigation
 		getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
+		// alert dialog
+		final MainActivity inst = this;
+		alert = new AlertDialog.Builder(this)
+				.setTitle(R.string.pause)
+				.setMessage(R.string.pause_text)
+				.setPositiveButton(getResources().getString(R.string.resume),
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,
+									int which) {
+								dialog.dismiss();
+							}
+						})
+				.setNegativeButton(getResources().getString(R.string.close),
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,
+									int which) {
+								inst.finish();
+								dialog.dismiss();
+							}
+						});
+
 		// start the game!
 		ApplicationControl.start(this);
 	}
 
 	@Override
 	public void onClick(View v) {
+	}
+
+	@Override
+	public void onBackPressed() {
+		alert.show();
+	}
+
+	@Override
+	public void onPause() {
+		// TODO save current game process (feature for version 2.0)
+		super.onPause();
 	}
 
 	/**

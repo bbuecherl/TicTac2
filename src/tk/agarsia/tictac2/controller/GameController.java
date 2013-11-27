@@ -1,6 +1,9 @@
 package tk.agarsia.tictac2.controller;
 
+import java.io.IOException;
+
 import tk.agarsia.tictac2.model.Game;
+import android.util.Log;
 
 /**
  * Class to enable interaction between model, view and controller.
@@ -14,6 +17,7 @@ import tk.agarsia.tictac2.model.Game;
  */
 public class GameController {
 	private Game game;
+	private Sound[] sounds;
 
 	/**
 	 * Custom constructor
@@ -27,6 +31,16 @@ public class GameController {
 	public GameController(Game game) {
 		// XXX could be replaced by ApplicationControl.getGame()
 		this.game = game;
+		sounds = new Sound[3];
+		
+		try {		
+			sounds[0] = SoundController.newSound("click.wav");
+			sounds[1] = SoundController.newSound("won.mp3");
+			sounds[2] = SoundController.newSound("failed.wav");
+		} catch(IOException e) {
+			Log.i("GameController","failed to load sounds");
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -44,19 +58,27 @@ public class GameController {
 	 *            y coordinate of field [0:(boardDim-1)]
 	 */
 	public void handleClick(int posX, int posY) {
+		if(sounds[0]!=null)
+			sounds[0].play(Sound.LOUD);
 		// handle click
 		if (game.getGameRunning())
-			if (game.handleLocalPlayerClick(posX, posY))
+			if (game.handleLocalPlayerClick(posX, posY)) {
 				Vibration.pattern(Vibration.CLICK);
-			else
+			} else {
 				Vibration.pattern(Vibration.ERROR);
-
+			}
+		
 		// now test for winners
 		if (!game.getGameRunning()) {
 			if (ApplicationControl.getGameActivity() != null) {
 				ApplicationControl.getGameActivity().gameFinished(
 						game.getWinner());
 				Vibration.loop(Vibration.END);
+				if(sounds[1]!=null&&sounds[2]!=null)
+					if(game.getWinner()==ApplicationControl.getMe())
+						sounds[1].play(Sound.LOUD);
+					else
+						sounds[2].play(Sound.LOUD);
 			}
 		}
 	}

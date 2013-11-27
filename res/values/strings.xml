@@ -12,7 +12,7 @@
     <string name="next">Next</string>
     <string name="back">Back</string>
     <string name="logo">TicTac2</string>
-    <string name="about_text">TicTac2 v0.1\nDevelopers Edition\n\nContributors:\nbenjaminaaron\nagarsia\ntuttirh\ngherndl\n\nSource Code available on Github:\nhttps://github.com/agarsia/TicTac2</string>
+    <string name="about_text">TicTac2 v0.1\nDevelopers Edition\n\nContributors:\nbenjaminaaron\nagarsia\ntuttirh\ngherndl\n\nProject website:\nhttp://agarsia.tk/tictac2\n\nSounds from http://freesound.org/</string>
 	<string name="ok">OK</string>
 	<string name="share">Share</string>
 	
@@ -80,12 +80,12 @@
     <string name="opt_random">Random</string>
     <string name="opt_bot">Computer</string>
     
-    <!-- Pause Activity -->
-    <string name="pause_subtitle">Paused</string>
-    
     <!-- Game Activity -->
     <string name="game_won">You won!</string>
     <string name="game_over">Game over!</string>
     <string name="game_whowon">Game has been finished, {win} won the game.</string>
     <string name="game_noone">no one</string>
+    <string name="pause">Game Paused</string>
+    <string name="pause_text">Do you really want to close the game?</string>
+    <string name="resume">Resume</string>
 </resources>

@@ -51,6 +51,8 @@ public class Sound {
 	 *            total volume (range 0-1)
 	 */
 	public void play(float volume) {
+		if(!ApplicationControl.getBooleanPref("pref_sound"))
+			return;
 		soundPool.play(soundId, volume, volume, 0, 0, 1);
 	}
 
@@ -63,6 +65,8 @@ public class Sound {
 	 *            right speaker volume (range 0-1)
 	 */
 	public void play(float volumeLeft, float volumeRight) {
+		if(!ApplicationControl.getBooleanPref("pref_sound"))
+			return;
 		soundPool.play(soundId, volumeLeft, volumeRight, 0, 0, 1);
 	}
 
