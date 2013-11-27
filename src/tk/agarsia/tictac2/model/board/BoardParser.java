@@ -1,5 +1,7 @@
 package tk.agarsia.tictac2.model.board;
 
+import java.util.ArrayList;
+
 public class BoardParser {
 	
 	public static boolean testForEmpty(int[] arr) {
@@ -15,6 +17,15 @@ public class BoardParser {
 		return false;
 	}
 
+	public static ArrayList<Integer> getEmptyIndize(int[] arr){
+		ArrayList<Integer> temp = new ArrayList<Integer>();
+		for(int i = 0; i < arr.length; i++)
+			if(arr[i] == 0)
+				temp.add(i);
+		return temp;	
+	}
+	
+	
 	public static int testBoardForWinner(int[] arr, int len, int wLen) {
 		// this test method executes in 4000~4600ns
 
@@ -83,14 +94,31 @@ public class BoardParser {
 		return 0;
 	}
 
+	
+	
+	
 	public static void main(String... args) {
+		
+		
 //		int[] arr = new int[] { 0, 2, 1, 0, 0, 1, 0, 0, 2, 0, 1, 0, 0, 2, 1, 0,
 //				2, 0, 1, 1, 1, 0, 1, 0, 0 };
 
 		// need to test all cases...
-		int[] arr6 = new int[] { 2, 2, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 2, 2, 1,
-				1, 2, 2, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1 };
-		int[] arr6b = new int[] { 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 2,
+		int[] arr6 = new int[] { 
+				2, 2, 0, 1, 2, 2, 
+				1, 1, 0, 1, 1, 1, 
+				2, 2, 1, 1, 2, 2, 
+				1, 1, 2, 2, 1, 1, 
+				2, 2, 1, 0, 2, 2, 
+				1, 1, 2, 2, 1, 1 };
+		
+		
+		
+		
+		System.out.println(testBoardForWinner(arr6, 6, 3));
+
+		
+/*		int[] arr6b = new int[] { 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 2,
 				2, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 2, 2 };
 
 		//sample tests
@@ -144,5 +172,6 @@ public class BoardParser {
 		System.out.println("tested " + times + "times in " + total
 				+ "ns, resulting an avarage of " + total / times
 				+ "ns per test!");
+				*/
 	}
 }

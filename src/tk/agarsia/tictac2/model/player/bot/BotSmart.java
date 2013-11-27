@@ -14,12 +14,11 @@ public class BotSmart extends AbstractBot{
 	@Override
 	public void myTurn() {	
 		
-		System.out.println("it's smart bots turn...");
-		TreeBuilder tree = new TreeBuilder(game.getBoard(), game.getCurrentPlayerIndex(), game.getMarksPerTurn());
+		System.out.println("it's smart bots turn...(currentPlayer: " + game.getCurrentPlayerIndex() + ")");
+											//first param is the maxDepth, this has to be implemented to be dynamically calculated though using the formula in issue #9 ...
+		TreeBuilder tree = new TreeBuilder(3, game.getBoard(), game.getCurrentPlayerIndex(), game.getMarksPerTurn());
 		
-		//tree.export();
-		//tree.getDecision... and feed into myChoice
-
+		//it doesn't make choices just yet... hang in there :)
 	}
 
 	@Override
