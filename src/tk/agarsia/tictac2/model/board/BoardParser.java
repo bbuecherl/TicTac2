@@ -16,50 +16,54 @@ public class BoardParser {
 	}
 
 	public static int testBoardForWinner(int[] arr, int len, int wLen) {
-		// this test method executes in 120~130ns
+		// this test method executes in 4000~4600ns
 
-		// SIDENOTE:
-		// actually i have no clue, why this win test is so much faster than the
-		// simple testForEmpty() method
-
-		int tfh, tfb, tfv, tfs;
+		int tfh, tfb, tfv, tfs, field;
 
 		// precalculate some basic stuff...
 		int lnw = len - wLen;
-		int lnwno = lnw + 1;
-
-		// SIDENOTE:
-		// predefining test cases (like the y < lnwno) did not perform better
+		int lnwno = len - (wLen - 1);
 
 		for (int x = 0; x < len; x++) {
 			for (int y = 0; y < len; y++) {
 				// initialize parent values...
-				tfv = arr[y + x * len];
-				tfs = arr[y + x * len];
-				tfh = arr[y + x * len];
-				tfb = arr[y + x * len];
+				field = arr[y + x * len];
+				tfv = (x < lnwno) ? field : 0;
+				tfs = (x < lnwno && y >= lnw && y < len) ? field : 0;
+				tfh = (y < lnwno) ? field : 0;
+				tfb = (y < lnwno && x < lnwno) ? field : 0;
 
-				if (tfh != 0) { // abort if field is free (no testing required)
+				// SIDENOTE:
+				// could either init test values like above with boundings in
+				// mind and test them for 0 in first test statement,
+				// or init the test values to field and test the boundings
+				// in every test statement at first.
+				// current version is performing better, due to only one
+				// bounding test per parent value and a simple '!=0' test in the
+				// statements.
+
+				if (field != 0) { // abort if field is free (no testing
+									// required)
 					for (int z = 1; z < wLen; z++) {
 						// test horizontal
-						if (y < lnwno && tfh != 0
-								&& arr[y + x * len + z] != tfh)
+						if (tfh != 0 && arr[y + x * len + z] != tfh)
 							tfh = 0;
 
 						// test diagonal backslash
-						if (y < lnwno && x < lnwno && tfb != 0
-								&& arr[y + (x + z) * len + z] != tfb)
+						if (tfb != 0 && arr[y + (x + z) * len + z] != tfb)
 							tfb = 0;
 
 						// test vertical
-						if (x < lnwno && tfv != 0
-								&& arr[y + (x + z) * len] != tfv)
+						if (tfv != 0 && arr[y + (x + z) * len] != tfv)
 							tfv = 0;
 
 						// test diagonal slash
-						if (x < lnwno && y >= lnw && y < len && tfs != 0
-								&& arr[y + (x + z) * len - z] != tfs)
+						if (tfs != 0 && arr[y + (x + z) * len - z] != tfs)
 							tfs = 0;
+
+						// debug
+						// System.out.println("("+x+","+y+","+z+") v"+tfv+" s"+tfs+" h"+tfh+" b"+tfb);
+
 					}
 
 					// output the winner if we got one
@@ -80,12 +84,25 @@ public class BoardParser {
 	}
 
 	public static void main(String... args) {
+//		int[] arr = new int[] { 0, 2, 1, 0, 0, 1, 0, 0, 2, 0, 1, 0, 0, 2, 1, 0,
+//				2, 0, 1, 1, 1, 0, 1, 0, 0 };
+
 		// need to test all cases...
 		int[] arr6 = new int[] { 2, 2, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 2, 2, 1,
 				1, 2, 2, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1 };
 		int[] arr6b = new int[] { 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 2,
 				2, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 2, 2 };
 
+		//sample tests
+//		System.out.println(testBoardForWinner(arr, 5, 3));
+//		System.out.println(testBoardForWinner(arr6, 5, 3));
+//		System.out.println(testForEmpty(arr6));
+
+
+		//performance test
+		int times = 1000000; //test count
+		
+		//output and calculation
 		System.out
 				.println("Test Board: (Board requires resolving all test cases)");
 		System.out.println("2 2 1 1 2 2       1 1 2 2 1 1");
@@ -96,7 +113,6 @@ public class BoardParser {
 		System.out.println("1 1 2 2 1 1       2 2 1 1 2 2");
 
 		System.out.println("Starting performance tests:\ntest for winner");
-		int times = 10000000;
 		int t2 = times / 2;
 		int size = 6;
 		int wLen = 3;
