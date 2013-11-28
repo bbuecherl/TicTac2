@@ -200,7 +200,20 @@ public class Field {
 				collect.add(field);
 		}	
 		return collect;
-	}	
+	}
+	
+	
+	public int[] getBoardAsArrBuilder(){		
+		int[] arr = new int[boardDim * boardDim];	
+		Field field = this;		
+		arr[0] = field.getValue();
+		for(int i = 1; i < boardDim * boardDim; i++){
+			field = field.getNeighbour(snakePath.get(field.pathPos)); //walk along snakePath
+			arr[i] = field.getValue();
+		}	
+		return arr;
+	}
+	
 	
 	public boolean isFree(){
 		return value == 0;

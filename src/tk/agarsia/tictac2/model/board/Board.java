@@ -132,6 +132,11 @@ public class Board {
 		return fields2D[0][0].getFreeFields();
 	}
 	
+	public int[] getBoardAsArr(){
+		return fields2D[0][0].getBoardAsArrBuilder();
+	}
+	
+	
 	
 	public int getFreeFieldCount(){		
 		return getFreeFields().size();
