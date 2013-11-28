@@ -8,10 +8,13 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.text.method.LinkMovementMethod;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 /**
  * Abstract activity class for basic functionality.
@@ -89,7 +92,12 @@ public abstract class MainActivity extends ActionBarActivity implements
 			return true;
 		} else if (item.getItemId() == R.id.action_about) {
 			//about icon on actionbar was clicked
-			about.show();
+			AlertDialog dialog = about.show();
+			
+			//refresh message layout
+			((TextView) dialog.findViewById(android.R.id.message)).setGravity(Gravity.CENTER);
+			((TextView) dialog.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
+
 			return true;
 		}
 		//nothing was selected
