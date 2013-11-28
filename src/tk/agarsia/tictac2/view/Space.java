@@ -12,7 +12,7 @@ import android.view.View;
  * This class is used for adding white spaces in layouts
  * 
  * 
- * @author mindsonic
+ * @author agarsia (Bernhard Bücherl)
  * 
  */
 public class Space extends View {
