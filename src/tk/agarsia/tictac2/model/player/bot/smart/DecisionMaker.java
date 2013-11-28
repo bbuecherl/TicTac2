@@ -4,11 +4,29 @@ import java.util.Arrays;
 
 import tk.agarsia.tictac2.model.board.BoardParser;
 
+/**
+ * In development...
+ * 
+ * Can be executed by:
+ * 
+ * 	public static void main(String... args) throws Exception {
+ *		DecisionMaker.DEBUG = true;
+ *		DecisionMaker.DEBUG_AWESOME = true;
+ *		DecisionMaker.DEPTH = 3;
+ *		
+ *		DecisionMaker.generateTree(3,1,1);
+ *	}
+ *
+ * (change the depth if you feel brave.)
+ * 
+ * @author agarsia (Bernhard Bücherl)
+ */
 public class DecisionMaker {
 
 	//DEBUG
 	public static boolean DEBUG = false;
 	public static boolean DEBUG_AWESOME = false;
+	public static int DEPTH = 3;
 	
 	private static final String DEBUG_AWESOME_INFO = "-| Num | Weight |  Parent   |   Board   |";
 	private static final String DEBUG_AWESOME_F = "-| %03d | %6d | (%03d,%03d) |%11s|";
@@ -22,7 +40,7 @@ public class DecisionMaker {
 	public static final int BOARD_OFFSET = 4;
 	
 	public static int[][][] generateTree(int board, int player, int mpt) {
-		int depth = 3;
+		int depth = DEPTH;
 		int size = BOARD_OFFSET + board*board/**2*/; //calculate z size (INFO+board+children)
 		int boardSize = board * board;
 		int length = 1;
@@ -50,8 +68,9 @@ public class DecisionMaker {
 			int yOffset = 0; //init offset
 			//iterate over lastLen to generate nodes from their parents
 			for(int l = 0; l < lastLen; l++) {
-				generateDecisionsFor(tree[x-1][l],tree[x],yOffset,x-1,l, player, boardSize);
+				yOffset += generateDecisionsFor(tree[x-1][l],tree[x],yOffset,x-1,l, player, boardSize);
 			}
+			player = player%2+1; //next player (TODO include MPT!)
 		}
 		
 		if(DEBUG)
@@ -63,7 +82,7 @@ public class DecisionMaker {
 		return tree;
 	}
 
-	public static void generateDecisionsFor(int[] parent, int[][] arr, int offset, int px, int py, int player, int boardSize) {
+	public static int generateDecisionsFor(int[] parent, int[][] arr, int offset, int px, int py, int player, int boardSize) {
 		int[] empties = BoardParser.getEmptyIndizeOpt(parent,BOARD_OFFSET,boardSize);
 		
 		
@@ -75,10 +94,8 @@ public class DecisionMaker {
 			copy(arr[offset+i], parent, BOARD_OFFSET, boardSize); //copy board from parent
 			arr[offset+i][empties[i]] = player;
 		}
-		
 
-		player = player%2+1; //next player (TODO include MPT!)
-		offset += empties.length; //increase offset for next round
+		return empties.length; //return offset for next round
 	}
 	
 	public static void copy(int[] arr, int[] arr2, int offset, int boardSize) {

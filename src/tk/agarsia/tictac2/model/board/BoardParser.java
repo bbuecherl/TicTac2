@@ -25,7 +25,7 @@ public class BoardParser {
 	//this could replace testForEmpty, testing for empties is getEmptyFields(arr)==0
 	public static int getEmptyFields(int[] arr, int offset, int length) {
 		int i = 0;
-		for (int x = offset-1; x < length; x++)
+		for (int x = offset; x < offset+length; x++)
 			if (arr[x] == 0)
 				++i;
 
@@ -53,7 +53,7 @@ public class BoardParser {
 	public static int[] getEmptyIndizeOpt(int[] arr, int offset, int length){		
 		int[] temp = new int[getEmptyFields(arr,offset,length)];
 		int at = 0; //temp index
-		for(int i = offset-1; i < length;i++)
+		for(int i = offset; i < offset+length;i++)
 			if(arr[i] == 0)
 				temp[at++] = i;
 				
