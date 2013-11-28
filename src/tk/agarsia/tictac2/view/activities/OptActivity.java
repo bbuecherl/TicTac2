@@ -93,17 +93,25 @@ public class OptActivity extends MainActivity implements OnItemSelectedListener 
 		size = (Spinner) findViewById(R.id.opt_boardsize_id);
 		win = (Spinner) findViewById(R.id.opt_winlength_id);
 		mpr = (Spinner) findViewById(R.id.opt_mpr_id);
-		sizeAdapter = ArrayAdapter.createFromResource(getApplicationContext(),
-				R.array.opt_boardsize, R.layout.support_simple_spinner_dropdown_item);
-		sizeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+		ArrayList<CharSequence> arr = new ArrayList<CharSequence>();
+		arr.add(0, "3x3 Board");
+		arr.add(1, "4x4 Board");
+		arr.add(2, "5x5 Board");
+		arr.add(3, "6x6 Board");
+
+		sizeAdapter = new ArrayAdapter<CharSequence>(this,
+				R.layout.support_simple_spinner_dropdown_item, arr);
 		size.setAdapter(sizeAdapter);
 
 		winAdapter = new ArrayAdapter<CharSequence>(this,
-				R.layout.support_simple_spinner_dropdown_item, new ArrayList<CharSequence>());
+				R.layout.support_simple_spinner_dropdown_item,
+				new ArrayList<CharSequence>());
 		win.setAdapter(winAdapter);
-		
+
 		mprAdapter = new ArrayAdapter<CharSequence>(this,
-				R.layout.support_simple_spinner_dropdown_item, new ArrayList<CharSequence>());
+				R.layout.support_simple_spinner_dropdown_item,
+				new ArrayList<CharSequence>());
 		mpr.setAdapter(mprAdapter);
 
 		size.setOnItemSelectedListener(this);
@@ -113,35 +121,50 @@ public class OptActivity extends MainActivity implements OnItemSelectedListener 
 		updateSpinners();
 	}
 
+	/**
+	 * Helper method to update spinners in onCreate and onItemSelected
+	 */
 	private void updateSpinners() {
 		winAdapt(size.getSelectedItemPosition());
 		mprAdapt(win.getSelectedItemPosition());
 	}
-	
+
+	/**
+	 * Helper method to update win adapter depending on size adapter value
+	 * 
+	 * @param i
+	 *            size adapter index
+	 */
 	private void winAdapt(int i) {
 		winAdapter.clear();
-		if(i>=0)
+		if (i >= 0)
 			winAdapter.insert("3", 0);
-		if(i>=1)
+		if (i >= 1)
 			winAdapter.insert("4", 1);
-		if(i>=2)
+		if (i >= 2)
 			winAdapter.insert("5", 2);
-		if(i>=3)
+		if (i >= 3)
 			winAdapter.insert("6", 3);
 		winAdapter.notifyDataSetChanged();
 	}
-	
+
+	/**
+	 * Helper method to update mpr adapter depeinding on win adapter value
+	 * 
+	 * @param i
+	 *            win adapter index
+	 */
 	private void mprAdapt(int i) {
 		mprAdapter.clear();
-		if(i>=0)
+		if (i >= 0)
 			mprAdapter.insert("1", 0);
-		if(i>=1)
+		if (i >= 1)
 			mprAdapter.insert("2", 1);
-		if(i>=3)
+		if (i >= 3)
 			mprAdapter.insert("3", 2);
 		mprAdapter.notifyDataSetChanged();
 	}
-	
+
 	@Override
 	public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
 			long arg3) {

@@ -17,9 +17,6 @@ public final class R {
         public static final int abc_slide_out_top=0x7f040005;
     }
     public static final class array {
-        public static final int opt_boardsize=0x7f0d0002;
-        public static final int opt_mpr=0x7f0d0004;
-        public static final int opt_winlength=0x7f0d0003;
         public static final int pref_color_entries=0x7f0d0000;
         public static final int pref_color_values=0x7f0d0001;
     }
