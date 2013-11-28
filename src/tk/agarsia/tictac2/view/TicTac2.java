@@ -25,4 +25,10 @@ public class TicTac2 extends Activity {
 		//start menu activity
 		ApplicationControl.start(this,MenuActivity.class);
 	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		finish();
+	}	
 }

@@ -1,6 +1,7 @@
 package tk.agarsia.tictac2.view.activities;
 
 import tk.agarsia.tictac2.R;
+import tk.agarsia.tictac2.controller.AppStackController;
 import tk.agarsia.tictac2.controller.ApplicationControl;
 import tk.agarsia.tictac2.controller.Vibration;
 import tk.agarsia.tictac2.model.player.AbstractPlayer;
@@ -77,6 +78,10 @@ public class GameActivity extends MainActivity {
 
 	@Override
 	public void onPause() {
+		//clearing application stack
+		AppStackController.clearStack();
+		AppStackController.toStack(this);
+		
 		// TODO save current game process (feature for version 2.0)
 		super.onPause();
 	}

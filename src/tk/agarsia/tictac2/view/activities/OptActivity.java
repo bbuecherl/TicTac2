@@ -3,6 +3,7 @@ package tk.agarsia.tictac2.view.activities;
 import java.util.Random;
 
 import tk.agarsia.tictac2.R;
+import tk.agarsia.tictac2.controller.AppStackController;
 import tk.agarsia.tictac2.controller.ApplicationControl;
 import tk.agarsia.tictac2.controller.ApplicationControl.GameType;
 import tk.agarsia.tictac2.model.player.AbstractPlayer;
@@ -75,6 +76,14 @@ public class OptActivity extends MainActivity {
 			findViewById(R.id.space4).setVisibility(View.VISIBLE);
 			break;
 		}
+	}
+	
+	@Override
+	protected void onPause() {
+		//add this to stack
+		AppStackController.toStack(this);
+		
+		super.onPause();
 	}
 
 	@Override
