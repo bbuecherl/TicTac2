@@ -19,7 +19,6 @@
             android:id="@+id/opt_boardsize_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:entries="@array/opt_boardsize"
             android:prompt="@string/opt_boardsize_prompt" />
 
         <tk.agarsia.tictac2.view.Space
@@ -37,7 +36,6 @@
             android:id="@+id/opt_winlength_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:entries="@array/opt_winlength"
             android:prompt="@string/opt_winlength_prompt" />
 
         <tk.agarsia.tictac2.view.Space
@@ -55,7 +53,6 @@
             android:id="@+id/opt_mpr_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:entries="@array/opt_mpr"
             android:prompt="@string/opt_mpr_prompt" />
 
         <tk.agarsia.tictac2.view.Space
