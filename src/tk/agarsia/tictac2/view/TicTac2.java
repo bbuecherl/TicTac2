@@ -1,5 +1,6 @@
 package tk.agarsia.tictac2.view;
 
+import tk.agarsia.tictac2.controller.AppStackController;
 import tk.agarsia.tictac2.controller.ApplicationControl;
 import tk.agarsia.tictac2.view.activities.MenuActivity;
 import android.app.Activity;
@@ -28,7 +29,9 @@ public class TicTac2 extends Activity {
 	
 	@Override
 	protected void onPause() {
+		//add to the stack
+		AppStackController.toStack(this);
+		
 		super.onPause();
-		finish();
 	}	
 }

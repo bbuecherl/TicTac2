@@ -1,6 +1,7 @@
 package tk.agarsia.tictac2.view.activities;
 
 import tk.agarsia.tictac2.R;
+import tk.agarsia.tictac2.controller.AppStackController;
 import tk.agarsia.tictac2.controller.ApplicationControl;
 import tk.agarsia.tictac2.controller.ApplicationControl.GameType;
 import tk.agarsia.tictac2.view.MainActivity;
@@ -38,6 +39,9 @@ public class MenuActivity extends MainActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_menu);
+		
+		//clear previous stack
+		AppStackController.clearStack();
 
 		// 'todo' alert dialog for unimplemented features
 		todo = new AlertDialog.Builder(this).setMessage(

@@ -1,6 +1,7 @@
 package tk.agarsia.tictac2.view;
 
 import tk.agarsia.tictac2.R;
+import tk.agarsia.tictac2.controller.AppStackController;
 import tk.agarsia.tictac2.controller.ApplicationControl;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -72,6 +73,13 @@ public abstract class MainActivity extends ActionBarActivity implements
 								dialog.dismiss();
 							}
 						});
+	}
+	
+	@Override
+	protected void onPause() {
+		AppStackController.toStack(this);
+
+		super.onPause();
 	}
 
 	@Override
