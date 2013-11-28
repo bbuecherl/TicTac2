@@ -16,15 +16,40 @@ public class BoardParser {
 
 		return false;
 	}
+	
+	//SIDENOTE
+	//this could replace testForEmpty, testing for empties is getEmptyFields(arr)==0
+	public static int getEmptyFields(int[] arr) {
+		int i = 0;
+		for (int b : arr)
+			if (b == 0)
+				++i;
 
+		return i;
+	}
+
+	//my performance tests result [~300ns]
 	public static ArrayList<Integer> getEmptyIndize(int[] arr){
 		ArrayList<Integer> temp = new ArrayList<Integer>();
 		for(int i = 0; i < arr.length; i++)
 			if(arr[i] == 0)
 				temp.add(i);
-		return temp;	
+		return temp;
 	}
-	
+
+	// SIDENOTE: 
+	//optimized version, we should not use arraylist, they have way
+	//less performance compared to int arrays. 
+	//performance tests [~230ns]
+	public static int[] getEmptyIndizeOpt(int[] arr){		
+		int[] temp = new int[getEmptyFields(arr)];
+		int at = 0; //temp index
+		for(int i = 0 ; i < arr.length;i++)
+			if(arr[i] == 0)
+				temp[at++] = i;
+				
+		return temp;
+	}
 	
 	public static int testBoardForWinner(int[] arr, int len, int wLen) {
 		// this test method executes in 4000~4600ns
@@ -92,86 +117,5 @@ public class BoardParser {
 
 		// we have no winner :(
 		return 0;
-	}
-
-	
-	
-	
-	public static void main(String... args) {
-		
-		
-//		int[] arr = new int[] { 0, 2, 1, 0, 0, 1, 0, 0, 2, 0, 1, 0, 0, 2, 1, 0,
-//				2, 0, 1, 1, 1, 0, 1, 0, 0 };
-
-		// need to test all cases...
-		int[] arr6 = new int[] { 
-				2, 2, 0, 1, 2, 2, 
-				1, 1, 0, 1, 1, 1, 
-				2, 2, 1, 1, 2, 2, 
-				1, 1, 2, 2, 1, 1, 
-				2, 2, 1, 0, 2, 2, 
-				1, 1, 2, 2, 1, 1 };
-		
-		
-		
-		
-		System.out.println(testBoardForWinner(arr6, 6, 3));
-
-		
-/*		int[] arr6b = new int[] { 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 2,
-				2, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 2, 2 };
-
-		//sample tests
-//		System.out.println(testBoardForWinner(arr, 5, 3));
-//		System.out.println(testBoardForWinner(arr6, 5, 3));
-//		System.out.println(testForEmpty(arr6));
-
-
-		//performance test
-		int times = 1000000; //test count
-		
-		//output and calculation
-		System.out
-				.println("Test Board: (Board requires resolving all test cases)");
-		System.out.println("2 2 1 1 2 2       1 1 2 2 1 1");
-		System.out.println("1 1 2 2 1 1       2 2 1 1 2 2");
-		System.out.println("2 2 1 1 2 2  and  1 1 2 2 1 1");
-		System.out.println("1 1 2 2 1 1       2 2 1 1 2 2");
-		System.out.println("2 2 1 1 2 2       1 1 2 2 1 1");
-		System.out.println("1 1 2 2 1 1       2 2 1 1 2 2");
-
-		System.out.println("Starting performance tests:\ntest for winner");
-		int t2 = times / 2;
-		int size = 6;
-		int wLen = 3;
-		long start = System.nanoTime();
-
-		for (int j = 0; j < t2; j++) {
-			testBoardForWinner(arr6, size, wLen);
-			// testing two different arrays to prevent caching...
-			testBoardForWinner(arr6b, size, wLen);
-		}
-
-		long total = (System.nanoTime() - start);
-		System.out.println();
-		System.out.println("tested " + times + "times in " + total
-				+ "ns, resulting an avarage of " + total / times
-				+ "ns per test!");
-
-		System.out.println("\ntest for empty fields");
-		start = System.nanoTime();
-
-		for (int j = 0; j < t2; j++) {
-			testForEmpty(arr6);
-			// testing two different arrays to prevent caching...
-			testForEmpty(arr6b);
-		}
-
-		total = (System.nanoTime() - start);
-		System.out.println();
-		System.out.println("tested " + times + "times in " + total
-				+ "ns, resulting an avarage of " + total / times
-				+ "ns per test!");
-				*/
 	}
 }
