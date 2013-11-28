@@ -43,11 +43,15 @@ public class Node {
 		winner = BoardParser.testBoardForWinner(boardArr, len, wLen);
 		
 		if(winner == 0 && vertical < tree.getMaxDepth()){
-			ArrayList<Integer> emptyIndize = BoardParser.getEmptyIndize(boardArr);		
-			for(int i : emptyIndize){							
-				boardArr[i] = playerIset;
+			int[] emptyIndize = BoardParser.getEmptyIndizeOpt(boardArr);
+			//ArrayList<Integer> emptyIndize = BoardParser.getEmptyIndize(boardArr);
+			
+			//for(int i : emptyIndize){
+			for(int i = 0; i < emptyIndize.length; i++){							
+				int j = emptyIndize[i];
+				boardArr[j] = playerIset;
 				new Node(tree, this, boardArr, turnIndize, myPosInTurnIndize + 1, len, wLen); 	
-				boardArr[i] = 0;				
+				boardArr[j] = 0;				
 			}	
 		}
 	}
