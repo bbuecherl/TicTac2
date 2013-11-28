@@ -1,5 +1,6 @@
 package tk.agarsia.tictac2.view.activities;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import tk.agarsia.tictac2.R;
@@ -16,6 +17,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -31,10 +35,18 @@ import android.widget.Spinner;
  * @version 1.0
  * @since 1.0
  */
-public class OptActivity extends MainActivity {
+public class OptActivity extends MainActivity implements OnItemSelectedListener {
 
 	// java.util.Random object for starting with random player
 	private Random rand;
+
+	// Spinner
+	private Spinner size;
+	private ArrayAdapter<CharSequence> sizeAdapter;
+	private Spinner win;
+	private ArrayAdapter<CharSequence> winAdapter;
+	private Spinner mpr;
+	private ArrayAdapter<CharSequence> mprAdapter;
 
 	/**
 	 * Custom constructor
@@ -76,13 +88,99 @@ public class OptActivity extends MainActivity {
 			findViewById(R.id.space4).setVisibility(View.VISIBLE);
 			break;
 		}
+
+		// init spinners
+		size = (Spinner) findViewById(R.id.opt_boardsize_id);
+		win = (Spinner) findViewById(R.id.opt_winlength_id);
+		mpr = (Spinner) findViewById(R.id.opt_mpr_id);
+
+		ArrayList<CharSequence> arr = new ArrayList<CharSequence>();
+		arr.add(0, "3x3 Board");
+		arr.add(1, "4x4 Board");
+		arr.add(2, "5x5 Board");
+		arr.add(3, "6x6 Board");
+
+		sizeAdapter = new ArrayAdapter<CharSequence>(this,
+				R.layout.support_simple_spinner_dropdown_item, arr);
+		size.setAdapter(sizeAdapter);
+
+		winAdapter = new ArrayAdapter<CharSequence>(this,
+				R.layout.support_simple_spinner_dropdown_item,
+				new ArrayList<CharSequence>());
+		win.setAdapter(winAdapter);
+
+		mprAdapter = new ArrayAdapter<CharSequence>(this,
+				R.layout.support_simple_spinner_dropdown_item,
+				new ArrayList<CharSequence>());
+		mpr.setAdapter(mprAdapter);
+
+		size.setOnItemSelectedListener(this);
+		win.setOnItemSelectedListener(this);
+		mpr.setOnItemSelectedListener(this);
+
+		updateSpinners();
 	}
-	
+
+	/**
+	 * Helper method to update spinners in onCreate and onItemSelected
+	 */
+	private void updateSpinners() {
+		winAdapt(size.getSelectedItemPosition());
+		mprAdapt(win.getSelectedItemPosition());
+	}
+
+	/**
+	 * Helper method to update win adapter depending on size adapter value
+	 * 
+	 * @param i
+	 *            size adapter index
+	 */
+	private void winAdapt(int i) {
+		winAdapter.clear();
+		if (i >= 0)
+			winAdapter.insert("3", 0);
+		if (i >= 1)
+			winAdapter.insert("4", 1);
+		if (i >= 2)
+			winAdapter.insert("5", 2);
+		if (i >= 3)
+			winAdapter.insert("6", 3);
+		winAdapter.notifyDataSetChanged();
+	}
+
+	/**
+	 * Helper method to update mpr adapter depeinding on win adapter value
+	 * 
+	 * @param i
+	 *            win adapter index
+	 */
+	private void mprAdapt(int i) {
+		mprAdapter.clear();
+		if (i >= 0)
+			mprAdapter.insert("1", 0);
+		if (i >= 1)
+			mprAdapter.insert("2", 1);
+		if (i >= 3)
+			mprAdapter.insert("3", 2);
+		mprAdapter.notifyDataSetChanged();
+	}
+
+	@Override
+	public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
+			long arg3) {
+		updateSpinners();
+	}
+
+	@Override
+	public void onNothingSelected(AdapterView<?> arg0) {
+		updateSpinners();
+	}
+
 	@Override
 	protected void onPause() {
-		//add this to stack
+		// add this to stack
 		AppStackController.toStack(this);
-		
+
 		super.onPause();
 	}
 
@@ -132,9 +230,6 @@ public class OptActivity extends MainActivity {
 		ApplicationControl.reinit();
 
 		// fetch option views
-		Spinner size = (Spinner) findViewById(R.id.opt_boardsize_id);
-		Spinner win = (Spinner) findViewById(R.id.opt_winlength_id);
-		Spinner mpr = (Spinner) findViewById(R.id.opt_mpr_id);
 		RadioGroup index = (RadioGroup) findViewById(R.id.opt_start);
 
 		int interval = 0; // XXX interval currently alwas 0 (do we even
