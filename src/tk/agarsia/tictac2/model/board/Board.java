@@ -8,7 +8,7 @@ public class Board {
 	protected int boardDim;
 	protected int winLength;
 	protected Field[][] fields2D;
-	protected String history;
+	protected ArrayList<int[]> history;
 	protected boolean winState = false;
 	//protected ArrayList<Island> islands = new ArrayList<Island>();
 	protected Island winningIsland;
@@ -30,11 +30,12 @@ public class Board {
 	/**
 	 * Copy Constructor of Board.
 	 */
+	@SuppressWarnings("unchecked")
 	public Board(Board board){ // copy-constructor
 		this.boardDim = board.boardDim;
 		this.winLength = board.winLength;
 
-		this.history = board.history;
+		this.history = (ArrayList<int[]>) board.history.clone();
 		
 		fields2D = new Field[boardDim][boardDim];
 		new Field(this);
@@ -48,8 +49,9 @@ public class Board {
 	 * Function to reset game board.
 	 */
 	public void reset(){		
-		history = boardDim + "x" + boardDim + " field:\n";
 		fields2D = new Field[boardDim][boardDim];	
+		
+		history = new ArrayList<int[]>();
 		
 		new Field(this); //pure awesomeness... the whole board is building itself when just the first Field is instantiated :)
 				
@@ -110,14 +112,14 @@ public class Board {
 	public boolean setField(int playerIndex, int row, int column){
 		if(fields2D[row][column].isFree()){
 			fields2D[row][column].setValue(playerIndex);		
-			history += playerIndex + " [" + row + ", " + column + "]\n";			
+			history.add(new int[] {playerIndex,row,column});			
 			return true;
 		}
 		else 
 			return false;		
 	}
 	
-	public String getHistory(){
+	public ArrayList<int[]> getHistory(){
 		return history;
 	}
 	
@@ -148,11 +150,22 @@ public class Board {
 	
 	public void placeRandomly(int currentPlayerIndex) {
 		int choice = (int) (new Random().nextDouble() * getFreeFieldCount());	
+		int row = getFreeFields().get(choice).getRow();
+		int column = getFreeFields().get(choice).getColumn();
+		
 		getFreeFields().get(choice).setValue(currentPlayerIndex);
+		
+		history.add(new int[] {currentPlayerIndex,row,column});			
 	}
-	
+
+	@Deprecated
 	public void depositAtSpecificFreeField(int currentPlayerIndex, int target){		
+		int row = getFreeFields().get(target - 1).getRow();
+		int column = getFreeFields().get(target - 1).getColumn();
+		
 		getFreeFields().get(target - 1).setValue(currentPlayerIndex);
+
+		history.add(new int[] {currentPlayerIndex,row,column});			
 	}
 	
 	public String show(boolean numbering){

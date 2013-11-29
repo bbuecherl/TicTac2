@@ -1,5 +1,7 @@
 package tk.agarsia.tictac2.model;
 
+import java.util.ArrayList;
+
 import tk.agarsia.tictac2.model.board.Board;
 import tk.agarsia.tictac2.model.player.AbstractPlayer;
 
@@ -298,9 +300,9 @@ public class Game extends Thread {
 	/**
 	 * Function to get current game history.
 	 * 
-	 * @return returns a string of the board history.
+	 * @return returns a 2d array of the board history.
 	 */
-	public String getGameRecording() {
+	public ArrayList<int[]> getGameRecording() {
 		return board.getHistory();
 	}
 }
