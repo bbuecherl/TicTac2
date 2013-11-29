@@ -16,13 +16,17 @@ public class BoardParser {
 
 		return false;
 	}
-	
+
+	public static int getEmptyFields(int[] arr) {
+		return getEmptyFields(arr,0,arr.length);
+	}
+
 	//SIDENOTE
 	//this could replace testForEmpty, testing for empties is getEmptyFields(arr)==0
-	public static int getEmptyFields(int[] arr) {
+	public static int getEmptyFields(int[] arr, int offset, int length) {
 		int i = 0;
-		for (int b : arr)
-			if (b == 0)
+		for (int x = offset; x < offset+length; x++)
+			if (arr[x] == 0)
 				++i;
 
 		return i;
@@ -37,14 +41,19 @@ public class BoardParser {
 		return temp;
 	}
 
+	public static int[] getEmptyIndizeOpt(int[] arr){		
+		return getEmptyIndizeOpt(arr,0,arr.length);
+	}
+
+	
 	// SIDENOTE: 
 	//optimized version, we should not use arraylist, they have way
 	//less performance compared to int arrays. 
 	//performance tests [~230ns]
-	public static int[] getEmptyIndizeOpt(int[] arr){		
-		int[] temp = new int[getEmptyFields(arr)];
+	public static int[] getEmptyIndizeOpt(int[] arr, int offset, int length){		
+		int[] temp = new int[getEmptyFields(arr,offset,length)];
 		int at = 0; //temp index
-		for(int i = 0 ; i < arr.length;i++)
+		for(int i = offset; i < offset+length;i++)
 			if(arr[i] == 0)
 				temp[at++] = i;
 				
