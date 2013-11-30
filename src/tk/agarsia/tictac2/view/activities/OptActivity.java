@@ -251,12 +251,18 @@ public class OptActivity extends MainActivity implements OnItemSelectedListener 
 			// start local (vs other local human)
 			String name = ((EditText) findViewById(R.id.opt_name)).getText()
 					.toString();
-			if (name == "")
+			if (name == null)
 				name = getString(R.string.opt_default);
-
+			else if(name.length()<=1)
+				name = getString(R.string.opt_default);
+			
 			player2 = new HumanLocal(name, ApplicationControl.getGame());
 		}
 
+		// re init local players name...
+		if(ApplicationControl.getMe().getName().length()<=1)
+			ApplicationControl.getMe().setName(getString(R.string.pref_player_default));
+		
 		// initialize game model
 		ApplicationControl.getGame().initModel(interval, boardDim, winLength,
 				mpt, spi);

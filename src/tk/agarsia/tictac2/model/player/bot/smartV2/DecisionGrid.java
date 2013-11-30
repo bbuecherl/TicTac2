@@ -15,21 +15,46 @@ public class DecisionGrid {
 	public static void refactor(int[][] grid, Board board, int mpt, int wLen) {
 		ArrayList<int[]> h = board.getHistory();
 		
-		int[][][] wins = PREWINS[grid.length-3][wLen-3];
-		
 		//use rules for other player history
-		for(int i = h.size()-mpt; i < h.size(); i++) {
-			int mark = h.get(i)[0];
-			int x = h.get(i)[1];
-			int y = h.get(i)[2];
-			
-			System.out.println(Arrays.toString(h.get(i)));
+		for(int a = h.size()-mpt; a < h.size(); a++) {
+			System.out.println(Arrays.toString(h.get(a)));
+			int mark = h.get(a)[0];
+			int x = h.get(a)[1];
+			int y = h.get(a)[2];
+			ArrayList<int[][]> w = getWins(grid.length,wLen,x,y);
 			
 			//rule b. (set other players fields to 0)
 			grid[x][y] = 0;
-			
-			//rule c. (increment all affected fields)
-			
+
+			for(int[][] b : w) {
+				System.out.println(Arrays.deepToString(b));
+				//rule c. (increment all affected fields)
+				int[] t1 = new int[2];
+				t1[0] = -1;
+				t1[1] = -1;
+				int t2 = 0;
+				for(int c = 0; c<b.length;c++) {
+					int tx = b[c][0];
+					int ty = b[c][1];
+					
+					if((tx==x&&ty==y)||grid[tx][ty]==1000)
+						continue;
+					
+					if(board.getField(tx, ty).isFree()) {
+						grid[tx][ty]++;
+						t1[0] = tx;
+						t1[1] = ty;
+					} else if(board.getField(tx,ty).getValue()==mark) {
+						t2++; //if enemy got another field in there..
+					} else if(board.getField(tx,ty).getValue()==mark%2+1) {
+						t2--; //if we got another field in there...
+					}
+				}
+				
+				if(t2==1&&t1[0]!=-1&&t1[1]!=-1)
+					grid[t1[0]][t1[1]]=1000;
+			}
+						
 			
 			
 			
@@ -37,6 +62,19 @@ public class DecisionGrid {
 		}
 	}
 
+	private static ArrayList<int[][]> getWins(int len, int wLen, int x, int y) {
+		ArrayList<int[][]> out = new ArrayList<int[][]>();
+		
+		for(int i = 0; i < PREWINS[len-3][wLen-3].length; i++) {
+			for(int j = 0; j<wLen;j++) {
+				if(PREWINS[len-3][wLen-3][i][j][0]==x&&PREWINS[len-3][wLen-3][i][j][1]==y) 
+					out.add(PREWINS[len-3][wLen-3][i]);
+			}
+		}
+		
+		return out;
+	}
+	
 	
 	public static int[] decide(int[][] grid, Board board) {
 		int[][] out = new int[board.getFreeFieldCount()][3];
