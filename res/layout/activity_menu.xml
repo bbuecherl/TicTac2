@@ -13,7 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:contentDescription="@string/logo"
-            android:src="@drawable/ic_launcher" />
+            android:src="@drawable/launcher" />
 
         <Button
             android:id="@+id/menu_singleplayer"
