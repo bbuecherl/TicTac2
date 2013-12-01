@@ -1,6 +1,10 @@
 TicTac2
 =======
 
+How to install
+--------------
+If you just want to play it, download the https://github.com/agarsia/TicTac2/blob/master/TicTac2.apk?raw=true .apk-file, transfer it to your phone/tablet, install it, and you are ready to play.
+
 How to build
 ------------
 First you need to clone the repository or download the master.zip file.
