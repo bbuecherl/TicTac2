@@ -8,7 +8,7 @@ public class BotRandom extends AbstractBot{
 	public BotRandom(Game game) {
 		super(game);
 		setPlayerType(2);
-		setName("RandomBot" + this.hashCode());
+		setName("RandomBot");
 	}
 
 	@Override

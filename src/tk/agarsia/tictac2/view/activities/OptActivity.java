@@ -63,7 +63,7 @@ public class OptActivity extends MainActivity implements OnItemSelectedListener 
 		setContentView(R.layout.activity_opt);
 
 		if (!ApplicationControl.isInit())
-			return;
+			return; 
 			
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

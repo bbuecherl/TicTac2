@@ -31,19 +31,22 @@
             android:id="@+id/menu_online"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/menu_online" />
+            android:text="@string/menu_online"
+            android:enabled="false" />
 
         <Button
             android:id="@+id/menu_achievements"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/menu_achievements" />
+            android:text="@string/menu_achievements"
+            android:enabled="false" />
 
         <Button
             android:id="@+id/menu_ranks"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/menu_ranks" />
+            android:text="@string/menu_ranks"
+            android:enabled="false" />
     </LinearLayout>
 
 </ScrollView>
