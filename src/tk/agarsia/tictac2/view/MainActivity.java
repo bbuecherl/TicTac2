@@ -55,9 +55,12 @@ public abstract class MainActivity extends ActionBarActivity implements
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
 		// game must be initialized, otherwise back to splash screen
-		if (!ApplicationControl.isInit())
+		if (!ApplicationControl.isInit()) {
 			startActivity(new Intent(getApplicationContext(), TicTac2.class));
-
+			AppStackController.toStack(this);
+			return;
+		}
+		
 		// set the subtitle
 		if (subtitle != 0)
 			getSupportActionBar().setSubtitle(subtitle);

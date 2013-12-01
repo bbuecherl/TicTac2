@@ -38,6 +38,9 @@ public class GameActivity extends MainActivity {
 		super.onCreate(saved);
 		setContentView(R.layout.activity_game);
 
+		if (!ApplicationControl.isInit())
+			return;
+		
 		// disable "up" navigation
 		getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 

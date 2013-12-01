@@ -40,6 +40,9 @@ public class MenuActivity extends MainActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_menu);
 		
+		if (!ApplicationControl.isInit())
+			return;
+		
 		//clear previous stack
 		AppStackController.clearStack();
 

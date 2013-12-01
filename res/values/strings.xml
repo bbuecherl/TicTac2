@@ -37,6 +37,7 @@
     <string name="pref_vibrate_desc">Enable for physical feedback</string>
 	<string name="pref_player">Your name</string>
 	<string name="pref_player_desc">Your displayed username</string>
+	<string name="pref_player_default">Player</string>
 	<string name="pref_color_me">Your mark color</string>
 	<string name="pref_color_me_desc">Color your captured fields will be displayed in</string>
 	<string name="pref_color_other">Your enemies mark color</string>
