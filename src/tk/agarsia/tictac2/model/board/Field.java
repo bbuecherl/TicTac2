@@ -2,17 +2,19 @@ package tk.agarsia.tictac2.model.board;
 
 import java.util.ArrayList;
 
-
 public class Field {
 	
-	public enum dir{
+	/**
+	 * Enum for the 8 cardinal points.
+	 */
+	public static enum dir{
 		EAST, WEST, SOUTH, NORTH, SOUTHEAST, SOUTHWEST, NORTHWEST, NORTHEAST,
 	}	
 	
-	private Board board;
+	private static Board board;
 	private int boardDim;
 	private int winLength;
-	private ArrayList<dir> snakePath;
+	private static ArrayList<dir> snakePath;
 	
 	private int row;
 	private int column;
@@ -37,6 +39,11 @@ public class Field {
 		return column;
 	}
 	
+	/**
+	 * Gives access to a neighbour object variable, dependent on the dir-enum
+	 * @param index dir-enum
+	 * @return the requested neighbour as field
+	 */
 	protected Field getNeighbour(dir index){
         switch(index) {
 	        case EAST: return east;
@@ -51,6 +58,11 @@ public class Field {
         }		
 	}
 	
+	/**
+	 * Sets a specific field as the requested neighbour of this field.
+	 * @param index dir-enum
+	 * @param field the field the neigbour should become
+	 */
 	protected void setNeighbour(dir index, Field field){    					
 		if(field != null){	
 			switch(index) {
@@ -90,12 +102,25 @@ public class Field {
 		}
 	}
 	
+	/**
+	 * @return the index of the position this field has in the SnakePath
+	 */
 	protected int getPathPos(){
 		return pathPos;
 	}
 	
+	/**
+	 * Constructor. 
+	 * This constructor will only be called once by Board and then use another constructor to create the rest of the fields, starting from this first field.
+	 * 
+	 * The snakePath is created here. That is the route through the two dimensional board that is used to create the fields and later to walk along and collect info.
+	 * Example: The snakePath for a 3x3 field looks like this: 
+	 * [EAST, EAST, SOUTH, WEST, WEST, SOUTH, EAST, EAST]
+	 * 
+	 * @param board: reference back to the board, so that we can "register" the fields in the 2D-array there as we create them
+	 */
 	public Field(Board board){
-		this.board = board;
+		Field.board = board;
 		boardDim = board.getBoardDim();
 		winLength = board.getWinLength();
 		
@@ -111,16 +136,20 @@ public class Field {
 			snakePath.add(dir.SOUTH);
 		} snakePath.remove(snakePath.size() - 1);			
 				
-//		for(dir i : snakePath)
-//			System.out.println(i);
+/*		for(dir i : snakePath) //proof
+			System.out.println(i);*/
 		
 		board.addField(this);
 		initNextField();
 	}
-
 	
+	/** 
+	 * Creates a new field and anchors it as the neighbour of this (the one that calls the method) field.
+	 * This method works together with the Field-constructor below and the finishFieldAndInitNext() method
+	 * to allow for this self-building process.
+	 */
 	private void initNextField(){			
-		Field field = new Field(this, board, snakePath);
+		Field field = new Field(this);
 		setNeighbour(snakePath.get(pathPos), field);
 		
 		int newCol = column;
@@ -133,42 +162,51 @@ public class Field {
 		field.finishFieldAndInitNext();
 	}
 	
-	protected Field(Field field, Board board, ArrayList<dir> snakePath){
-		this.board = board;
-		this.snakePath = snakePath;
+	/**
+	 * Constructor.
+	 * This one is not called by Board, but by the first field that is created from Board.
+	 * 
+	 * @param field: the previous field that called the constructor for this new field
+	 */
+	protected Field(Field field){
 		boardDim = board.getBoardDim();
 		winLength = board.getWinLength();
 		pathPos = field.getPathPos() + 1;				
 	}
 	
+	/**
+	 * Sets the coordinates of a field after it was created. Has architectural reasons to not do this right in the constructor.
+	 * @param newRow
+	 * @param newCol
+	 */
 	protected void setPos(int newRow, int newCol){
 		row = newRow;
 		column = newCol;
 	}
 
+	/**
+	 * Finishes the creation of a new field by "shaking hands" with all available neighbours and initiating the next field if
+	 * we haven't reached the end of the snakePath yet
+	 */
 	protected void finishFieldAndInitNext(){		
 		if(row > 0){
 			if((row + 1) % 2 == 0){ //even rows				
-				if(column == boardDim - 1){ //RIGHT border in EVEN row					
+				if(column == boardDim - 1) //RIGHT border in EVEN row					
 					setNeighbour(dir.NORTHWEST, north.west);
-				}
 				else 
 					if(column == 0){ //LEFT border in EVEN row
 						setNeighbour(dir.NORTHEAST, east.north);
 						setNeighbour(dir.NORTH, east.north.west);
 					}
-					else{ //everything in between the borders of EVEN rows
-						
+					else{ //everything in between the borders of EVEN rows					
 						setNeighbour(dir.NORTHEAST, east.north);
 						setNeighbour(dir.NORTH, northeast.west);
 						setNeighbour(dir.NORTHWEST, north.west);					
 					}				
 			}
-			else{ //odd rows
-			
-				if(column == 0){ //LEFT border in ODD row					
+			else{ //odd rows			
+				if(column == 0) //LEFT border in ODD row					
 					setNeighbour(dir.NORTHEAST, north.east);
-				}
 				else 
 					if(column == boardDim - 1){ //RIGHT border in ODD row
 						setNeighbour(dir.NORTHWEST, west.north);
@@ -180,15 +218,16 @@ public class Field {
 						setNeighbour(dir.NORTHEAST, north.east);
 					}
 			}	
-		}
-		
+		}		
 		board.addField(this);
-
 		if(pathPos < snakePath.size())
 			initNextField();
 	}
-		
 	
+	/**
+	 * Collects the free fields into an ArrayList
+	 * @return ArrayList of free fields
+	 */
 	public ArrayList<Field> getFreeFields(){
 		ArrayList<Field> collect = new ArrayList<Field>();	
 		Field field = this;
@@ -202,7 +241,11 @@ public class Field {
 		return collect;
 	}
 	
-	
+	/**
+	 * Creates an Integer-array representation of the Board.
+	 * This is need later for performance reasons in the smart bots.
+	 * @return Integer-array that represents board
+	 */
 	public int[] getBoardAsArrBuilder(){		
 		int[] arr = new int[boardDim * boardDim];	
 		Field field = this;		
@@ -214,7 +257,6 @@ public class Field {
 		return arr;
 	}
 	
-	
 	public boolean isFree(){
 		return value == 0;
 	}
@@ -223,12 +265,19 @@ public class Field {
 		return value;
 	}
 	
+	/**
+	 * Sets a new mark and calls the method to look into all directions to do winCheck.
+	 * @param value
+	 */
 	public void setValue(int value){		
 		this.value = value;
 		ping360();		
 	}
 	
-	
+	/**
+	 * Wanders into all of the 8 directions to check the four possible winning islands this mark could have completed.
+	 * If indeed there is a winning island created through this mark - the method calls board to deliver the news along with the island that won.
+	 */
 	private void ping360(){				
 		Island horizontal = new Island(this);
 		horizontal.addMembers(wander(dir.NORTH));
@@ -255,6 +304,11 @@ public class Field {
 			board.islandWon(slash);						
 	}
 	
+	/**
+	 * Performs the process of "wandering along" into a direction
+	 * @param index dir-enum
+	 * @return the collected Fields that have the same value as the one from which we start the wandering
+	 */
 	private ArrayList<Field> wander(dir index){		
 		ArrayList<Field> sum = new ArrayList<Field>();
 		
@@ -275,6 +329,10 @@ public class Field {
 		return sum;
 	}
 
+	/**
+	 * Creates a string-representation of the fields, including their respective neighbours.
+	 * @return string-representation of all fields
+	 */
 	public String show() {
 		return "pathPos: " + pathPos + " val: " + value + " row: " + row + " column: " + column 
 				+ " E: " + (east == null ? "-" : east.getPathPos())
