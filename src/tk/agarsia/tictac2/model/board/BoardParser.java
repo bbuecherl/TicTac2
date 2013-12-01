@@ -32,6 +32,15 @@ public class BoardParser {
 		return i;
 	}
 
+	//TODO performance test
+	public static int[] boardArrCopy(int[] boardArr){		
+		int[] copy = new int[boardArr.length];
+		for(int i = 0; i < boardArr.length; i++)
+			copy[i] = boardArr[i];	
+		return copy;
+	}
+	
+	
 	//my performance tests result [~300ns]
 	public static ArrayList<Integer> getEmptyIndize(int[] arr){
 		ArrayList<Integer> temp = new ArrayList<Integer>();

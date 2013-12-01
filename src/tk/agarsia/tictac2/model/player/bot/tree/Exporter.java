@@ -23,7 +23,7 @@ public class Exporter {
         output.println("<graph>");
 
         for (Node node : nodes) {
-            node(node.getID(), node.showBoard(), node.getBoardDim(), node.wonOrLost(), node.iWon());
+            node(node.getID(), node.showBoard(), node.getDetails(), node.getBoardDim(), node.wonOrLost(), node.iWon(), node.getFlag());
         }
         for (Edge edge : edges) {
             edge(edge.hashCode(), edge.getSource().getID(), edge.getTarget().getID()); //generating hash-code just here, not needed before. but yED needs it to read the graphml-file
@@ -35,13 +35,13 @@ public class Exporter {
 
     }
 
-    private static void node(int ID, String value, int boardDim, boolean wonOrLost, boolean iWon) { //winState: 0 = no winner, 1 = i won, 2 =  i lost
+    private static void node(int ID, String value, String details, int boardDim, boolean wonOrLost, boolean iWon, boolean flag) { //winState: 0 = no winner, 1 = i won, 2 =  i lost
         output.println("<node id=" + '"' + ID + '"' + ">" +
                 "<data key=\"d5\"><![CDATA[Node ID: " + ID + "]]></data>" +
                 "<data key=\"d6\">" +
                 "<y:ShapeNode><y:Geometry height=\"" + (18 * boardDim) + "\" width=\"" + (14 * boardDim) + "\"/><y:Fill color=\"" + (!wonOrLost ? "#FFCC00" : (iWon ? "#0000FF" : "#FF0000")) + "\" transparent=\"false\"/>" +
                 "<y:BorderStyle color=\"#FF0000\" type=\"line\" width=\"1.0\"/>" +
-                "<y:NodeLabel textColor=\"#000000\">" + value + "</y:NodeLabel>" +
+                "<y:NodeLabel textColor=\"#000000\">" + value + (flag ? "\nFLAGGED" : "") + "</y:NodeLabel>" + //"\n" + details + "\n" + wonOrLost + "\n" + iWon +
                 "<y:Shape type=\"roundrectangle\"/></y:ShapeNode></data></node>");
     }
 

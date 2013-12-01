@@ -1,10 +1,114 @@
 package tk.agarsia.tictac2.model.player.bot.tree;
 
 import java.util.ArrayList;
+import tk.agarsia.tictac2.model.board.BoardParser;
+
+
+public class Node {
+
+	
+	private int ID;
+	private int boardDim;
+	private int[] boardArr;
+	private ArrayList<Node> parents = new ArrayList<Node>();
+	private ArrayList<Node> children = new ArrayList<Node>();
+	private int playerIndexIset;
+	private int playerIthinkFor;
+	private int winner = 0;
+	private boolean flag = false;
+	
+	public Node(Node parent, int[] boardArr, int boardDim, int winLength, int playerIndexIset, int playerIthinkFor){
+		ID = this.hashCode();
+		parents.add(parent);
+		this.boardDim = boardDim;
+		this.boardArr = boardArr;
+		this.playerIndexIset = playerIndexIset;
+		this.playerIthinkFor = playerIthinkFor;
+		winner = BoardParser.testBoardForWinner(boardArr, boardDim, winLength);
+	}
+	
+	public void flag(){
+		flag = true;
+	}
+	
+	public void addParent(Node parent){
+		parents.add(parent);
+	}
+	
+	public boolean compare(Node other){		
+		if(this.ID != other.getID()){
+			boolean sameBoardArr = true;
+			for(int i = 0; i < boardArr.length; i++)
+				if(other.getBoardArr()[i] != boardArr[i])
+					sameBoardArr = false;
+			if(sameBoardArr){
+				flag = true;
+				return true;
+			}
+			else
+				return false;
+		}	
+		return false;
+	}
+	
+	public boolean getFlag(){
+		return flag;
+	}
+	
+	public int[] getBoardArr(){
+		return boardArr;
+	}
+	
+	public int getID(){
+		return ID;
+	}
+	
+	public ArrayList<Node> getParents(){
+		return parents;
+	}
+	
+	public int getBoardDim(){
+		return boardDim;
+	}
+	
+	public boolean wonOrLost(){
+		return winner != 0;
+	}
+	
+	public boolean iWon(){
+		return winner == playerIthinkFor;
+	}
+	
+	public String getDetails(){
+		return "winner: " + winner + " playerIndexIset: " + playerIndexIset;
+	}
+	
+		
+	public String showBoard(){
+		String buffer = "";		
+		for(int row = 0; row < boardDim; row++){
+			for(int i = row * boardDim; i < row * boardDim + boardDim; i ++)				
+				buffer +=  boardArr[i] + " ";
+			buffer += "\n";
+		}
+		return buffer;
+	}
+	
+}
+
+
+
+
+
+
+//OLD NODE
+/*package tk.agarsia.tictac2.model.player.bot.tree;
+
+import java.util.ArrayList;
 
 import tk.agarsia.tictac2.model.board.BoardParser;
 
-public class Node {
+public class oldNode {
 
 	private TreeBuilder tree;
 	
@@ -17,10 +121,10 @@ public class Node {
 	protected int winner = 0;	
 	
 	protected Node parent = null;
-	protected ArrayList<Node> children = new ArrayList<Node>();
+	protected ArrayList<oldNode> children = new ArrayList<oldNode>();
 	
 	
-	public Node(TreeBuilder tree, Node parent, int[] boardArrParent, int[] turnIndize, int myPosInTurnIndize, int len, int wLen){
+	public oldNode(TreeBuilder tree, Node parent, int[] boardArrParent, int[] turnIndize, int myPosInTurnIndize, int len, int wLen){
 		this.tree = tree;
 		ID = this.hashCode();
 		this.len = len;
@@ -90,19 +194,20 @@ public class Node {
 		return boardArr;
 	}
 	
-	public void setParent(Node parent){
+	public void setParent(oldNode parent){
 		this.parent = parent;
 	}
 	
-	public Node getParent(){
+	public oldNode getParent(){
 		return parent;
 	}
 
-	public void addChild(Node child){
+	public void addChild(oldNode child){
 		children.add(child);
 	}
 	
-	public ArrayList<Node> getChildren(){
+	public ArrayList<oldNode> getChildren(){
 		return children;
 	}
 }
+*/

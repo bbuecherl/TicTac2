@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 import tk.agarsia.tictac2.model.board.Board;
+import tk.agarsia.tictac2.model.board.BoardParser;
 import tk.agarsia.tictac2.model.board.Field;
 
 public class TreeBuilder {
@@ -36,21 +37,49 @@ public class TreeBuilder {
 				marksCount = 1;
 			}
 		}	
-//		for(int i = 0; i < freeFieldCount; i++) //proof
-//			System.out.println(turnIndize[i]);
+		for(int i = 0; i < freeFieldCount; i++) //proof
+			System.out.println(turnIndize[i]);
 			
-		rootnode = new Node(this, null, board.getBoardAsArr(), turnIndize, 0, board.getBoardDim(), board.getWinLength());
+		int[] boardArr = board.getBoardAsArr();
+		rootnode = new Node(null, boardArr, board.getBoardDim(), board.getWinLength(), 0, currentPlayerIndex);
+		nodes.add(rootnode);	
+		
+		ArrayList<Node> level = new ArrayList<Node>();
+		level.add(rootnode);
+		
+		
+		for(int i = 0; i < 4; i ++){
+			whosTurn = turnIndize[i];
+			ArrayList<Node> nextLevel = new ArrayList<Node>();	
+			for(Node parent : level){
+				
+				if(!parent.wonOrLost()){				
+					int[] emptyIndize = BoardParser.getEmptyIndizeOpt(parent.getBoardArr());			
+					for(int j = 0; j < emptyIndize.length; j++){					
+						int[] newBoardArr = BoardParser.boardArrCopy(parent.getBoardArr());
+						newBoardArr[emptyIndize[j]] = whosTurn;					
+						Node node = new Node(parent, newBoardArr, board.getBoardDim(), board.getWinLength(), whosTurn, currentPlayerIndex);
+						nodes.add(node);
+						nextLevel.add(node);
+						edges.add(new Edge(parent, node));
+					}				
+				}			
+			}			
+
+			level.clear();
+			level = nextLevel;
+		}
+						
 		
 		try {
 			Exporter.doExport(this, "BotSmart_DecisionTree.graphml");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		System.out.println("export of decision tree sucessfull");	
+		System.out.println("export of decision tree sucessfull");
 		
 		System.exit(0);
-	}
-
+	}	
 	
 	public int getCurrentPlayerIndex(){
 		return currentPlayerIndex;
