@@ -5,67 +5,66 @@ import tk.agarsia.tictac2.model.player.AbstractPlayer;
 
 public class Game extends Thread {
 	
-	private int interval; // in ms
-	private int boardDim; // = 3;
-	private int winLength; // = 3;
-	private int marksPerTurn; // = 1;	
+	private int interval; //TODO release 2
+	
+	private int boardDim;
+	private int winLength;
+	
+	private int marksPerTurn;
 	private int markCount = 0;
+	
 	private int startPlayerIndex;
-	private int currentPlayerIndex; // = 1;	
+	private int currentPlayerIndex;
 	private AbstractPlayer currentPlayer;
 	
 	private AbstractPlayer[] players;
+	private AbstractPlayer winner = null;
 	
 	private Board board;
 	
 	private boolean gameRunning = false;
 	private boolean awaitingClick = false;
-	private AbstractPlayer winner = null;
 	
 	public Game(){
 		players = new AbstractPlayer[3];
 		players[0] = null;
 	}
 	
-	
 	/**
-	 * Function to get AbstractPlayer.
+	 * Gives access to all Players (Abstract player is extended by random bot, smart bot, local human or remote human).
 	 *            
-	 * 		@return returns a player object
-	 * 
+	 * 	@return the Array that holds all AbstractPlayer objects
 	 */
 	public AbstractPlayer[] getPlayers() {
 		return players;
 	}
 	
 	/**
-	 * Function to get the game board.
+	 * Gives access to the game board.
 	 *     
-	 * 		@return returns an board object
-	 *          
+	 * 	@return the instance of Board that is being played on
 	 */
 	public Board getBoard(){
 		return board;
-	}
-	
+	}		
 
 	/**
-	 * Function to awaiting a click from current player.
+	 *  Sets the awaitingClick boolean to true; whose trueness is the requirement for handling a board-click from the user 
 	 */
 	public void awaitingClick(){
 		System.out.println("awaiting click from " + currentPlayer.getName());
 		awaitingClick = true;
 	}
 	
-	
 	/**
-	 * Function to mark the current placement.
+	 *  Marks the desired cell of the board with the index of the currentPlayer.
+	 *  -1, -1 is the "code" for placing a mark randomly, used by random bot
+	 *  Only if the field is not occupied (=board.setField returns true) yet the method moves on to markComplete()
 	 * 
-	 * 		@param row
-	 * 		@param column
+	 * 	@param row of the desired cell
+	 * 	@param column of the desired cell
 	 * 
-	 * 		@return returns a true value if mark was correct, else value is false.
-	 * 
+	 * 	@return true if the mark was placed, false if not
 	 */
 	public boolean placeMark(int row, int column){
 		
@@ -83,8 +82,16 @@ public class Game extends Thread {
 	}
 
 	/**
-	 * Function to check if mark placement is complete and check if there is already a winner.
-	 * 
+	 * Completes the steps after having placed a mark successfully (otherwise this method wouldn't have been called).
+	 * Three cases are possible here:
+	 * Case 1: 
+	 * 		The board shifted into winState through the last mark -> this method sets the currentPlayer as the winner,
+	 * 		increments its win counter, sets the winning fields and terminates the game by putting gameRuning to false.
+	 * Case 2:
+	 * 		The board is not in winState but full -> the game terminates without a winner.
+	 * Case 3:
+	 * 		No winState and the board is not full yet -> next turn: the currentPlayer index is incremented (or not, depends if marCount has reached marksPerTurn),
+	 * 		the next (or same) player gets the "torch" and is notified that its his turn (myTurn()), awaitingClick will be set to false, the player will have to set it to true again
 	 */
 	private void markComplete(){
 		System.out.println("board after mark from " + currentPlayer.getName());
@@ -114,15 +121,13 @@ public class Game extends Thread {
 			winner.incrementGameWon();
 			winner.setWinningFields(board.getWinnersPositions());
 			gameRunning = false;
-		}
-		
+		}	
 	}
 	
 	/**
-	 * Function to check if game board is finished.
+	 * Access to the state of the game; running or terminated
 	 * 
-	 *     @return returns the status if the game is still running.
-	 * 
+	 *  @return true: game is running, false: game is over
 	 */
 	public boolean getGameRunning(){
 		return gameRunning;
@@ -130,20 +135,18 @@ public class Game extends Thread {
 	
 	
 	/**
-	 * Function to show current game board.
+	 * Gives access to a string-representation of the board that board can create
 	 * 
-	 *     @return returns an string that shows the current game board.
-	 * 
+	 *  @return string that represents the board (as many lines as rows)
 	 */
 	public String showBoard() {
 		return board.show(true);
 	}
 	
 	/**
-	 * Function to run the application.
+	 * Keep the thread running while gameRunning is true
 	 * 
-	 */
-	
+	 */	
 	@Override
 	public void run(){
 		while(gameRunning){
@@ -156,12 +159,14 @@ public class Game extends Thread {
 	}
 	
 	/**
-	 * Funktion to handle local player click
+	 * If game is awaiting a click from the user, this method passes the coordinates of a click to the current player where it then 
+	 * calls placeMark on game immediately. This "circular" approach was taken so that humans and bots can be "treated" the same 
+	 * way from a code-architecture point of view
 	 * 
-	 * @param row
-	 * @param column
+	 * @param clicked row
+	 * @param clicked column
 	 * 
-	 * @return returns a true oder false value for the awaiting click.
+	 * @return true if the mark was placed successfully. false: if no click is being awaited or if the field is already taken.
 	 */
 	public boolean handleLocalPlayerClick(int row, int column) {
 		if(awaitingClick){		
@@ -174,18 +179,16 @@ public class Game extends Thread {
 	}
 	
 	/**
-	 * Function to initialize options for the board to play.
+	 * Initializes the parameters for this game based on what the user set in the options.
+	 * Note: The option-screen is already taking care that no pointless parameters are set. 
+	 * For instance a winLength higher than the boardDimension makes winning impossible whereas
+	 * marksPerTurn as high as the winLength lets the first player win right away.
 	 * 
-	 * @param interval
-	 * 			in ms.
-	 * @param boardDim
-	 * 			set board dimension.
-	 * @param winLength
-	 * 			set win Length.
-	 * @param marksPerTurn
-	 * 			set how many marks per round are allowed.
-	 * @param startPlayerIndex
-	 * 			which player starts.
+	 * @param interval: in ms
+	 * @param boardDim: the dimension of the board from 3x3 to 6x6
+	 * @param winLength: the length of connected fields required for winning
+	 * @param marksPerTurn: how many marks a player can place per round 
+	 * @param startPlayerIndex: the index of the player who has the first turn: 1 or 2
 	 * 
 	 */
 	public void initModel(int interval, int boardDim, int winLength, int marksPerTurn, int startPlayerIndex) {
@@ -199,13 +202,10 @@ public class Game extends Thread {
 	}
 	
 	/**
-	 * Function to initialize Player1 and Player 2.
+	 * Setting the players based on the choices in the previous option screen
 	 *    
-	 *            @param player1
-	 *            			Set an AbspractPlayer 1.
-	 *            @param player2
-	 *            			Set an AbspractPlayer 2.
-	 *            
+	 * @param player1 set AbspractPlayer 1.
+	 * @param player2 set AbspractPlayer 2.           
 	 */
 	public void setPlayers(AbstractPlayer player1, AbstractPlayer player2){
 		players[1] = player1;
@@ -213,7 +213,7 @@ public class Game extends Thread {
 	}
 	
 	/**
-	 * Function to start a game.
+	 * Starts the game by setting gameRunning to true, passing the "torch" to the first player an notifying him that its his turn
 	 */
 	public void start(){	
 		gameRunning = true;
@@ -227,7 +227,7 @@ public class Game extends Thread {
 	}
 	
 	/**
-	 * Function to reset the Player who starts and the game board.
+	 * Resetting the game.
 	 */
 	public void reset() {
 		currentPlayerIndex = startPlayerIndex;
@@ -235,70 +235,71 @@ public class Game extends Thread {
 	}
 
 	/**
-	 * Function to get the board dimensions.
+	 * Gives access to the board dimension.
 	 * 
-	 * @return returns the current game board dimension.
+	 * @return boardDim
 	 */
 	public int getBoardDim() {
 		return boardDim;
 	}
 
 	/**
-	 * Function to get win length.
+	 * Gives access to the winning length.
 	 * 
-	 * @return returns the set win Length.
+	 * @return winLength
 	 */
 	public int getWinLength() {
 		return winLength;
 	}
 
 	/**
-	 * Function to get how many marks per round are allowed.
+	 * Gives access to the number of marks that are allowed per player per turn
 	 * 
-	 * @return returns the set marks allowed per turn.
+	 * @return marksPerTurn
 	 */
 	public int getMarksPerTurn() {
 		return marksPerTurn;
 	}
 
 	/**
-	 * Function to get the player to start the game.
+	 * Gives access to the index of the player who had the first turn: 1 or 2
 	 * 
-	 * @return returns the player index who start the game.
+	 * @return startPlayerIndex
 	 */
 	public int getStartPlayerIndex() {
 		return startPlayerIndex;
 	}
 
 	/**
-	 * Function to hold the game.
+	 * Pauses the game.
+	 * Not implemented yet.
 	 */
-	public void pause() {}
-
+	public void pause() {
+		//TODO
+	}
 
 	/**
-	 * Function to get the current player index.
+	 * Gives access to the index of the player whos turn it currently is: 1 or 2
 	 * 
-	 * @return returns the current player index.
+	 * @return currentPlayerIndex
 	 */
 	public int getCurrentPlayerIndex() {
 		return currentPlayerIndex;
 	}
 
-
 	/**
-	 * Function to get the winner.
+	 * Gives access to the player how won
 	 * 
-	 * @return returns the winner.
+	 * @return the winner, null if there is no winner (yet)
 	 */
 	public AbstractPlayer getWinner() {
 		return winner;
 	}
 
 	/**
-	 * Function to get current game history.
+	 * Gives access to the recorded game history.
 	 * 
-	 * @return returns a string of the board history.
+	 * @return a string of the game history, recorded by the board whenver a mark was set
 	 */
 	public String getGameRecording() {
 		return board.getHistory();

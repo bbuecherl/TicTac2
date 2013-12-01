@@ -985,7 +985,7 @@ containing a value of this type.
         public static final int ic_action_back=0x7f020059;
         public static final int ic_action_next=0x7f02005a;
         public static final int ic_action_settings=0x7f02005b;
-        public static final int ic_launcher=0x7f02005c;
+        public static final int launcher=0x7f02005c;
     }
     public static final class id {
         public static final int action_about=0x7f060056;

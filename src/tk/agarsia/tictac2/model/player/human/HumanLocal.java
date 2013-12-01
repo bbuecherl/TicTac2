@@ -11,6 +11,10 @@ public class HumanLocal extends AbstractPlayer{
 		setName(name);		
 	}
 
+	/**
+	 * Tells game that we are waiting for a click. Once that click comes in, game is calling the myChoice method below directly.
+	 * So this object doesn't influence the choice anymore - but given the fact that the local physical player has clicked, there is no need to modify that choice :)
+	 */
 	@Override
 	public void myTurn() {
 		game.awaitingClick();	

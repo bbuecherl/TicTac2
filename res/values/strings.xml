@@ -12,7 +12,7 @@
     <string name="next">Next</string>
     <string name="back">Back</string>
     <string name="logo">TicTac2</string>
-    <string name="about_text">TicTac2 v0.1\nDevelopers Edition\n\nContributors:\nbenjaminaaron\nagarsia\ntuttirh\ngherndl\n\nProject website:\nhttp://agarsia.tk/tictac2\n\nSounds from http://freesound.org/</string>
+    <string name="about_text">TicTac2 v1.0\nRelease Edition\n\nContributors:\n<a href="http://benjaminaaron.wordpress.com/">benjaminaaron</a>\n<a href="http://agarsia.tk">agarsia</a>\n<a href="https://github.com/TuttiRH">tuttirh</a>\n<a href="https://github.com/gherndl">gherndl</a>\n\nProject website:\n<a href="http://agarsia.tk/tictac2/">http://agarsia.tk/tictac2</a>\n\nSounds from <a href="http://freesound.org">http://freesound.org/</a></string>
 	<string name="ok">OK</string>
 	<string name="share">Share</string>
 	
