@@ -1,5 +1,7 @@
 package tk.agarsia.tictac2.view;
 
+import com.google.android.gms.common.GooglePlayServicesUtil;
+
 import tk.agarsia.tictac2.controller.AppStackController;
 import tk.agarsia.tictac2.controller.ApplicationControl;
 import tk.agarsia.tictac2.view.activities.MenuActivity;
@@ -22,7 +24,12 @@ public class TicTac2 extends Activity {
 				
 		//init controller
 		ApplicationControl.init(getApplicationContext());
-				
+		
+		//test google play services
+		int gps = GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext());		
+
+		GooglePlayServicesUtil.getErrorDialog(gps,this,0);
+		
 		//start menu activity
 		ApplicationControl.start(this,MenuActivity.class);
 	}
