@@ -41,7 +41,7 @@ public class Exporter {
                 "<data key=\"d6\">" +
                 "<y:ShapeNode><y:Geometry height=\"" + (18 * boardDim) + "\" width=\"" + (14 * boardDim) + "\"/><y:Fill color=\"" + (!wonOrLost ? "#FFCC00" : (iWon ? "#0000FF" : "#FF0000")) + "\" transparent=\"false\"/>" +
                 "<y:BorderStyle color=\"#FF0000\" type=\"line\" width=\"1.0\"/>" +
-                "<y:NodeLabel textColor=\"#000000\">" + value + (flag ? "\nFLAGGED" : "") + "</y:NodeLabel>" + //"\n" + details + "\n" + wonOrLost + "\n" + iWon +
+                "<y:NodeLabel textColor=\"#000000\">" + value + (flag ? "\nFLAGGED" : "not flagged") + "</y:NodeLabel>" + //"\n" + details + "\n" + wonOrLost + "\n" + iWon +
                 "<y:Shape type=\"roundrectangle\"/></y:ShapeNode></data></node>");
     }
 

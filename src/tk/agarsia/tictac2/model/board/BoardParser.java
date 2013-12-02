@@ -40,6 +40,17 @@ public class BoardParser {
 		return copy;
 	}
 	
+	//TODO performance test
+	public static boolean areEqual(int[] boardArr1, int[] boardArr2){
+		if(boardArr1.length != boardArr2.length)
+			return false;
+		boolean areEqual = true;
+		for(int i = 0; i < boardArr1.length; i++)
+			if(boardArr1[i] != boardArr2[i])
+				areEqual = false;	
+		return areEqual;
+	}
+	
 	
 	//my performance tests result [~300ns]
 	public static ArrayList<Integer> getEmptyIndize(int[] arr){

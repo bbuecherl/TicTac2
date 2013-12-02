@@ -7,23 +7,43 @@ import tk.agarsia.tictac2.model.board.BoardParser;
 public class Node {
 
 	
+	private static int boardDim;
+	private static int winLength;
+	private static int playerIthinkFor; //currentPlayerIndex
+	
 	private int ID;
-	private int boardDim;
+
 	private int[] boardArr;
 	private ArrayList<Node> parents = new ArrayList<Node>();
 	private ArrayList<Node> children = new ArrayList<Node>();
 	private int playerIndexIset;
-	private int playerIthinkFor;
 	private int winner = 0;
+	private int vertical = 0;
 	private boolean flag = false;
 	
-	public Node(Node parent, int[] boardArr, int boardDim, int winLength, int playerIndexIset, int playerIthinkFor){
+	public static void setStaticParams(int boardDim, int winLength, int plazerIthinkFor){
+		Node.boardDim = boardDim;
+		Node.winLength = winLength;
+		Node.playerIthinkFor = playerIthinkFor;
+	}
+	
+	public Node(Node parent, int[] boardArr, int playerIndexIset){
 		ID = this.hashCode();
+		if(parent != null)
+			vertical = parent.getVertical() + 1;
 		parents.add(parent);
-		this.boardDim = boardDim;
 		this.boardArr = boardArr;
 		this.playerIndexIset = playerIndexIset;
-		this.playerIthinkFor = playerIthinkFor;
+		winner = BoardParser.testBoardForWinner(boardArr, boardDim, winLength);
+	}
+	
+	public Node(ArrayList<Node> parents, int playerIndexIset, int[] boardArr){
+		ID = this.hashCode();
+		
+		this.parents = parents;
+		
+		this.boardArr = boardArr;
+		this.playerIndexIset = playerIndexIset;
 		winner = BoardParser.testBoardForWinner(boardArr, boardDim, winLength);
 	}
 	
@@ -31,11 +51,38 @@ public class Node {
 		flag = true;
 	}
 	
-	public void addParent(Node parent){
+	public boolean getHasParent(){
+		return parents.size() > 0;
+	}
+	
+	public int getVertical(){
+		return vertical;
+	}
+	
+	public void addParent(Node parent){ // parent-child handshake
+		parents.add(parent);
+		parent.addChild(this);
+	}
+	
+	public void addChild(Node child){
+		children.add(child);
+	}
+	
+	public void addChildren(ArrayList<Node> children){
+		children.addAll(children);
+	}
+	
+	public ArrayList<Node> getChildren(){
+		return children;
+	}
+	
+	public void setNaturalParent(Node parent){
+		parents.clear();
 		parents.add(parent);
 	}
 	
-	public boolean compare(Node other){		
+//now happening in BoardParser
+/*	public boolean compare(Node other){		
 		if(this.ID != other.getID()){
 			boolean sameBoardArr = true;
 			for(int i = 0; i < boardArr.length; i++)
@@ -49,7 +96,7 @@ public class Node {
 				return false;
 		}	
 		return false;
-	}
+	}*/
 	
 	public boolean getFlag(){
 		return flag;
@@ -67,6 +114,10 @@ public class Node {
 		return parents;
 	}
 	
+	public Node getNaturalParent(){
+		return parents.get(0);
+	}
+	
 	public int getBoardDim(){
 		return boardDim;
 	}
@@ -79,10 +130,20 @@ public class Node {
 		return winner == playerIthinkFor;
 	}
 	
+	public int getPlayerIndexIset(){
+		return playerIndexIset;
+	}
+	
 	public String getDetails(){
 		return "winner: " + winner + " playerIndexIset: " + playerIndexIset;
 	}
 	
+	public String showNode(){
+		String buffer = "node_" + ID + ": [ ";
+		for(int i = 0; i < boardArr.length; i++)
+			buffer +=  boardArr[i] + " ";
+		return buffer + "]";
+	}
 		
 	public String showBoard(){
 		String buffer = "";		
