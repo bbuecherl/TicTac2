@@ -23,10 +23,10 @@ public class Exporter {
         output.println("<graph>");
 
         for (Node node : nodes) {
-            node(node.getID(), node.showBoard(), node.getDetails(), node.getBoardDim(), node.wonOrLost(), node.iWon(), node.getFlag());
+            node(node.getID(), node.showBoard(), node.getDetails(), node.getBoardDim(), node.wonOrLost(), node.iWon(), node.getExtraInfo());
         }
         for (Edge edge : edges) {
-            edge(edge.hashCode(), edge.getSource().getID(), edge.getTarget().getID()); //generating hash-code just here, not needed before. but yED needs it to read the graphml-file
+            edge(edge.hashCode(), edge.getSource().getID(), edge.getTarget()); //generating hash-code just here, not needed before. but yED needs it to read the graphml-file
         }
 
         output.println("</graph>");
@@ -35,23 +35,33 @@ public class Exporter {
 
     }
 
-    private static void node(int ID, String value, String details, int boardDim, boolean wonOrLost, boolean iWon, boolean flag) { //winState: 0 = no winner, 1 = i won, 2 =  i lost
+    private static void node(int ID, String value, String details, int boardDim, boolean wonOrLost, boolean iWon, String extraInfo) { //winState: 0 = no winner, 1 = i won, 2 =  i lost
         output.println("<node id=" + '"' + ID + '"' + ">" +
                 "<data key=\"d5\"><![CDATA[Node ID: " + ID + "]]></data>" +
                 "<data key=\"d6\">" +
-                "<y:ShapeNode><y:Geometry height=\"" + (18 * boardDim) + "\" width=\"" + (14 * boardDim) + "\"/><y:Fill color=\"" + (!wonOrLost ? "#FFCC00" : (iWon ? "#0000FF" : "#FF0000")) + "\" transparent=\"false\"/>" +
-                "<y:BorderStyle color=\"#FF0000\" type=\"line\" width=\"1.0\"/>" +
-                "<y:NodeLabel textColor=\"#000000\">" + value + (flag ? "\nFLAGGED" : "not flagged") + "</y:NodeLabel>" + //"\n" + details + "\n" + wonOrLost + "\n" + iWon +
+                "<y:ShapeNode><y:Geometry height=\"" + (18 * boardDim) + "\" width=\"" + (14 * boardDim) + "\"/><y:Fill color=\"" + (!wonOrLost ? "#FFCC00" : (iWon ? "#00CCFF" : "#FF0000")) + "\" transparent=\"false\"/>" +
+                "<y:BorderStyle color=\"#666666\" type=\"line\" width=\"0.5\"/>" +
+                "<y:NodeLabel textColor=\"#000000\">" + value + extraInfo + "</y:NodeLabel>" + //"\n" + details + "\n" + wonOrLost + "\n" + iWon +
                 "<y:Shape type=\"roundrectangle\"/></y:ShapeNode></data></node>");
     }
 
-    private static void edge(int ID, int sourceID, int targetID) {
-        output.println("<edge id=" + '"' + ID + '"' + " source=" + '"' + sourceID + '"' + " target=" + '"' + targetID + '"' + ">" +
+    private static void edge(int ID, int sourceID, Node target) {
+        output.println("<edge id=" + '"' + ID + '"' + " source=" + '"' + sourceID + '"' + " target=" + '"' + target.getID() + '"' + ">" +
                 "<data key=\"d9\"><![CDATA[Edge ID: " + ID + "]]></data>" +
                 "<data key=\"d10\"><y:BezierEdge>" +
-                "<y:LineStyle color=\"#000000\" type=\"line\" width=\"1.0\"/>" +
+                "<y:LineStyle color=\""               
+				+ (!target.wonOrLost() ? 
+						"#666666\" type=\"line\" width=\"1.0"  // target is neither win or loose node, default
+					  : (target.iWon() ? 
+						"#00CCFF\" type=\"line\" width=\"2.0"  // target is win node
+					  : "#FF0000\" type=\"line\" width=\"2.0"  // target is loose node
+								 ))
+                + "\"/>" +
                 "<y:Arrows source=\"none\" target=\"standard\"/>" +
                 "</y:BezierEdge></data></edge>");
         output.println("");
     }
+    
+   
+    
 }

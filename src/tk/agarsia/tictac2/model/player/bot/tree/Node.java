@@ -19,16 +19,15 @@ public class Node {
 	private int playerIndexIset;
 	private int winner = 0;
 	private int vertical = 0;
-	private boolean flag = false;
 	
-	public static void setStaticParams(int boardDim, int winLength, int plazerIthinkFor){
+	public static void setStaticParams(int boardDim, int winLength, int playerIthinkFor){
 		Node.boardDim = boardDim;
 		Node.winLength = winLength;
 		Node.playerIthinkFor = playerIthinkFor;
 	}
 	
-	public Node(Node parent, int[] boardArr, int playerIndexIset){
-		ID = this.hashCode();
+	public Node(Node parent, int ID, int[] boardArr, int playerIndexIset){
+		this.ID = ID;
 		if(parent != null)
 			vertical = parent.getVertical() + 1;
 		parents.add(parent);
@@ -47,8 +46,10 @@ public class Node {
 		winner = BoardParser.testBoardForWinner(boardArr, boardDim, winLength);
 	}
 	
-	public void flag(){
-		flag = true;
+	
+	public String getExtraInfo(){		
+		//return "\niSet: " + playerIndexIset + " iThinkFor: " + playerIthinkFor;
+		return "";
 	}
 	
 	public boolean getHasParent(){
@@ -98,10 +99,6 @@ public class Node {
 		return false;
 	}*/
 	
-	public boolean getFlag(){
-		return flag;
-	}
-	
 	public int[] getBoardArr(){
 		return boardArr;
 	}
@@ -150,7 +147,7 @@ public class Node {
 		for(int row = 0; row < boardDim; row++){
 			for(int i = row * boardDim; i < row * boardDim + boardDim; i ++)				
 				buffer +=  boardArr[i] + " ";
-			buffer += "\n";
+			buffer = buffer.substring(0, buffer.length() - 1) + "\n";
 		}
 		return buffer;
 	}

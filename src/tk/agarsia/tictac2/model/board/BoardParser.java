@@ -32,6 +32,15 @@ public class BoardParser {
 		return i;
 	}
 
+	
+	//TODO performance test
+	public static int mergeArrIntoInteger(int[] boardArr){
+		String temp = "";		
+		for(int i = 0; i < boardArr.length; i++)
+			temp += boardArr[i];		
+		return Integer.parseInt(temp);
+	}
+	
 	//TODO performance test
 	public static int[] boardArrCopy(int[] boardArr){		
 		int[] copy = new int[boardArr.length];
