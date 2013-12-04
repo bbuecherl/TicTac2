@@ -34,11 +34,11 @@ public class BoardParser {
 
 	
 	//TODO performance test
-	public static int mergeArrIntoInteger(int[] boardArr){
+	public static String mergeArrIntoInteger(int[] boardArr){
 		String temp = "";		
 		for(int i = 0; i < boardArr.length; i++)
 			temp += boardArr[i];		
-		return Integer.parseInt(temp);
+		return temp;
 	}
 	
 	//TODO performance test
@@ -49,15 +49,14 @@ public class BoardParser {
 		return copy;
 	}
 	
-	//TODO performance test
+	//performance improved by @agarsia
 	public static boolean areEqual(int[] boardArr1, int[] boardArr2){
 		if(boardArr1.length != boardArr2.length)
 			return false;
-		boolean areEqual = true;
 		for(int i = 0; i < boardArr1.length; i++)
 			if(boardArr1[i] != boardArr2[i])
-				areEqual = false;	
-		return areEqual;
+				return false;	
+		return true;
 	}
 	
 	

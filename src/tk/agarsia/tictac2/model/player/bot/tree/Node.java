@@ -9,47 +9,132 @@ public class Node {
 	
 	private static int boardDim;
 	private static int winLength;
-	private static int playerIthinkFor; //currentPlayerIndex
-	
-	private int ID;
+	private static int playerIndexIthinkFor;
+	private static int maxDepth;
+			
+	private String ID;
 
 	private int[] boardArr;
+	private int indexWhereIplacedMyMark;
 	private ArrayList<Node> parents = new ArrayList<Node>();
 	private ArrayList<Node> children = new ArrayList<Node>();
-	private int playerIndexIset;
-	private int winner = 0;
 	private int vertical = 0;
+	private int weightFactor = 1;
 	
-	public static void setStaticParams(int boardDim, int winLength, int playerIthinkFor){
+	/**
+	 * 0: no winner
+	 * 1: i won
+	 * -1: i lost
+	 */
+	private int nodeState = 0;
+	
+	private int winnersBelow = 0;
+	private int winnersBelowWeighted = 0;
+	private int loosersBelow = 0;
+	private int loosersBelowWeighted = 0;
+	
+
+	public int getNodeState(){
+		return nodeState;
+	}
+	
+	public void incrementWinnersLineageUpwards(){		
+		for(Node parent : parents)
+			parent.incrementWinnersLineageUpwards();	
+		if(!isLeaf())
+			incrementWinnersBelow();	
+	}
+	
+	public void incrementWinnersBelow(){
+			winnersBelow ++;	
+			winnersBelowWeighted += weightFactor;
+	}
+	
+	public void incrementLoosersLineageUpwards(){
+		for(Node parent : parents)
+			parent.incrementLoosersLineageUpwards();
+		if(!isLeaf())
+			incrementLoosersBelow();		
+	}
+	
+	public void incrementLoosersBelow(){
+		loosersBelow ++;
+		loosersBelowWeighted += weightFactor;
+	}
+	
+	public int getWeightedDifference(){
+		return winnersBelowWeighted - loosersBelowWeighted;
+	}
+	
+	public int getWinnersBelow(){
+		return winnersBelow;
+	}
+	
+	public int getLoosersBelow(){
+		return loosersBelow;
+	}
+	
+	public boolean isLeaf(){
+		return children.size() == 0;
+	}
+	
+	public static void setStaticParams(int boardDim, int maxDepth, int winLength, int playerIndexIthinkFor){
 		Node.boardDim = boardDim;
+		Node.maxDepth = maxDepth;
 		Node.winLength = winLength;
-		Node.playerIthinkFor = playerIthinkFor;
+		Node.playerIndexIthinkFor = playerIndexIthinkFor;
 	}
 	
-	public Node(Node parent, int ID, int[] boardArr, int playerIndexIset){
+	public Node(Node parent, String ID, int[] boardArr, int indexWhereIplacedMyMark){
 		this.ID = ID;
-		if(parent != null)
+		if(parent != null){
 			vertical = parent.getVertical() + 1;
-		parents.add(parent);
+			addParent(parent); //parents.add(parent);
+		}
 		this.boardArr = boardArr;
-		this.playerIndexIset = playerIndexIset;
-		winner = BoardParser.testBoardForWinner(boardArr, boardDim, winLength);
+		this.indexWhereIplacedMyMark = indexWhereIplacedMyMark;
+		
+		int winCheck = BoardParser.testBoardForWinner(boardArr, boardDim, winLength);
+		if(winCheck != 0)
+			nodeState = winCheck == playerIndexIthinkFor ? 1 : -1;
+		
+		//WEIGHT FACTOR
+		weightFactor = (maxDepth - vertical + 1) ^ 2;
 	}
 	
-	public Node(ArrayList<Node> parents, int playerIndexIset, int[] boardArr){
+	
+	public int getIndexWhereIplacedMyMark(){
+		return indexWhereIplacedMyMark;
+	}
+	
+	
+/*	public Node(ArrayList<Node> parentsParam, int[] boardArr){
 		ID = this.hashCode();
 		
-		this.parents = parents;
+		for(Node parent : parentsParam) //this.parents = parents;
+			addParent(parent);
 		
 		this.boardArr = boardArr;
-		this.playerIndexIset = playerIndexIset;
-		winner = BoardParser.testBoardForWinner(boardArr, boardDim, winLength);
-	}
+		int winCheck = BoardParser.testBoardForWinner(boardArr, boardDim, winLength);
+		if(winCheck != 0)
+			nodeState = winCheck == playerIndexIthinkFor ? 1 : -1;
+	}*/
 	
 	
 	public String getExtraInfo(){		
-		//return "\niSet: " + playerIndexIset + " iThinkFor: " + playerIthinkFor;
-		return "";
+/*		String temp = "ID: " + ID + "\n";
+		
+		for(Node parent : parents)
+			temp += "parent: " + parent.getID() + "\n";
+		
+		for(Node child : children)
+			temp += "child: " + child.getID() + "\n";
+		
+		return temp + "nodeState: " + nodeState;
+		*/
+		return "winnersBelow: " + winnersBelow + "  loosersBelow: " + loosersBelow
+			+ "\nwinnersBelowWeighted: " + winnersBelowWeighted + "  loosersBelowWeighted: " + loosersBelowWeighted
+			+ "\nweight factor:" + weightFactor + "  weightedDifference: " + getWeightedDifference();
 	}
 	
 	public boolean getHasParent(){
@@ -82,28 +167,11 @@ public class Node {
 		parents.add(parent);
 	}
 	
-//now happening in BoardParser
-/*	public boolean compare(Node other){		
-		if(this.ID != other.getID()){
-			boolean sameBoardArr = true;
-			for(int i = 0; i < boardArr.length; i++)
-				if(other.getBoardArr()[i] != boardArr[i])
-					sameBoardArr = false;
-			if(sameBoardArr){
-				flag = true;
-				return true;
-			}
-			else
-				return false;
-		}	
-		return false;
-	}*/
-	
 	public int[] getBoardArr(){
 		return boardArr;
 	}
 	
-	public int getID(){
+	public String getID(){
 		return ID;
 	}
 	
@@ -120,21 +188,17 @@ public class Node {
 	}
 	
 	public boolean wonOrLost(){
-		return winner != 0;
+		return nodeState != 0;
 	}
 	
 	public boolean iWon(){
-		return winner == playerIthinkFor;
+		return nodeState == 1;
 	}
 	
-	public int getPlayerIndexIset(){
-		return playerIndexIset;
+	public boolean iLost(){
+		return nodeState == -1;
 	}
-	
-	public String getDetails(){
-		return "winner: " + winner + " playerIndexIset: " + playerIndexIset;
-	}
-	
+
 	public String showNode(){
 		String buffer = "node_" + ID + ": [ ";
 		for(int i = 0; i < boardArr.length; i++)
@@ -156,8 +220,22 @@ public class Node {
 
 
 
-
-
+//now happening in BoardParser
+/*	public boolean compare(Node other){		
+		if(this.ID != other.getID()){
+			boolean sameBoardArr = true;
+			for(int i = 0; i < boardArr.length; i++)
+				if(other.getBoardArr()[i] != boardArr[i])
+					sameBoardArr = false;
+			if(sameBoardArr){
+				flag = true;
+				return true;
+			}
+			else
+				return false;
+		}	
+		return false;
+	}*/
 
 //OLD NODE
 /*package tk.agarsia.tictac2.model.player.bot.tree;

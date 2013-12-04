@@ -155,6 +155,10 @@ public class Board {
 		getFreeFields().get(target - 1).setValue(currentPlayerIndex);
 	}
 	
+	public Field getSpecificFreeField(int freeIndexTarget){
+		return getFreeFields().get(freeIndexTarget);
+	}
+	
 	public String show(boolean numbering){
 		String buffer = "";
 		

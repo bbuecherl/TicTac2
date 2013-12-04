@@ -1,6 +1,7 @@
 package tk.agarsia.tictac2.model.player.bot;
 
 import tk.agarsia.tictac2.model.Game;
+import tk.agarsia.tictac2.model.board.Field;
 import tk.agarsia.tictac2.model.player.bot.tree.TreeBuilder;
 
 public class BotSmart extends AbstractBot{
@@ -15,10 +16,15 @@ public class BotSmart extends AbstractBot{
 	public void myTurn() {	
 		
 		System.out.println("it's smart bots turn...(currentPlayer: " + game.getCurrentPlayerIndex() + ")");
-											//first param is the maxDepth, this has to be implemented to be dynamically calculated though using the formula in issue #9 ...
-		TreeBuilder decisionGraph = new TreeBuilder(5, game.getBoard(), game.getCurrentPlayerIndex(), game.getMarksPerTurn());
+
+		int dynamicDepth = game.getBoard().getFreeFieldCount();
+		TreeBuilder decisionGraph = new TreeBuilder(dynamicDepth, game.getBoard(), game.getCurrentPlayerIndex(), game.getMarksPerTurn());
+		System.out.println("dynDepth: " + dynamicDepth);
 		
-		//it doesn't make choices just yet... hang in there :)
+		int chosenIndex = decisionGraph.getChoiceIndex();
+		System.out.println("chosenIndex: " + chosenIndex);
+		
+		myChoice(chosenIndex / game.getBoardDim(), chosenIndex % game.getBoardDim());
 	}
 
 	@Override

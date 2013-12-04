@@ -23,10 +23,10 @@ public class Exporter {
         output.println("<graph>");
 
         for (Node node : nodes) {
-            node(node.getID(), node.showBoard(), node.getDetails(), node.getBoardDim(), node.wonOrLost(), node.iWon(), node.getExtraInfo());
+            node(node.getID(), node.showBoard(), node.getBoardDim(), node.wonOrLost(), node.iWon(), node.getExtraInfo());
         }
         for (Edge edge : edges) {
-            edge(edge.hashCode(), edge.getSource().getID(), edge.getTarget()); //generating hash-code just here, not needed before. but yED needs it to read the graphml-file
+            edge(edge.getID(), edge.getSource().getID(), edge.getTarget()); //generating hash-code just here, not needed before. but yED needs it to read the graphml-file
         }
 
         output.println("</graph>");
@@ -35,7 +35,7 @@ public class Exporter {
 
     }
 
-    private static void node(int ID, String value, String details, int boardDim, boolean wonOrLost, boolean iWon, String extraInfo) { //winState: 0 = no winner, 1 = i won, 2 =  i lost
+    private static void node(String ID, String value,int boardDim, boolean wonOrLost, boolean iWon, String extraInfo) { //winState: 0 = no winner, 1 = i won, 2 =  i lost
         output.println("<node id=" + '"' + ID + '"' + ">" +
                 "<data key=\"d5\"><![CDATA[Node ID: " + ID + "]]></data>" +
                 "<data key=\"d6\">" +
@@ -45,7 +45,7 @@ public class Exporter {
                 "<y:Shape type=\"roundrectangle\"/></y:ShapeNode></data></node>");
     }
 
-    private static void edge(int ID, int sourceID, Node target) {
+    private static void edge(String ID, String sourceID, Node target) {
         output.println("<edge id=" + '"' + ID + '"' + " source=" + '"' + sourceID + '"' + " target=" + '"' + target.getID() + '"' + ">" +
                 "<data key=\"d9\"><![CDATA[Edge ID: " + ID + "]]></data>" +
                 "<data key=\"d10\"><y:BezierEdge>" +
