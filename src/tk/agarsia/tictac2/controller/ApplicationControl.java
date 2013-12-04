@@ -1,6 +1,7 @@
 package tk.agarsia.tictac2.controller;
 
 import tk.agarsia.tictac2.R;
+import tk.agarsia.tictac2.controller.play.PlayController;
 import tk.agarsia.tictac2.model.Game;
 import tk.agarsia.tictac2.model.player.human.HumanLocal;
 import tk.agarsia.tictac2.view.activities.GameActivity;
@@ -27,7 +28,7 @@ public abstract class ApplicationControl {
 	 * @since 1.0
 	 */
 	public static enum GameType {
-		INIT, SINGLEPLAYER, MULTIPLAYER;
+		INIT, SINGLE, LOCAL, ONLINE;
 	}
 
 	// static references
@@ -37,6 +38,7 @@ public abstract class ApplicationControl {
 	private static Game game;
 	private static GameActivity act;
 	private static GameController controller;
+	private static Context context;
 	private static boolean isInit = false;
 
 	/**
@@ -44,13 +46,15 @@ public abstract class ApplicationControl {
 	 * 
 	 * This method needs to be activated when the application starts. It
 	 * initializes a preferences shortcut, initializes the game and all
-	 * necessary controllers for Sound, Vibration and Game. It sets isInit
-	 * to true and uses reinit().
+	 * necessary controllers for Sound, Vibration and Game. It sets isInit to
+	 * true and uses reinit().
 	 * 
 	 * @param context
 	 *            context object of the application
 	 */
 	public static void init(Context context) {
+		ApplicationControl.context = context;
+
 		// load preferences
 		PreferenceManager.setDefaultValues(context, R.xml.prefs, false);
 
@@ -66,8 +70,8 @@ public abstract class ApplicationControl {
 		// initialize game
 		reinit();
 
-		// TODO start Google Play Service controller (will be implemented in
-		// Version 2.0)
+		// start Google Play Service controller
+		PlayController.init(context);
 
 		// finally initialized
 		isInit = true;
@@ -83,6 +87,15 @@ public abstract class ApplicationControl {
 	 */
 	public static boolean isInit() {
 		return isInit;
+	}
+
+	/**
+	 * Static getter method for the applications context
+	 * 
+	 * @return context object
+	 */
+	public static Context getContext() {
+		return context;
 	}
 
 	/**

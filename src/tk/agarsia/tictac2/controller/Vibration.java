@@ -1,6 +1,5 @@
 package tk.agarsia.tictac2.controller;
 
-import android.app.Application;
 import android.content.Context;
 import android.os.Vibrator;
 
@@ -39,7 +38,7 @@ public class Vibration {
 	 */
 	public static void init(Context context) {
 		vibrator = (Vibrator) context
-				.getSystemService(Application.VIBRATOR_SERVICE);
+				.getSystemService(Context.VIBRATOR_SERVICE);
 	}
 
 	/**

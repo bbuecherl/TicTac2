@@ -215,6 +215,7 @@ public class Game extends Thread {
 	/**
 	 * Starts the game by setting gameRunning to true, passing the "torch" to the first player an notifying him that its his turn
 	 */
+	@Override
 	public void start(){	
 		gameRunning = true;
 		System.out.println("game started with players: " + players[1].getName() + " and " + players[2].getName());
