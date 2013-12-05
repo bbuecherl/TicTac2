@@ -53,10 +53,10 @@ public class Board {
 		
 		new Field(this); //pure awesomeness... the whole board is building itself when just the first Field is instantiated :)
 				
-		for(int i = 0; i < boardDim; i++)	
+/*		for(int i = 0; i < boardDim; i++)	
 			for(int j = 0; j < boardDim; j++)
 				System.out.println(fields2D[i][j].show()); // proof
-	}
+*/	}
 	
 	/**
 	 * Function to add a field to the game board.
@@ -133,7 +133,14 @@ public class Board {
 	}
 	
 	public int[] getBoardAsArr(){
-		return fields2D[0][0].getBoardAsArrBuilder();
+		//return fields2D[0][0].getBoardAsArrBuilder();
+		
+		int[] boardArr = new int[boardDim * boardDim];
+		
+		for(int i = 0; i < boardDim * boardDim; i++)
+			boardArr[i] = fields2D[i / boardDim][i % boardDim].getValue();
+		
+		return boardArr;
 	}
 	
 	

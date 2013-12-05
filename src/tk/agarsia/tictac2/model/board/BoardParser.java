@@ -34,7 +34,7 @@ public class BoardParser {
 
 	
 	//TODO performance test
-	public static String mergeArrIntoInteger(int[] boardArr){
+	public static String mergeArrIntoString(int[] boardArr){
 		String temp = "";		
 		for(int i = 0; i < boardArr.length; i++)
 			temp += boardArr[i];		

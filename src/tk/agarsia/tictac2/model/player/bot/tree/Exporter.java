@@ -40,7 +40,7 @@ public class Exporter {
                 "<data key=\"d5\"><![CDATA[Node ID: " + ID + "]]></data>" +
                 "<data key=\"d6\">" +
                 "<y:ShapeNode><y:Geometry height=\"" + (18 * boardDim) + "\" width=\"" + (14 * boardDim) + "\"/><y:Fill color=\"" + (!wonOrLost ? "#FFCC00" : (iWon ? "#00CCFF" : "#FF0000")) + "\" transparent=\"false\"/>" +
-                "<y:BorderStyle color=\"#666666\" type=\"line\" width=\"0.5\"/>" +
+                "<y:BorderStyle color=\"#FFFFFF\" type=\"line\" width=\"0.5\"/>" +
                 "<y:NodeLabel textColor=\"#000000\">" + value + extraInfo + "</y:NodeLabel>" + //"\n" + details + "\n" + wonOrLost + "\n" + iWon +
                 "<y:Shape type=\"roundrectangle\"/></y:ShapeNode></data></node>");
     }

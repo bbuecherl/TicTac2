@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 import java.util.Map.Entry;
 
 import tk.agarsia.tictac2.model.board.Board;
@@ -14,6 +15,9 @@ public class TreeBuilder {
 	private Board initialBoard;
 	private int currentPlayerIndex;
 	private int maxDepth;
+	private int boardDim;
+	private int winLength;
+	private int marksPerTurn;
 	
 	//private ArrayList<Node> nodes = new ArrayList<Node>();
 	Map<String, Node> nodes = new HashMap<String, Node>();
@@ -22,13 +26,21 @@ public class TreeBuilder {
 	
 	private int indexWhereNodeWithMaxDiffPlacedMark = -1; //this is why we do the whole thing... we want the index where to place next!
 	
+	private boolean iWinNextMove = false;
+	
+	public boolean getIWinNextMove(){
+		return iWinNextMove;
+	}
 
 	public int getChoiceIndex(){
 		return indexWhereNodeWithMaxDiffPlacedMark;
 	}
 	
-	public TreeBuilder(int maxDepth, Board board, int currentPlayerIndex, int marksPerTurn) {
+	public TreeBuilder(int maxDepth, int currentMarksCount, Board board, int currentPlayerIndex, int marksPerTurn) {
 		this.maxDepth = maxDepth;
+		this.boardDim = board.getBoardDim();
+		this.winLength = board.getWinLength();
+		this.marksPerTurn = marksPerTurn;
 		this.initialBoard = board;
 		this.currentPlayerIndex = currentPlayerIndex;
 		
@@ -36,7 +48,7 @@ public class TreeBuilder {
 		int freeFieldCount = board.getFreeFieldCount();
 		int[] turnIndize = new int[freeFieldCount];
 		int whosTurn = currentPlayerIndex;
-		int marksCount = 1;
+		int marksCount = currentMarksCount; //start where we actually currently are
 		for(int i = 0; i < freeFieldCount; i++){
 			turnIndize[i] = whosTurn;
 			marksCount ++;
@@ -51,6 +63,7 @@ public class TreeBuilder {
 		Node.setStaticParams(board.getBoardDim(), maxDepth, board.getWinLength(), currentPlayerIndex);
 			
 		int[] boardArr = board.getBoardAsArr();
+		//System.out.println("boardArr: " + BoardParser.mergeArrIntoString(boardArr) + " " + boardArr.length); //debug
 		rootnode = new Node(null, "0", boardArr, -1); //-1 because this node doesn't place a mark, so it's just a dummy
 		nodes.put(rootnode.getID(), rootnode);
 				
@@ -65,13 +78,14 @@ public class TreeBuilder {
 			for(Node parent : level){
 				
 				if(!parent.wonOrLost()){				
-					int[] emptyIndize = BoardParser.getEmptyIndizeOpt(parent.getBoardArr());			
+					int[] emptyIndize = BoardParser.getEmptyIndizeOpt(parent.getBoardArr());
+					//System.out.println("emptyIndize: " + emptyIndize.length + " " + BoardParser.mergeArrIntoString(boardArr)); //debug
 					for(int j = 0; j < emptyIndize.length; j++){
 						//System.out.println("emptyIndize " + j + " : " + emptyIndize[j] + "  length: " + emptyIndize.length); //debug
 						int[] newBoardArr = BoardParser.boardArrCopy(parent.getBoardArr());
 						newBoardArr[emptyIndize[j]] = whosTurn;		
 						
-						String boardArrAsString = BoardParser.mergeArrIntoInteger(newBoardArr);
+						String boardArrAsString = BoardParser.mergeArrIntoString(newBoardArr);
 						
 						if(nodes.keySet().contains(boardArrAsString)){	//node alread in, just make a new link
 							Node alreadyThere = nodes.get(boardArrAsString);
@@ -93,47 +107,61 @@ public class TreeBuilder {
 
 		
 		//do all the winner/looser adding up using the weightFactor
-		for(int i = maxDepth; i >= 0; i--){			
+		for(int i = maxDepth - 1; i >= 0; i--){			
 			level.clear();
-			level = getNodesAtLevel(i);
+			level = getNodesAtLevel(i);	
+			for(Node node : level)
+				node.determineStatsDownwards();
+		}
+
 			
-			for(Node node : level){
-				if(node.getNodeState() == 1)
-					node.incrementWinnersLineageUpwards();
-				else
-					if(node.getNodeState() == -1)
-						node.incrementLoosersLineageUpwards();
+		//find best child of rootnode (highest difference-value), which is the choice of placing the mark indeed			
+		int maxDifference = -Integer.MAX_VALUE;			
+		Node rootnodeChildWithMaxDiff = null;
+	
+		for(Node rootnodeChild : rootnode.getChildren()){
+			//System.out.println("weightedDiff: " + rootnodeChild.getWeightedDifference()); // debugging			
+				
+			int myDiff = rootnodeChild.getWeightedDifference();
+			//System.out.println(rootnodeChild.getID() + " diff: " + myDiff); //debug
+			if(myDiff > maxDifference){
+				maxDifference = myDiff;
+				rootnodeChildWithMaxDiff = rootnodeChild;
 			}		
 		}
 
-		//check for immediate win first
+		
+/*		//go through once more to collect rootnode children with the same weightedDifference to the choose randomly amgonst them. TODO more performant?
+		ArrayList<Node> collectMaxDiffs = new ArrayList<Node>();
 		for(Node rootnodeChild : rootnode.getChildren())
-			if(rootnodeChild.iWon())
-				indexWhereNodeWithMaxDiffPlacedMark = rootnodeChild.getIndexWhereIplacedMyMark();
-			
-		//if no immediate win		
-		if(indexWhereNodeWithMaxDiffPlacedMark == -1){	
-			//find best child of rootnode (highest difference-value), which is the choice of placing the mark indeed
-			int maxDifference = -Integer.MAX_VALUE;
-			for(Node rootnodeChild : rootnode.getChildren()){
-				//System.out.println("weightedDiff: " + rootnodeChild.getWeightedDifference()); // debugging
-				if(rootnodeChild.getWeightedDifference() > maxDifference){
-					maxDifference = rootnodeChild.getWeightedDifference();
-					indexWhereNodeWithMaxDiffPlacedMark = rootnodeChild.getIndexWhereIplacedMyMark();		
-				}		
-			}
+			if(rootnodeChild.getWeightedDifference() == maxDifference)
+				collectMaxDiffs.add(rootnodeChild);
+
+		if(collectMaxDiffs.size() > 1){
+			Random randomGenerator = new Random();
+			int randomChoice = randomGenerator.nextInt(collectMaxDiffs.size());
+			rootnodeChildWithMaxDiff = collectMaxDiffs.get(randomChoice);
 		}
 		
-			
-/*		try {
-			Exporter.doExport(this, "GRAPH_boardDim" + board.getBoardDim() + "_winLength" + board.getWinLength() + "_marksPerTurn" + marksPerTurn + "_depth" + maxDepth + "_nodes"+ nodes.size() + "_edges" + edges.size() + ".graphml");
+		if(rootnodeChildWithMaxDiff.iWon())
+			iWinNextMove = true;*/
+				
+		indexWhereNodeWithMaxDiffPlacedMark = rootnodeChildWithMaxDiff.getIndexWhereIplacedMyMark();	
+		System.out.println("maxDiff is owned by " + rootnodeChildWithMaxDiff.getID() + " (possibly chosen randomly amongst siblings with same maxDiff) with weighted difference of: " + rootnodeChildWithMaxDiff.getWeightedDifference());
+	}	
+	
+	
+	public void export(){
+		try {
+			Exporter.doExport(this, "GRAPH_boardDim" + boardDim + "_winLength" + winLength + "_marksPerTurn" + marksPerTurn + "_depth" + maxDepth + "_nodes"+ nodes.size() + "_edges" + edges.size() + ".graphml");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		System.out.println("export of decision-graph sucessfull");*/
-		
+		System.out.println("export of decision-graph sucessfull");
 		//System.exit(0);
-	}	
+	}
+	
+	
 	
 	private ArrayList<Node> getNodesAtLevel(int vertical){	
 		ArrayList<Node> collect = new ArrayList<Node>();		

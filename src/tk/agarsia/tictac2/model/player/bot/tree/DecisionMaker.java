@@ -1,10 +1,10 @@
-package tk.agarsia.tictac2.model.player.bot.smart;
+/*package tk.agarsia.tictac2.model.player.bot.tree;
 
 import java.util.Arrays;
 
 import tk.agarsia.tictac2.model.board.BoardParser;
 
-/**
+*//**
  * In development...
  * 
  * Can be executed by:
@@ -19,8 +19,8 @@ import tk.agarsia.tictac2.model.board.BoardParser;
  *
  * (change the depth if you feel brave.)
  * 
- * @author agarsia (Bernhard Bücherl)
- */
+ * @author agarsia (Bernhard B??cherl)
+ *//*
 public class DecisionMaker {
 
 	//DEBUG
@@ -41,7 +41,7 @@ public class DecisionMaker {
 	
 	public static int[][][] generateTree(int board, int player, int mpt) {
 		int depth = DEPTH;
-		int size = BOARD_OFFSET + board*board/**2*/; //calculate z size (INFO+board+children)
+		int size = BOARD_OFFSET + board*board*//**2*//*; //calculate z size (INFO+board+children)
 		int boardSize = board * board;
 		int length = 1;
 		
@@ -180,4 +180,4 @@ public class DecisionMaker {
 		
 		return temp;
 	}
-}
+}*/

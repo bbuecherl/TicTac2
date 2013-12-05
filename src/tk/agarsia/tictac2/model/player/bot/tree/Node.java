@@ -1,7 +1,9 @@
 package tk.agarsia.tictac2.model.player.bot.tree;
 
 import java.util.ArrayList;
+
 import tk.agarsia.tictac2.model.board.BoardParser;
+import tk.agarsia.tictac2.model.board.BoardParserV2;
 
 
 public class Node {
@@ -38,7 +40,33 @@ public class Node {
 		return nodeState;
 	}
 	
-	public void incrementWinnersLineageUpwards(){		
+	public void determineStatsDownwards(){		
+		for(Node child : children){		
+			winnersBelow += child.getWinnersBelow();
+			winnersBelowWeighted += child.getWinnersWeightedBelow();
+			loosersBelow += child.getLoosersBelow();
+			loosersBelowWeighted += child.getLoosersBelowWeighted();
+			
+			if(child.iWon()){
+				winnersBelow ++;
+				winnersBelowWeighted += weightFactor;
+			}
+			if(child.iLost()){
+				loosersBelow ++;
+				loosersBelowWeighted += weightFactor * weightFactor; //drastic penalty increase for potential wins of the opponent in the turn after mine
+			}
+		}
+		if(iWon()){
+			winnersBelow ++;
+			winnersBelowWeighted += weightFactor * weightFactor; // drastic bonus if i could win right now, why no give MAX_INTEGER here?
+		}
+		if(iLost()){
+			loosersBelow ++;
+			loosersBelowWeighted += weightFactor;
+		}
+	}
+	
+/*	public void incrementWinnersLineageUpwards(){		
 		for(Node parent : parents)
 			parent.incrementWinnersLineageUpwards();	
 		if(!isLeaf())
@@ -61,6 +89,7 @@ public class Node {
 		loosersBelow ++;
 		loosersBelowWeighted += weightFactor;
 	}
+	*/
 	
 	public int getWeightedDifference(){
 		return winnersBelowWeighted - loosersBelowWeighted;
@@ -68,6 +97,14 @@ public class Node {
 	
 	public int getWinnersBelow(){
 		return winnersBelow;
+	}
+	
+	public int getWinnersWeightedBelow(){
+		return winnersBelowWeighted;
+	}
+	
+	public int getLoosersBelowWeighted(){
+		return loosersBelowWeighted;
 	}
 	
 	public int getLoosersBelow(){
@@ -94,12 +131,17 @@ public class Node {
 		this.boardArr = boardArr;
 		this.indexWhereIplacedMyMark = indexWhereIplacedMyMark;
 		
-		int winCheck = BoardParser.testBoardForWinner(boardArr, boardDim, winLength);
+		BoardParserV2 bp = new BoardParserV2(); //TODO temporarily using V2
+		bp.testBoardForWinner(boardArr, boardDim, winLength);		
+		int winCheck = bp.getWinner();	
+		
+		//int winCheck = BoardParser.testBoardForWinner(boardArr, boardDim, winLength);
 		if(winCheck != 0)
 			nodeState = winCheck == playerIndexIthinkFor ? 1 : -1;
 		
 		//WEIGHT FACTOR
-		weightFactor = (maxDepth - vertical + 1) ^ 2;
+		int linearFactor = maxDepth - vertical + 1;
+		weightFactor = (int) Math.pow(linearFactor, 2); //the 2 can be higher...
 	}
 	
 	
@@ -107,34 +149,10 @@ public class Node {
 		return indexWhereIplacedMyMark;
 	}
 	
-	
-/*	public Node(ArrayList<Node> parentsParam, int[] boardArr){
-		ID = this.hashCode();
-		
-		for(Node parent : parentsParam) //this.parents = parents;
-			addParent(parent);
-		
-		this.boardArr = boardArr;
-		int winCheck = BoardParser.testBoardForWinner(boardArr, boardDim, winLength);
-		if(winCheck != 0)
-			nodeState = winCheck == playerIndexIthinkFor ? 1 : -1;
-	}*/
-	
-	
 	public String getExtraInfo(){		
-/*		String temp = "ID: " + ID + "\n";
-		
-		for(Node parent : parents)
-			temp += "parent: " + parent.getID() + "\n";
-		
-		for(Node child : children)
-			temp += "child: " + child.getID() + "\n";
-		
-		return temp + "nodeState: " + nodeState;
-		*/
 		return "winnersBelow: " + winnersBelow + "  loosersBelow: " + loosersBelow
 			+ "\nwinnersBelowWeighted: " + winnersBelowWeighted + "  loosersBelowWeighted: " + loosersBelowWeighted
-			+ "\nweight factor:" + weightFactor + "  weightedDifference: " + getWeightedDifference();
+			+ "\nweight factor: " + weightFactor + "  weightedDifference: " + getWeightedDifference();
 	}
 	
 	public boolean getHasParent(){
@@ -217,133 +235,3 @@ public class Node {
 	}
 	
 }
-
-
-
-//now happening in BoardParser
-/*	public boolean compare(Node other){		
-		if(this.ID != other.getID()){
-			boolean sameBoardArr = true;
-			for(int i = 0; i < boardArr.length; i++)
-				if(other.getBoardArr()[i] != boardArr[i])
-					sameBoardArr = false;
-			if(sameBoardArr){
-				flag = true;
-				return true;
-			}
-			else
-				return false;
-		}	
-		return false;
-	}*/
-
-//OLD NODE
-/*package tk.agarsia.tictac2.model.player.bot.tree;
-
-import java.util.ArrayList;
-
-import tk.agarsia.tictac2.model.board.BoardParser;
-
-public class oldNode {
-
-	private TreeBuilder tree;
-	
-	protected int ID;
-	protected int playerIset;
-	protected int[] boardArr;
-	protected int len;
-		
-	protected int vertical = 1;	
-	protected int winner = 0;	
-	
-	protected Node parent = null;
-	protected ArrayList<oldNode> children = new ArrayList<oldNode>();
-	
-	
-	public oldNode(TreeBuilder tree, Node parent, int[] boardArrParent, int[] turnIndize, int myPosInTurnIndize, int len, int wLen){
-		this.tree = tree;
-		ID = this.hashCode();
-		this.len = len;
-		this.playerIset = turnIndize[myPosInTurnIndize];
-			
-		tree.addNode(this);
-		
-		if(parent != null){ // if not rootnode 
-			this.parent = parent;
-			vertical = parent.getVertical() + 1;			
-			parent.addChild(this);
-			tree.addEdge(new Edge(parent, this));	
-		}
-	
-		//deep copying boardArr
-		boardArr = new int[boardArrParent.length];
-		for(int j = 0; j < boardArrParent.length; j++)
-			boardArr[j] = boardArrParent[j];	
-		
-		winner = BoardParser.testBoardForWinner(boardArr, len, wLen);
-		
-		if(winner == 0 && vertical < tree.getMaxDepth()){
-			int[] emptyIndize = BoardParser.getEmptyIndizeOpt(boardArr);
-			//ArrayList<Integer> emptyIndize = BoardParser.getEmptyIndize(boardArr);
-			
-			//for(int i : emptyIndize){
-			for(int i = 0; i < emptyIndize.length; i++){							
-				int j = emptyIndize[i];
-				boardArr[j] = playerIset;
-				new Node(tree, this, boardArr, turnIndize, myPosInTurnIndize + 1, len, wLen); 	
-				boardArr[j] = 0;				
-			}	
-		}
-	}
-	
-	public int getVertical(){
-		return vertical;
-	}
-	
-	public boolean wonOrLost(){
-		return winner != 0;
-	}
-	
-	public boolean iWon(){
-		return winner == tree.getCurrentPlayerIndex();
-	}
-	
-	public String showBoard(){
-		String buffer = "";		
-		for(int row = 0; row < len; row++){
-			for(int i = row * len; i < row * len + len; i ++)				
-				buffer +=  boardArr[i] + " ";
-			buffer += "\n";
-		}
-		return buffer;
-	}
-	
-	public int getID(){
-		return ID;
-	}
-	
-	public int getBoardDim(){
-		return len;
-	}
-	
-	public int[] getBoardArr(){
-		return boardArr;
-	}
-	
-	public void setParent(oldNode parent){
-		this.parent = parent;
-	}
-	
-	public oldNode getParent(){
-		return parent;
-	}
-
-	public void addChild(oldNode child){
-		children.add(child);
-	}
-	
-	public ArrayList<oldNode> getChildren(){
-		return children;
-	}
-}
-*/

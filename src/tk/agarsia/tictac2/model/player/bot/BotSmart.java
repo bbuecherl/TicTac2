@@ -1,30 +1,80 @@
 package tk.agarsia.tictac2.model.player.bot;
 
 import tk.agarsia.tictac2.model.Game;
-import tk.agarsia.tictac2.model.board.Field;
 import tk.agarsia.tictac2.model.player.bot.tree.TreeBuilder;
 
 public class BotSmart extends AbstractBot{
 
+	//int turnCount = 0;
+	private TreeBuilder decisionGraph;
+	private int marksPerTurn;
+	private int marksCount = 1;
+	
 	public BotSmart(Game game) {
 		super(game);
 		setPlayerType(2);
 		setName("SmartBot" + this.hashCode());
+		marksPerTurn = game.getMarksPerTurn();
 	}
 
+	public void exportLastGraph(){
+		decisionGraph.export();
+	}
+	
 	@Override
 	public void myTurn() {	
+		
+		marksCount ++;
+		if(marksCount > marksPerTurn)
+			marksCount = 1;
+		
+		//if(turnCount > 2){
 		
 		System.out.println("it's smart bots turn...(currentPlayer: " + game.getCurrentPlayerIndex() + ")");
 
 		int dynamicDepth = game.getBoard().getFreeFieldCount();
-		TreeBuilder decisionGraph = new TreeBuilder(dynamicDepth, game.getBoard(), game.getCurrentPlayerIndex(), game.getMarksPerTurn());
+		
+		int cap = 5;
+		if(game.getBoard().getBoardDim() > 4)
+			cap --;
+		if(game.getBoard().getBoardDim() > 5)
+			cap --;
+			
+		if(dynamicDepth > cap)
+			dynamicDepth = cap;
+		
+		//int depth = 5;
+		//System.out.println("init tree with depth " + depth);
+		decisionGraph = new TreeBuilder(dynamicDepth, marksCount, game.getBoard(), game.getCurrentPlayerIndex(), game.getMarksPerTurn());
 		System.out.println("dynDepth: " + dynamicDepth);
 		
 		int chosenIndex = decisionGraph.getChoiceIndex();
-		System.out.println("chosenIndex: " + chosenIndex);
 		
-		myChoice(chosenIndex / game.getBoardDim(), chosenIndex % game.getBoardDim());
+		int row = chosenIndex / game.getBoardDim();
+		int column = chosenIndex % game.getBoardDim();
+		
+		System.out.println("chosenIndex: " + chosenIndex + " > row: " + row + " column: " + column);
+		
+		
+/*		if(decisionGraph.getIWinNextMove())
+			decisionGraph.export();*/
+		
+		
+		myChoice(row, column);
+		
+/*		}
+		else{
+			
+			if(turnCount == 0)
+				myChoice(1, 2);
+			if(turnCount == 1)
+				myChoice(3, 3);
+			if(turnCount == 2)
+				myChoice(3, 2);		
+			
+			turnCount ++;
+		}*/
+		
 	}
 
 	@Override
