@@ -22,7 +22,7 @@ public class DecisionGrid {
 	/**
 	 * Static method to refactor the decision grid based on history events.
 	 * 
-	 * TODO performance optimization
+	 * TODO performance optimization & FIXME bugs
 	 * 
 	 * @param grid
 	 *            old decision grid that wil be refactored
@@ -94,7 +94,7 @@ public class DecisionGrid {
 	
 					//e. 
 					if (t2 == 1 && t1[0] != -1 && t1[1] != -1)
-						grid[t1[0]][t1[1]] = 1000;
+						grid[t1[0]][t1[1]] = 1000; //XXX causing trouble
 					
 					//d.
 					if(doubleIt>0 && t1[0] != -1 && t1[1] != -1) {
@@ -158,11 +158,11 @@ public class DecisionGrid {
 						}
 					}
 	
-					//e. 
+					// 
 					if (t2 == 1 && t1[0] != -1 && t1[1] != -1)
-						grid[t1[0]][t1[1]] = 2000;
+						grid[t1[0]][t1[1]] = 2000; //XXX causing trouble
 					
-					//d.
+					//
 					if(tribbleIt>0 && t1[0] != -1 && t1[1] != -1) {
 						grid[t1[0]][t1[1]] *=3;
 					}
