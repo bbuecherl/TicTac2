@@ -1,6 +1,7 @@
 # Directories #
 /build/
 /bin/
+/gen/
 target/
  
 # OS Files #
