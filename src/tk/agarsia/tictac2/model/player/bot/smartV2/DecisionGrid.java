@@ -35,6 +35,7 @@ public class DecisionGrid {
 	 */
 	public static void refactor(int[][] grid, Board board, int mpt, int wLen) {
 		ArrayList<int[]> h = board.getHistory();
+		//int roundsToWin = wLen - mpt;
 
 		// use rules for other player history
 		if(h.size()>=mpt)
@@ -54,7 +55,7 @@ public class DecisionGrid {
 					int[] t1 = new int[2];
 					t1[0] = -1;
 					t1[1] = -1;
-					int t2 = 0;
+					int t2 = 1;
 					int doubleIt = 0;
 					
 					for (int c = 0; c < b.length; c++) {
@@ -88,13 +89,13 @@ public class DecisionGrid {
 						} else if (board.getField(tx, ty).getValue() == mark) {
 							t2++; // if enemy got another field in there..
 						} else if (board.getField(tx, ty).getValue() == mark % 2 + 1) {
-							t2--; // if we got another field in there...
 						}
 					}
 	
 					//e. 
-					if (t2 == 1 && t1[0] != -1 && t1[1] != -1)
+					if (t2 >= wLen-1 && t1[0] != -1 && t1[1] != -1) {
 						grid[t1[0]][t1[1]] = 1000; //XXX causing trouble
+					}
 					
 					//d.
 					if(doubleIt>0 && t1[0] != -1 && t1[1] != -1) {
@@ -121,7 +122,7 @@ public class DecisionGrid {
 					int[] t1 = new int[2];
 					t1[0] = -1;
 					t1[1] = -1;
-					int t2 = 0;
+					int t2 = 1;
 					int tribbleIt = 0;
 					
 					for (int c = 0; c < b.length; c++) {
@@ -152,17 +153,16 @@ public class DecisionGrid {
 							t1[0] = tx;
 							t1[1] = ty;
 						} else if (board.getField(tx, ty).getValue() == mark) {
-							t2--; // if enemy got another field in there..
-						} else if (board.getField(tx, ty).getValue() == mark % 2 + 1) {
 							t2++; // if we got another field in there...
+						} else if (board.getField(tx, ty).getValue() == mark % 2 + 1) {
 						}
 					}
 	
-					// 
-					if (t2 == 1 && t1[0] != -1 && t1[1] != -1)
+					//g.
+					if (t2 >= wLen-1 && t1[0] != -1 && t1[1] != -1)
 						grid[t1[0]][t1[1]] = 2000; //XXX causing trouble
 					
-					//
+					//f.
 					if(tribbleIt>0 && t1[0] != -1 && t1[1] != -1) {
 						grid[t1[0]][t1[1]] *=3;
 					}
