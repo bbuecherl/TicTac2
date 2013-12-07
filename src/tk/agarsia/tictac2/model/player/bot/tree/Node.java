@@ -13,15 +13,18 @@ public class Node {
 	private static int winLength;
 	private static int playerIndexIthinkFor;
 	private static int maxDepth;
-			
+
 	private String ID;
 
 	private int[] boardArr;
-	private int indexWhereIplacedMyMark;
+	private int indexWhereIplacedMyMark = -1;
+	private int forHowManyTurnsLeftIsItMyTurn = 0;
+	private int playerIndexIplace = 0;
 	private ArrayList<Node> parents = new ArrayList<Node>();
 	private ArrayList<Node> children = new ArrayList<Node>();
 	private int vertical = 0;
-	private int weightFactor = 1;
+	private int weightFactorWin = 1;
+	private int weightFactorLoss = 1;
 	
 	/**
 	 * 0: no winner
@@ -30,89 +33,69 @@ public class Node {
 	 */
 	private int nodeState = 0;
 	
-	private int winnersBelow = 0;
-	private int winnersBelowWeighted = 0;
-	private int loosersBelow = 0;
-	private int loosersBelowWeighted = 0;
+	private int winners = 0;
+	private int winnersWEIGHTED = 0;
+	private int losers = 0;
+	private int losersWEIGHTED = 0;
 	
 
+	public int getForHowManyTurnsLeftIsItMyTurn(){
+		return forHowManyTurnsLeftIsItMyTurn;
+	}
+	
+	public int getPlayerIndexIplace(){
+		return playerIndexIplace;
+	}
+	
 	public int getNodeState(){
 		return nodeState;
 	}
 	
-	public void determineStatsDownwards(){		
+	public void countWinLoss(){		
 		for(Node child : children){		
-			winnersBelow += child.getWinnersBelow();
-			winnersBelowWeighted += child.getWinnersWeightedBelow();
-			loosersBelow += child.getLoosersBelow();
-			loosersBelowWeighted += child.getLoosersBelowWeighted();
-			
-			if(child.iWon()){
-				winnersBelow ++;
-				winnersBelowWeighted += weightFactor;
-			}
-			if(child.iLost()){
-				loosersBelow ++;
-				loosersBelowWeighted += weightFactor * weightFactor; //drastic penalty increase for potential wins of the opponent in the turn after mine
-			}
-		}
-		if(iWon()){
-			winnersBelow ++;
-			winnersBelowWeighted += weightFactor * weightFactor; // drastic bonus if i could win right now, why no give MAX_INTEGER here?
-		}
-		if(iLost()){
-			loosersBelow ++;
-			loosersBelowWeighted += weightFactor;
-		}
+			winners += child.getWinners();
+			losers += child.getLosers();
+		}	
+		if(iWon())
+			winners ++;
+		if(iLost())
+			losers ++;
 	}
-	
-/*	public void incrementWinnersLineageUpwards(){		
-		for(Node parent : parents)
-			parent.incrementWinnersLineageUpwards();	
-		if(!isLeaf())
-			incrementWinnersBelow();	
-	}
-	
-	public void incrementWinnersBelow(){
-			winnersBelow ++;	
-			winnersBelowWeighted += weightFactor;
-	}
-	
-	public void incrementLoosersLineageUpwards(){
-		for(Node parent : parents)
-			parent.incrementLoosersLineageUpwards();
-		if(!isLeaf())
-			incrementLoosersBelow();		
-	}
-	
-	public void incrementLoosersBelow(){
-		loosersBelow ++;
-		loosersBelowWeighted += weightFactor;
-	}
-	*/
 	
 	public int getWeightedDifference(){
-		return winnersBelowWeighted - loosersBelowWeighted;
+		return winnersWEIGHTED - losersWEIGHTED;
 	}
 	
-	public int getWinnersBelow(){
-		return winnersBelow;
+	public int getWinners(){
+		return winners;
 	}
 	
-	public int getWinnersWeightedBelow(){
-		return winnersBelowWeighted;
+
+	public int getWeightFactorWin(){
+		return weightFactorWin;
+	}
+	public int getWeightFactorLoss(){
+		return weightFactorLoss;
 	}
 	
-	public int getLoosersBelowWeighted(){
-		return loosersBelowWeighted;
+	public void addToWinnersWEIGHTED(int add){
+		winnersWEIGHTED += add;
 	}
 	
-	public int getLoosersBelow(){
-		return loosersBelow;
+	public void addToLosersWEIGHTED(int add){
+		losersWEIGHTED += add;
 	}
 	
-	public boolean isLeaf(){
-		return children.size() == 0;
+	public int getWinnersWEIGHTED(){
+		return winnersWEIGHTED;
+	}
+		
+	public int getLosersWEIGHTED(){
+		return losersWEIGHTED;
+	}
+	
+	public int getLosers(){
+		return losers;
 	}
 	
 	public static void setStaticParams(int boardDim, int maxDepth, int winLength, int playerIndexIthinkFor){
@@ -122,41 +105,43 @@ public class Node {
 		Node.playerIndexIthinkFor = playerIndexIthinkFor;
 	}
 	
-	public Node(Node parent, String ID, int[] boardArr, int indexWhereIplacedMyMark){
+	public Node(Node parent, String ID, int[] boardArr, int indexWhereIplacedMyMark, int forHowManyTurnsLeftIsItMyTurn){
 		this.ID = ID;
-		if(parent != null){
-			vertical = parent.getVertical() + 1;
-			addParent(parent); //parents.add(parent);
-		}
+		
 		this.boardArr = boardArr;
 		this.indexWhereIplacedMyMark = indexWhereIplacedMyMark;
+		this.forHowManyTurnsLeftIsItMyTurn = forHowManyTurnsLeftIsItMyTurn;
 		
-		BoardParserV2 bp = new BoardParserV2(); //TODO temporarily using V2
-		bp.testBoardForWinner(boardArr, boardDim, winLength);		
-		int winCheck = bp.getWinner();	
+		if(parent != null){
+			vertical = parent.getVertical() + 1;
+			addParent(parent);
+			playerIndexIplace = boardArr[indexWhereIplacedMyMark]; // :)
 		
-		//int winCheck = BoardParser.testBoardForWinner(boardArr, boardDim, winLength);
-		if(winCheck != 0)
-			nodeState = winCheck == playerIndexIthinkFor ? 1 : -1;
-		
-		//WEIGHT FACTOR
-		int linearFactor = maxDepth - vertical + 1;
-		weightFactor = (int) Math.pow(linearFactor, 2); //the 2 can be higher...
+			BoardParserV2 bp = new BoardParserV2(); //TODO temporarily using V2
+			bp.testBoardForWinner(boardArr, boardDim, winLength);		
+			int winCheck = bp.getWinner();	
+			
+			//int winCheck = BoardParser.testBoardForWinner(boardArr, boardDim, winLength);
+			if(winCheck != 0)
+				nodeState = winCheck == playerIndexIthinkFor ? 1 : -1;
+		}
 	}
 	
+	public void setWeightFactors(int weightFactorWin, int weightFactorLoss){
+		this.weightFactorWin = weightFactorWin;
+		this.weightFactorLoss = weightFactorLoss;
+	}
 	
 	public int getIndexWhereIplacedMyMark(){
 		return indexWhereIplacedMyMark;
 	}
 	
 	public String getExtraInfo(){		
-		return "winnersBelow: " + winnersBelow + "  loosersBelow: " + loosersBelow
-			+ "\nwinnersBelowWeighted: " + winnersBelowWeighted + "  loosersBelowWeighted: " + loosersBelowWeighted
-			+ "\nweight factor: " + weightFactor + "  weightedDifference: " + getWeightedDifference();
-	}
-	
-	public boolean getHasParent(){
-		return parents.size() > 0;
+		return "placed " + playerIndexIplace + " at (" + (indexWhereIplacedMyMark / boardDim) + ", " + (indexWhereIplacedMyMark % boardDim) + ")"
+				+ "\nhow many more turns do i have: " + forHowManyTurnsLeftIsItMyTurn
+				+ "\nwin: " + winners + "  loose: " + losers
+				+ "\nwinF+: " + winnersWEIGHTED + "  looseF: " + losersWEIGHTED
+				+ "\nweightFactors(win/loss): " + weightFactorWin + "/" + weightFactorLoss + "  diff(winW-lossW): " + getWeightedDifference();
 	}
 	
 	public int getVertical(){
@@ -171,18 +156,9 @@ public class Node {
 	public void addChild(Node child){
 		children.add(child);
 	}
-	
-	public void addChildren(ArrayList<Node> children){
-		children.addAll(children);
-	}
-	
+
 	public ArrayList<Node> getChildren(){
 		return children;
-	}
-	
-	public void setNaturalParent(Node parent){
-		parents.clear();
-		parents.add(parent);
 	}
 	
 	public int[] getBoardArr(){
@@ -195,14 +171,6 @@ public class Node {
 	
 	public ArrayList<Node> getParents(){
 		return parents;
-	}
-	
-	public Node getNaturalParent(){
-		return parents.get(0);
-	}
-	
-	public int getBoardDim(){
-		return boardDim;
 	}
 	
 	public boolean wonOrLost(){

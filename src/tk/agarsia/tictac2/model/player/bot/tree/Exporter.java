@@ -8,6 +8,11 @@ import java.util.ArrayList;
 public class Exporter {
 
     private static PrintWriter output;
+    private static int boardDim;
+    
+    public static void setBoardDim(int boardDim){
+    	Exporter.boardDim = boardDim;
+    }
 
     public static void doExport(TreeBuilder graph, String filename) throws FileNotFoundException {
         ArrayList<Node> nodes = graph.getNodes();
@@ -23,7 +28,7 @@ public class Exporter {
         output.println("<graph>");
 
         for (Node node : nodes) {
-            node(node.getID(), node.showBoard(), node.getBoardDim(), node.wonOrLost(), node.iWon(), node.getExtraInfo());
+            node(node.getID(), node.showBoard(), node.wonOrLost(), node.iWon(), node.getExtraInfo());
         }
         for (Edge edge : edges) {
             edge(edge.getID(), edge.getSource().getID(), edge.getTarget()); //generating hash-code just here, not needed before. but yED needs it to read the graphml-file
@@ -35,9 +40,9 @@ public class Exporter {
 
     }
 
-    private static void node(String ID, String value,int boardDim, boolean wonOrLost, boolean iWon, String extraInfo) { //winState: 0 = no winner, 1 = i won, 2 =  i lost
+    private static void node(String ID, String value, boolean wonOrLost, boolean iWon, String extraInfo) { //winState: 0 = no winner, 1 = i won, 2 =  i lost
         output.println("<node id=" + '"' + ID + '"' + ">" +
-                "<data key=\"d5\"><![CDATA[Node ID: " + ID + "]]></data>" +
+                "<data key=\"d5\"><![CDATA[[" + ID + "]\n" + extraInfo + "]]></data>" +
                 "<data key=\"d6\">" +
                 "<y:ShapeNode><y:Geometry height=\"" + (18 * boardDim) + "\" width=\"" + (14 * boardDim) + "\"/><y:Fill color=\"" + (!wonOrLost ? "#FFCC00" : (iWon ? "#00CCFF" : "#FF0000")) + "\" transparent=\"false\"/>" +
                 "<y:BorderStyle color=\"#FFFFFF\" type=\"line\" width=\"0.5\"/>" +

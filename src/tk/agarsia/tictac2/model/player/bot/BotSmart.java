@@ -8,7 +8,7 @@ public class BotSmart extends AbstractBot{
 	//int turnCount = 0;
 	private TreeBuilder decisionGraph;
 	private int marksPerTurn;
-	private int marksCount = 1;
+	private int marksCount = 0;
 	
 	public BotSmart(Game game) {
 		super(game);
@@ -59,6 +59,7 @@ public class BotSmart extends AbstractBot{
 /*		if(decisionGraph.getIWinNextMove())
 			decisionGraph.export();*/
 		
+		System.out.println("MARKS_COUNT: " + marksCount);
 		
 		myChoice(row, column);
 		

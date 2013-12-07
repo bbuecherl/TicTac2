@@ -26,11 +26,7 @@ public class TreeBuilder {
 	
 	private int indexWhereNodeWithMaxDiffPlacedMark = -1; //this is why we do the whole thing... we want the index where to place next!
 	
-	private boolean iWinNextMove = false;
-	
-	public boolean getIWinNextMove(){
-		return iWinNextMove;
-	}
+	private WeightController weightControl;	
 
 	public int getChoiceIndex(){
 		return indexWhereNodeWithMaxDiffPlacedMark;
@@ -43,6 +39,8 @@ public class TreeBuilder {
 		this.marksPerTurn = marksPerTurn;
 		this.initialBoard = board;
 		this.currentPlayerIndex = currentPlayerIndex;
+		
+		WeightController.setParams(boardDim, winLength, marksPerTurn, currentPlayerIndex, maxDepth);
 		
 		//create turnIndize array
 		int freeFieldCount = board.getFreeFieldCount();
@@ -64,7 +62,7 @@ public class TreeBuilder {
 			
 		int[] boardArr = board.getBoardAsArr();
 		//System.out.println("boardArr: " + BoardParser.mergeArrIntoString(boardArr) + " " + boardArr.length); //debug
-		rootnode = new Node(null, "0", boardArr, -1); //-1 because this node doesn't place a mark, so it's just a dummy
+		rootnode = new Node(null, BoardParser.mergeArrIntoString(boardArr), boardArr, -1, -1); //-1 because this node doesn't place a mark, so it's just a dummy
 		nodes.put(rootnode.getID(), rootnode);
 				
 		ArrayList<Node> level = new ArrayList<Node>();
@@ -73,6 +71,14 @@ public class TreeBuilder {
 		for(int i = 0; i < maxDepth; i ++){
 			
 			whosTurn = turnIndize[i];
+			int forHowManyTurnsLeftIsItMyTurn = 0;
+			
+			int c = 1;
+			while((i + c) < turnIndize.length && turnIndize[i + c] == whosTurn){
+				forHowManyTurnsLeftIsItMyTurn ++;
+				c ++;
+			}
+			
 			ArrayList<Node> nextLevel = new ArrayList<Node>();	
 			
 			for(Node parent : level){
@@ -83,7 +89,8 @@ public class TreeBuilder {
 					for(int j = 0; j < emptyIndize.length; j++){
 						//System.out.println("emptyIndize " + j + " : " + emptyIndize[j] + "  length: " + emptyIndize.length); //debug
 						int[] newBoardArr = BoardParser.boardArrCopy(parent.getBoardArr());
-						newBoardArr[emptyIndize[j]] = whosTurn;		
+						newBoardArr[emptyIndize[j]] = whosTurn;	
+						
 						
 						String boardArrAsString = BoardParser.mergeArrIntoString(newBoardArr);
 						
@@ -93,7 +100,7 @@ public class TreeBuilder {
 							alreadyThere.addParent(parent);
 						}
 						else{ //no node with that ID yet, create a new one
-							Node node = new Node(parent, boardArrAsString, newBoardArr, emptyIndize[j]);
+							Node node = new Node(parent, boardArrAsString, newBoardArr, emptyIndize[j], forHowManyTurnsLeftIsItMyTurn);
 							nodes.put(node.getID(), node);
 							nextLevel.add(node);
 							edges.add(new Edge(parent, node));
@@ -106,12 +113,14 @@ public class TreeBuilder {
 		}		
 
 		
-		//do all the winner/looser adding up using the weightFactor
-		for(int i = maxDepth - 1; i >= 0; i--){			
+		//count win/loss on each node AND standard weight BOTTOM UP
+		for(int i = maxDepth; i >= 0; i--){			
 			level.clear();
 			level = getNodesAtLevel(i);	
-			for(Node node : level)
-				node.determineStatsDownwards();
+			for(Node node : level){
+				node.countWinLoss();
+				WeightController.setWEIGHT(node);
+			}
 		}
 
 			
@@ -120,7 +129,7 @@ public class TreeBuilder {
 		Node rootnodeChildWithMaxDiff = null;
 	
 		for(Node rootnodeChild : rootnode.getChildren()){
-			//System.out.println("weightedDiff: " + rootnodeChild.getWeightedDifference()); // debugging			
+			System.out.println("weightedDiff: " + rootnodeChild.getWeightedDifference() + "  [" + rootnodeChild.getID() + "]"); // debugging			
 				
 			int myDiff = rootnodeChild.getWeightedDifference();
 			//System.out.println(rootnodeChild.getID() + " diff: " + myDiff); //debug
@@ -131,7 +140,7 @@ public class TreeBuilder {
 		}
 
 		
-/*		//go through once more to collect rootnode children with the same weightedDifference to the choose randomly amgonst them. TODO more performant?
+		//go through once more to collect rootnode children with the same weightedDifference to the choose randomly amgonst them. TODO more performant?
 		ArrayList<Node> collectMaxDiffs = new ArrayList<Node>();
 		for(Node rootnodeChild : rootnode.getChildren())
 			if(rootnodeChild.getWeightedDifference() == maxDifference)
@@ -142,9 +151,6 @@ public class TreeBuilder {
 			int randomChoice = randomGenerator.nextInt(collectMaxDiffs.size());
 			rootnodeChildWithMaxDiff = collectMaxDiffs.get(randomChoice);
 		}
-		
-		if(rootnodeChildWithMaxDiff.iWon())
-			iWinNextMove = true;*/
 				
 		indexWhereNodeWithMaxDiffPlacedMark = rootnodeChildWithMaxDiff.getIndexWhereIplacedMyMark();	
 		System.out.println("maxDiff is owned by " + rootnodeChildWithMaxDiff.getID() + " (possibly chosen randomly amongst siblings with same maxDiff) with weighted difference of: " + rootnodeChildWithMaxDiff.getWeightedDifference());
@@ -153,6 +159,7 @@ public class TreeBuilder {
 	
 	public void export(){
 		try {
+			Exporter.setBoardDim(boardDim);
 			Exporter.doExport(this, "GRAPH_boardDim" + boardDim + "_winLength" + winLength + "_marksPerTurn" + marksPerTurn + "_depth" + maxDepth + "_nodes"+ nodes.size() + "_edges" + edges.size() + ".graphml");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -162,10 +169,13 @@ public class TreeBuilder {
 	}
 	
 	
-	
 	private ArrayList<Node> getNodesAtLevel(int vertical){	
+		return getNodesAtLevel(nodes, vertical);
+	}
+	
+	public static ArrayList<Node> getNodesAtLevel(Map<String, Node> nodesParam, int vertical){	
 		ArrayList<Node> collect = new ArrayList<Node>();		
-		for(Entry<String, Node> entry : nodes.entrySet()){
+		for(Entry<String, Node> entry : nodesParam.entrySet()){
 /*		    int key = entry.getKey();
 		    Node node = entry.getValue();*/
 		    if(entry.getValue().getVertical() == vertical)
