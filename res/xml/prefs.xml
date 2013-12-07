@@ -15,6 +15,11 @@
      		android:title="@string/pref_player"
      		android:summary="@string/pref_player_desc"
      		android:defaultValue="Me" />
+	<tk.agarsia.tictac2.view.MarkListPreference 
+	    	android:key="pref_mark" 
+	    	android:title="@string/pref_mark"
+	    	android:summary="@string/pref_mark_desc"
+	    	android:defaultValue="0" />
 	<ListPreference
 	    	android:key="pref_color_me"
 	    	android:title="@string/pref_color_me"
@@ -27,4 +32,5 @@
 	    	android:summary="@string/pref_color_other_desc"
 	    	android:entries="@array/pref_color_entries"
 	    	android:entryValues="@array/pref_color_values" />
+	
 </PreferenceScreen>

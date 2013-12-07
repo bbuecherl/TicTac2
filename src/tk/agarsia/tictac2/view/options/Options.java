@@ -1,8 +1,9 @@
-package tk.agarsia.tictac2.view;
+package tk.agarsia.tictac2.view.options;
 
+import tk.agarsia.tictac2.R;
+import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
-import tk.agarsia.tictac2.R;
 
 /**
  * Custom preference activity class.
@@ -11,7 +12,7 @@ import tk.agarsia.tictac2.R;
  * file.
  * 
  * @author agarsia (Bernhard Bücherl)
- * @version 1.0
+ * @version 1.1
  * @since 1.0
  */
 public class Options extends PreferenceActivity {
@@ -25,5 +26,11 @@ public class Options extends PreferenceActivity {
 		// up!), unlike the new "workarounds". And I've never seen Android
 		// remove an deprecated method from new APIs.
 		addPreferencesFromResource(R.xml.prefs);
+		
+		((MarkListPreference) findPreference("pref_mark")).setParent(this);
+	}
+	
+	public void onOpenCreator() {
+		startActivity(new Intent(this,MarkCreator.class));
 	}
 }

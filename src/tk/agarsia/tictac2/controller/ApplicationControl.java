@@ -1,6 +1,9 @@
 package tk.agarsia.tictac2.controller;
 
 import tk.agarsia.tictac2.R;
+import tk.agarsia.tictac2.controller.feedback.SoundController;
+import tk.agarsia.tictac2.controller.feedback.Vibration;
+import tk.agarsia.tictac2.controller.marks.MarkController;
 import tk.agarsia.tictac2.controller.play.PlayController;
 import tk.agarsia.tictac2.model.Game;
 import tk.agarsia.tictac2.model.player.human.HumanLocal;
@@ -55,23 +58,29 @@ public abstract class ApplicationControl {
 	public static void init(Context context) {
 		ApplicationControl.context = context;
 
+		// initialize file controller
+		FileController.init();
+		
+		//initialize mark controller
+		MarkController.init();
+		
 		// load preferences
 		PreferenceManager.setDefaultValues(context, R.xml.prefs, false);
 
 		// initialize preferences
 		prefs = PreferenceManager.getDefaultSharedPreferences(context);
-
+		
 		// initialize sound controller
 		SoundController.init(context);
 
 		// initialize vibration controller
 		Vibration.init(context);
 
-		// initialize game
-		reinit();
-
 		// start Google Play Service controller
 		PlayController.init(context);
+
+		// initialize game
+		reinit();
 
 		// finally initialized
 		isInit = true;

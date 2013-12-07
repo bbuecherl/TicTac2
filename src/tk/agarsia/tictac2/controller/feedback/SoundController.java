@@ -1,4 +1,4 @@
-package tk.agarsia.tictac2.controller;
+package tk.agarsia.tictac2.controller.feedback;
 
 import java.io.IOException;
 

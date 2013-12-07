@@ -1,7 +1,7 @@
 package tk.agarsia.tictac2.view.activities;
 
 import tk.agarsia.tictac2.controller.ApplicationControl;
-import tk.agarsia.tictac2.controller.Vibration;
+import tk.agarsia.tictac2.controller.feedback.Vibration;
 import tk.agarsia.tictac2.model.player.AbstractPlayer;
 import tk.agarsia.tictac2.view.MainActivity;
 import android.app.AlertDialog;

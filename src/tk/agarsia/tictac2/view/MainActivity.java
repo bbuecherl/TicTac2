@@ -3,6 +3,7 @@ package tk.agarsia.tictac2.view;
 import tk.agarsia.tictac2.R;
 import tk.agarsia.tictac2.controller.AppStackController;
 import tk.agarsia.tictac2.controller.ApplicationControl;
+import tk.agarsia.tictac2.view.options.Options;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
