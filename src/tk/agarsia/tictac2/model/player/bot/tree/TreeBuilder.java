@@ -12,100 +12,76 @@ import tk.agarsia.tictac2.model.board.BoardParser;
 
 public class TreeBuilder {
 
-	private Board initialBoard;
-	private int currentPlayerIndex;
+	private int myPlayerIndex;
 	private int maxDepth;
 	private int boardDim;
 	private int winLength;
 	private int marksPerTurn;
 	
-	//private ArrayList<Node> nodes = new ArrayList<Node>();
 	Map<String, Node> nodes = new HashMap<String, Node>();
 	private ArrayList<Edge> edges = new ArrayList<Edge>();
 	private Node rootnode;
 	
 	private int indexWhereNodeWithMaxDiffPlacedMark = -1; //this is why we do the whole thing... we want the index where to place next!
 	
-	private WeightController weightControl;	
 
 	public int getChoiceIndex(){
 		return indexWhereNodeWithMaxDiffPlacedMark;
 	}
 	
-	public TreeBuilder(int maxDepth, int currentMarksCount, Board board, int currentPlayerIndex, int marksPerTurn) {
+	public TreeBuilder(int maxDepth, int marksCount, Board board, int whosTurn, int marksPerTurn) {
 		this.maxDepth = maxDepth;
 		this.boardDim = board.getBoardDim();
 		this.winLength = board.getWinLength();
 		this.marksPerTurn = marksPerTurn;
-		this.initialBoard = board;
-		this.currentPlayerIndex = currentPlayerIndex;
+		this.myPlayerIndex = whosTurn;
 		
-		WeightController.setParams(boardDim, winLength, marksPerTurn, currentPlayerIndex, maxDepth);
-		
-		//create turnIndize array
-		int freeFieldCount = board.getFreeFieldCount();
-		int[] turnIndize = new int[freeFieldCount];
-		int whosTurn = currentPlayerIndex;
-		int marksCount = currentMarksCount; //start where we actually currently are
-		for(int i = 0; i < freeFieldCount; i++){
-			turnIndize[i] = whosTurn;
-			marksCount ++;
-			if(marksCount > marksPerTurn){
-				whosTurn = whosTurn == 1 ? 2 : 1;
-				marksCount = 1;
-			}
-		}	
-/*		for(int i = 0; i < freeFieldCount; i++) //proof
-			System.out.println(turnIndize[i]);*/
-				
-		Node.setStaticParams(board.getBoardDim(), maxDepth, board.getWinLength(), currentPlayerIndex);
+		WeightController.setParams(boardDim, winLength, marksPerTurn, myPlayerIndex, maxDepth);				
+		Node.setStaticParams(board.getBoardDim(), maxDepth, board.getWinLength(), myPlayerIndex);
 			
-		int[] boardArr = board.getBoardAsArr();
-		//System.out.println("boardArr: " + BoardParser.mergeArrIntoString(boardArr) + " " + boardArr.length); //debug
+		int[] boardArr = board.getBoardAsArr(); //System.out.println("boardArr: " + BoardParser.mergeArrIntoString(boardArr) + " " + boardArr.length); //debug
 		rootnode = new Node(null, BoardParser.mergeArrIntoString(boardArr), boardArr, -1, -1); //-1 because this node doesn't place a mark, so it's just a dummy
 		nodes.put(rootnode.getID(), rootnode);
 				
 		ArrayList<Node> level = new ArrayList<Node>();
 		level.add(rootnode);
-		
+
 		for(int i = 0; i < maxDepth; i ++){
 			
-			whosTurn = turnIndize[i];
-			int forHowManyTurnsLeftIsItMyTurn = 0;
-			
-			int c = 1;
-			while((i + c) < turnIndize.length && turnIndize[i + c] == whosTurn){
-				forHowManyTurnsLeftIsItMyTurn ++;
-				c ++;
+			//this is replacing the previous awkward turnIndize-array
+			if(marksCount > marksPerTurn){
+				marksCount = 1;
+				whosTurn = (whosTurn == 1 ? 2 : 1);
 			}
-			
+			int howManyTurnsLeft = marksPerTurn - marksCount;
+			marksCount ++;			
+						
 			ArrayList<Node> nextLevel = new ArrayList<Node>();	
 			
 			for(Node parent : level){
 				
-				if(!parent.wonOrLost()){				
-					int[] emptyIndize = BoardParser.getEmptyIndizeOpt(parent.getBoardArr());
-					//System.out.println("emptyIndize: " + emptyIndize.length + " " + BoardParser.mergeArrIntoString(boardArr)); //debug
-					for(int j = 0; j < emptyIndize.length; j++){
-						//System.out.println("emptyIndize " + j + " : " + emptyIndize[j] + "  length: " + emptyIndize.length); //debug
+				if(!parent.wonOrLost()){
+					
+					int[] emptyIndize = BoardParser.getEmptyIndizeOpt(parent.getBoardArr()); //System.out.println("emptyIndize: " + emptyIndize.length + " " + BoardParser.mergeArrIntoString(boardArr)); //debug
+									
+					for(int j = 0; j < emptyIndize.length; j++){ //System.out.println("emptyIndize " + j + " : " + emptyIndize[j] + "  length: " + emptyIndize.length); //debug
 						int[] newBoardArr = BoardParser.boardArrCopy(parent.getBoardArr());
-						newBoardArr[emptyIndize[j]] = whosTurn;	
-						
-						
+						newBoardArr[emptyIndize[j]] = whosTurn;										
 						String boardArrAsString = BoardParser.mergeArrIntoString(newBoardArr);
 						
-						if(nodes.keySet().contains(boardArrAsString)){	//node alread in, just make a new link
+						if(nodes.keySet().contains(boardArrAsString)){	//node already in, just make a new edge and do parent-child handshake
 							Node alreadyThere = nodes.get(boardArrAsString);
 							edges.add(new Edge(parent, alreadyThere));
 							alreadyThere.addParent(parent);
 						}
 						else{ //no node with that ID yet, create a new one
-							Node node = new Node(parent, boardArrAsString, newBoardArr, emptyIndize[j], forHowManyTurnsLeftIsItMyTurn);
+							Node node = new Node(parent, boardArrAsString, newBoardArr, emptyIndize[j], howManyTurnsLeft);
 							nodes.put(node.getID(), node);
 							nextLevel.add(node);
 							edges.add(new Edge(parent, node));
 						}	
-					}				
+					}		
+					
 				}			
 			}			
 			level.clear();

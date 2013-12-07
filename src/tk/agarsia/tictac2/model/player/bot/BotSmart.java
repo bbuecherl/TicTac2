@@ -30,7 +30,7 @@ public class BotSmart extends AbstractBot{
 		
 		//if(turnCount > 2){
 		
-		System.out.println("it's smart bots turn...(currentPlayer: " + game.getCurrentPlayerIndex() + ")");
+		System.out.println(">> it's smart bots turn...(currentPlayer: " + game.getCurrentPlayerIndex() + ")");
 
 		int dynamicDepth = game.getBoard().getFreeFieldCount();
 		
@@ -43,8 +43,7 @@ public class BotSmart extends AbstractBot{
 		if(dynamicDepth > cap)
 			dynamicDepth = cap;
 		
-		//int depth = 5;
-		//System.out.println("init tree with depth " + depth);
+		
 		decisionGraph = new TreeBuilder(dynamicDepth, marksCount, game.getBoard(), game.getCurrentPlayerIndex(), game.getMarksPerTurn());
 		System.out.println("dynDepth: " + dynamicDepth);
 		
@@ -55,13 +54,10 @@ public class BotSmart extends AbstractBot{
 		
 		System.out.println("chosenIndex: " + chosenIndex + " > row: " + row + " column: " + column);
 		
-		
-/*		if(decisionGraph.getIWinNextMove())
-			decisionGraph.export();*/
-		
 		System.out.println("MARKS_COUNT: " + marksCount);
 		
 		myChoice(row, column);
+		
 		
 /*		}
 		else{

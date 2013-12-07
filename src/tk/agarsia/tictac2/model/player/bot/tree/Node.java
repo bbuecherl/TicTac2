@@ -20,11 +20,13 @@ public class Node {
 	private int indexWhereIplacedMyMark = -1;
 	private int forHowManyTurnsLeftIsItMyTurn = 0;
 	private int playerIndexIplace = 0;
+	private boolean iPlaceSamePlayerIndexAsMyParents = false;
 	private ArrayList<Node> parents = new ArrayList<Node>();
 	private ArrayList<Node> children = new ArrayList<Node>();
 	private int vertical = 0;
 	private int weightFactorWin = 1;
 	private int weightFactorLoss = 1;
+	
 	
 	/**
 	 * 0: no winner
@@ -136,9 +138,14 @@ public class Node {
 		return indexWhereIplacedMyMark;
 	}
 	
+	public boolean getIPlaceSamePlayerIndexAsMyParents(){
+		return iPlaceSamePlayerIndexAsMyParents;
+	}
+	
 	public String getExtraInfo(){		
 		return "placed " + playerIndexIplace + " at (" + (indexWhereIplacedMyMark / boardDim) + ", " + (indexWhereIplacedMyMark % boardDim) + ")"
 				+ "\nhow many more turns do i have: " + forHowManyTurnsLeftIsItMyTurn
+				+ "\niPlaceSamePlayerIndexAsMyParents: " + iPlaceSamePlayerIndexAsMyParents
 				+ "\nwin: " + winners + "  loose: " + losers
 				+ "\nwinF+: " + winnersWEIGHTED + "  looseF: " + losersWEIGHTED
 				+ "\nweightFactors(win/loss): " + weightFactorWin + "/" + weightFactorLoss + "  diff(winW-lossW): " + getWeightedDifference();
@@ -149,7 +156,8 @@ public class Node {
 	}
 	
 	public void addParent(Node parent){ // parent-child handshake
-		parents.add(parent);
+		parents.add(parent);		
+		iPlaceSamePlayerIndexAsMyParents = playerIndexIplace == parent.getPlayerIndexIplace();		
 		parent.addChild(this);
 	}
 	
