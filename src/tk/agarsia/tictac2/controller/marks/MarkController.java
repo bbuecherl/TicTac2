@@ -16,21 +16,15 @@ import tk.agarsia.tictac2.controller.FileController;
 public class MarkController {
 	public static final String DB_PATH = "saves"+File.separator+"marks.json";
 
-	private static final String DEFAULT_DB = "[{\"name\":\"default\",\"elements\":[{\"tag\":\"rect\",\"centerX\":50,\"centerY\":50,\"width\":100,\"height\":100,\"rotate\":0}]}]";
+	private static final String DEFAULT_DB = "[{\"name\":\"default\",\"elements\":[{\"tag\":\"rect\",\"centerX\":50,\"centerY\":50,\"width\":100,\"height\":100,\"rotate\":0}]},{\"name\":\"test\",\"elements\":[{\"tag\":\"circle\",\"centerX\":50,\"centerY\":50,\"radius\":40},{\"tag\":\"rect\",\"centerX\":50,\"centerY\":75,\"width\":80,\"height\":50,\"rotate\":0}]}]";
 
 	private static JSONArray DB;
 
 	public static void init() {
 		try {
 			if (!FileController.exists(DB_PATH)) {
-				FileController.get(DB_PATH).createNewFile();
-				FileWriter fw = new FileWriter(FileController.get(DB_PATH));
-
 				DB = new JSONArray(DEFAULT_DB);
-
-				fw.write(DEFAULT_DB);
-				fw.flush();
-				fw.close();
+				save();
 			} else {
 				BufferedReader br = new BufferedReader(new FileReader(
 						FileController.get(DB_PATH)));
@@ -99,6 +93,39 @@ public class MarkController {
 		} catch(JSONException e) {
 			e.printStackTrace();
 			return new JSONObject();
+		}
+	}
+
+	public static void delete(int ind) {
+		JSONArray tmp = new JSONArray();
+		
+		for(int i = 0; i < DB.length(); i++)
+			if(ind!=i)
+				try {
+					tmp.put(DB.get(i));
+				} catch(JSONException e) {
+					e.printStackTrace();
+				}
+		DB = tmp;
+		
+		save();
+	}
+	
+	public static boolean save() {
+		try {
+			if(!FileController.exists(DB_PATH))
+				FileController.get(DB_PATH).createNewFile();
+			
+			FileWriter fw = new FileWriter(FileController.get(DB_PATH));
+			fw.write(DB.toString(2));
+			fw.flush();
+			fw.close();
+
+			
+			return true;
+		} catch(Exception e) {
+			e.printStackTrace();
+			return false;
 		}
 	}
 }

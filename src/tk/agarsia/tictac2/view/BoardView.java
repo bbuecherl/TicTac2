@@ -1,8 +1,5 @@
 package tk.agarsia.tictac2.view;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import tk.agarsia.tictac2.controller.ApplicationControl;
 import tk.agarsia.tictac2.controller.BoardTouchListener;
 import tk.agarsia.tictac2.controller.marks.Mark;
@@ -59,41 +56,8 @@ public class BoardView extends View {
 		paint.setTextSize(25);
 
 		// fetch colors from preferences
-		try {
-			JSONObject json = new JSONObject();
-			JSONArray arr = new JSONArray();
-			
-			JSONObject firstRect = new JSONObject();
-			JSONObject secondRect = new JSONObject();
-			
-			firstRect.put("tag", "rect");
-			firstRect.put("centerX", 20);
-			firstRect.put("centerY", 20);
-			firstRect.put("width", 20);
-			firstRect.put("height", 40);
-			firstRect.put("rotate", 0);
-			
-			secondRect.put("tag", "rect");
-			secondRect.put("centerX", 70);
-			secondRect.put("centerY", 70);
-			secondRect.put("width", 60);
-			secondRect.put("height", 20);
-			secondRect.put("rotate", 45);
-			
-			arr.put(firstRect);
-			arr.put(secondRect);
-			
-			json.put("elements",arr);
-			
-			me = new Mark(json,Color.parseColor(ApplicationControl.getStringPref(
+		me = new Mark(Color.parseColor(ApplicationControl.getStringPref(
 					"pref_color_me", "#007200")));
-			
-		} catch(Exception e) {
-			me = new Mark(Color.parseColor(ApplicationControl.getStringPref(
-					"pref_color_me", "#007200")));
-				
-		}
-		
 		you = new Mark(Color.parseColor(ApplicationControl.getStringPref(
 				"pref_color_other", "#720000")));
 	}
@@ -172,7 +136,7 @@ public class BoardView extends View {
 		// fetch game dimensions
 		int len = game.getBoardDim();
 
-		int left, top, right, bottom;
+		int left, top;
 
 		// width of an field and size of a gridline (tl).
 		int width = (canvas.getWidth() > canvas.getHeight() - offset) ? (canvas
@@ -197,16 +161,15 @@ public class BoardView extends View {
 							* (j - 1), width * len + tl * (len - 0.5f), offset
 							+ tl / 2 + j * width + tl * j, paint);
 				}
+				
 				// draw the field
 				left = tl / 2 + i * width + tl * i;
 				top = offset + tl / 2 + j * width + tl * j;
-				right = tl / 2 + (i + 1) * width + tl * i;
-				bottom = offset + tl / 2 + (j + 1) * width + tl * j;
 
 				if (game.getBoard().getField(i, j).getValue() == 1) {
-					me.draw(paint, canvas, left, top, right, bottom, width);
+					me.draw(paint, canvas, left, top, width);
 				} else if (game.getBoard().getField(i, j).getValue() == 2) {
-					you.draw(paint, canvas, left, top, right, bottom, width);
+					you.draw(paint, canvas, left, top, width);
 				}
 			}
 		}
