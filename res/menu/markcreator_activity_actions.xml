@@ -5,5 +5,6 @@
         android:id="@+id/action_mark_save"
         agarsia:showAsAction="always"
         android:icon="@drawable/ic_action_mark_save"
-        android:title="@string/mark_save"/>
+        android:title="@string/mark_save"
+        android:enabled="false" />
 </menu>
