@@ -5,6 +5,7 @@ import tk.agarsia.tictac2.controller.feedback.SoundController;
 import tk.agarsia.tictac2.controller.feedback.Vibration;
 import tk.agarsia.tictac2.controller.marks.MarkController;
 import tk.agarsia.tictac2.controller.play.PlayController;
+import tk.agarsia.tictac2.controller.play.PlusController;
 import tk.agarsia.tictac2.model.Game;
 import tk.agarsia.tictac2.model.player.human.HumanLocal;
 import tk.agarsia.tictac2.view.activities.GameActivity;
@@ -78,6 +79,8 @@ public abstract class ApplicationControl {
 
 		// start Google Play Service controller
 		PlayController.init(context);
+		
+		PlusController.init(context);
 
 		// initialize game
 		reinit();
