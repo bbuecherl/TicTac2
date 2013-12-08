@@ -87,7 +87,8 @@ public class TreeBuilder {
 			level.clear();
 			level = nextLevel;
 		}		
-
+		
+		System.out.println("Created a graph with " + nodes.size() + " nodes and " + edges.size() + " edges that goes down " + maxDepth + " levels.\nNow counting win/loss from bottom up and assigning weight according to WeightController.");
 		
 		//count win/loss on each node AND standard weight BOTTOM UP
 		for(int i = maxDepth; i >= 0; i--){			
@@ -99,7 +100,8 @@ public class TreeBuilder {
 			}
 		}
 
-			
+		System.out.println("These are the " + rootnode.getChildren().size() + " rootnode children of whom one will be chosen as best option for next turn:");
+		
 		//find best child of rootnode (highest difference-value), which is the choice of placing the mark indeed			
 		int maxDifference = -Integer.MAX_VALUE;			
 		Node rootnodeChildWithMaxDiff = null;
@@ -129,7 +131,9 @@ public class TreeBuilder {
 		}
 				
 		indexWhereNodeWithMaxDiffPlacedMark = rootnodeChildWithMaxDiff.getIndexWhereIplacedMyMark();	
-		System.out.println("maxDiff is owned by " + rootnodeChildWithMaxDiff.getID() + " (possibly chosen randomly amongst siblings with same maxDiff) with weighted difference of: " + rootnodeChildWithMaxDiff.getWeightedDifference());
+		System.out.println("maxWeightedDiff is owned by [" + rootnodeChildWithMaxDiff.getID() + "] " + 
+				(collectMaxDiffs.size() > 1 ? (" (chosen randomly among " + collectMaxDiffs.size() + " rootnode children of equal value) ") : "")
+				+ "with weighted difference of: " + rootnodeChildWithMaxDiff.getWeightedDifference());
 	}	
 	
 	

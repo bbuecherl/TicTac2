@@ -28,36 +28,31 @@ public class BotSmart extends AbstractBot{
 		if(marksCount > marksPerTurn)
 			marksCount = 1;
 		
-		//if(turnCount > 2){
+		//if(turnCount > 2){ //for orchestrating certain moves to analyze behavior at certain constellations
 		
-		System.out.println(">> it's smart bots turn...(currentPlayer: " + game.getCurrentPlayerIndex() + ")");
-
-		int dynamicDepth = game.getBoard().getFreeFieldCount();
-		
+		System.out.println(">> it's smart bots (player# " + game.getCurrentPlayerIndex() + " turn (turn " + marksCount + " of " + marksPerTurn + ")");
+		int dynamicDepth = game.getBoard().getFreeFieldCount();		
 		int cap = 5;
 		if(game.getBoard().getBoardDim() > 4)
 			cap --;
 		if(game.getBoard().getBoardDim() > 5)
-			cap --;
-			
+			cap --;			
 		if(dynamicDepth > cap)
 			dynamicDepth = cap;
-		
-		
+			
+		long start = System.nanoTime();
+	
 		decisionGraph = new TreeBuilder(dynamicDepth, marksCount, game.getBoard(), game.getCurrentPlayerIndex(), game.getMarksPerTurn());
-		System.out.println("dynDepth: " + dynamicDepth);
 		
-		int chosenIndex = decisionGraph.getChoiceIndex();
+		System.out.println("decision made after " + (System.nanoTime() - start) / 1000000  + " miliseconds");
 		
+		int chosenIndex = decisionGraph.getChoiceIndex();		
 		int row = chosenIndex / game.getBoardDim();
 		int column = chosenIndex % game.getBoardDim();
 		
-		System.out.println("chosenIndex: " + chosenIndex + " > row: " + row + " column: " + column);
+		System.out.println("chosenIndex: " + chosenIndex + " > row: " + row + " column: " + column);		
 		
-		System.out.println("MARKS_COUNT: " + marksCount);
-		
-		myChoice(row, column);
-		
+		myChoice(row, column);		
 		
 /*		}
 		else{
@@ -70,14 +65,11 @@ public class BotSmart extends AbstractBot{
 				myChoice(3, 2);		
 			
 			turnCount ++;
-		}*/
-		
+		}*/		
 	}
 
 	@Override
 	public boolean myChoice(int row, int column) {
 		return game.placeMark(row, column);
-	}
-
-	
+	}	
 }

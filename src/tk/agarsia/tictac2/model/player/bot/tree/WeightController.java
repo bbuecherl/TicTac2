@@ -13,7 +13,7 @@ public class WeightController {
 	private static int playerIthinkFor;
 	private static int maxDepth;
 	
-	private static int weightFactorWinEXPONENT = 2;
+	private static int weightFactorWinEXPONENT = 3;
 	private static int weightFactorLossEXPONENT = 4;
 	private static int bonusFactorWinRun = 1;
 	private static int bonusFactorLossRun = 2;
@@ -46,8 +46,11 @@ public class WeightController {
 		int weightFactorLoss = (int) Math.pow(linearFactor, weightFactorLossEXPONENT);
 		node.setWeightFactors(weightFactorWin, weightFactorLoss);
         
-	    if(node.iWon())
-	    	node.addToWinnersWEIGHTED(weightFactorWin);	    	
+	    if(node.iWon()){
+	    	node.addToWinnersWEIGHTED(weightFactorWin);	 
+	    	if(node.getVertical() == 1)
+	    		node.addToWinnersWEIGHTED(Integer.MAX_VALUE - node.getWinnersWEIGHTED() - 1); //immediate win hyperbonus :)
+	    }
 	    if(node.iLost())
 	    	node.addToLosersWEIGHTED(weightFactorLoss);
 	}	
