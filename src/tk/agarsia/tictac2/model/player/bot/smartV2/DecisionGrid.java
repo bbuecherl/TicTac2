@@ -35,20 +35,20 @@ public class DecisionGrid {
 	 */
 	public static void refactor(int[][] grid, Board board, int mpt, int wLen) {
 		ArrayList<int[]> h = board.getHistory();
-		//int roundsToWin = wLen - mpt;
+		// int roundsToWin = wLen - mpt;
 
 		// use rules for other player history
-		if(h.size()>=mpt)
+		if (h.size() >= mpt)
 			for (int a = h.size() - mpt; a < h.size(); a++) {
 				System.out.println(Arrays.toString(h.get(a)));
 				int mark = h.get(a)[0];
 				int x = h.get(a)[1];
 				int y = h.get(a)[2];
 				ArrayList<int[][]> w = getWins(grid.length, wLen, x, y);
-	
+
 				// rule b. (set other players fields to 0)
 				grid[x][y] = 0;
-	
+
 				for (int[][] b : w) {
 					System.out.println(Arrays.deepToString(b));
 					// rule c. (increment all affected fields)
@@ -57,31 +57,37 @@ public class DecisionGrid {
 					t1[1] = -1;
 					int t2 = 1;
 					int doubleIt = 0;
-					
+
 					for (int c = 0; c < b.length; c++) {
 						int tx = b[c][0];
 						int ty = b[c][1];
-						
+
 						if ((tx == x && ty == y) || grid[tx][ty] == 1000)
 							continue;
-	
-						//test for doubles (d.)
-						for(int[][] wd : getWins(grid.length, wLen, tx, ty)) {
-							if(!wd.equals(b))
-								for(int d = 0; d < b.length; d++) {
-									if ((wd[d][0] == tx && wd[d][0] == ty) || grid[tx][ty] == 1000)
+
+						// test for doubles (d.)
+						for (int[][] wd : getWins(grid.length, wLen, tx, ty)) {
+							if (!wd.equals(b))
+								for (int d = 0; d < b.length; d++) {
+									if ((wd[d][0] == tx && wd[d][0] == ty)
+											|| grid[tx][ty] == 1000)
 										continue;
-	
-									if (board.getField(wd[d][0], wd[d][1]).isFree()) {
-										
-									} else if (board.getField(wd[d][0], wd[d][1]).getValue() == mark) {
-										doubleIt++; // if enemy got another field in there..
-									} else if (board.getField(wd[d][0], wd[d][1]).getValue() == mark % 2 + 1) {
-										doubleIt--; // if we got another field in there...
+
+									if (board.getField(wd[d][0], wd[d][1])
+											.isFree()) {
+
+									} else if (board.getField(wd[d][0],
+											wd[d][1]).getValue() == mark) {
+										doubleIt++; // if enemy got another
+													// field in there..
+									} else if (board.getField(wd[d][0],
+											wd[d][1]).getValue() == mark % 2 + 1) {
+										doubleIt--; // if we got another field
+													// in there...
 									}
 								}
 						}
-						
+
 						if (board.getField(tx, ty).isFree()) {
 							grid[tx][ty]++;
 							t1[0] = tx;
@@ -91,32 +97,32 @@ public class DecisionGrid {
 						} else if (board.getField(tx, ty).getValue() == mark % 2 + 1) {
 						}
 					}
-	
-					//e. 
-					if (t2 >= wLen-1 && t1[0] != -1 && t1[1] != -1) {
-						grid[t1[0]][t1[1]] = 1000; //XXX causing trouble
+
+					// e.
+					if (t2 >= wLen - 1 && t1[0] != -1 && t1[1] != -1) {
+						grid[t1[0]][t1[1]] = 1000;
 					}
-					
-					//d.
-					if(doubleIt>0 && t1[0] != -1 && t1[1] != -1) {
-						grid[t1[0]][t1[1]] *=2;
+
+					// d.
+					if (doubleIt > 0 && t1[0] != -1 && t1[1] != -1) {
+						grid[t1[0]][t1[1]] *= 2;
 					}
 				}
-	
+
 			}
 
 		// use rules for the bots history
-		if(h.size()>=2*mpt)
-			for (int a = h.size() - 2*mpt; a < h.size()-mpt; a++) {
+		if (h.size() >= 2 * mpt)
+			for (int a = h.size() - 2 * mpt; a < h.size() - mpt; a++) {
 				System.out.println(Arrays.toString(h.get(a)));
 				int mark = h.get(a)[0];
 				int x = h.get(a)[1];
 				int y = h.get(a)[2];
 				ArrayList<int[][]> w = getWins(grid.length, wLen, x, y);
-	
+
 				// rule b. (set bot players fields to 0)
 				grid[x][y] = 0;
-	
+
 				for (int[][] b : w) {
 					System.out.println(Arrays.deepToString(b));
 					int[] t1 = new int[2];
@@ -124,31 +130,37 @@ public class DecisionGrid {
 					t1[1] = -1;
 					int t2 = 1;
 					int tribbleIt = 0;
-					
+
 					for (int c = 0; c < b.length; c++) {
 						int tx = b[c][0];
 						int ty = b[c][1];
-						
+
 						if ((tx == x && ty == y) || grid[tx][ty] == 2000)
 							continue;
-	
-						//test for squares (d.)
-						for(int[][] wd : getWins(grid.length, wLen, tx, ty)) {
-							if(!wd.equals(b))
-								for(int d = 0; d < b.length; d++) {
-									if ((wd[d][0] == tx && wd[d][0] == ty) || grid[tx][ty] == 2000)
+
+						// test for squares (d.)
+						for (int[][] wd : getWins(grid.length, wLen, tx, ty)) {
+							if (!wd.equals(b))
+								for (int d = 0; d < b.length; d++) {
+									if ((wd[d][0] == tx && wd[d][0] == ty)
+											|| grid[tx][ty] == 2000)
 										continue;
-	
-									if (board.getField(wd[d][0], wd[d][1]).isFree()) {
-										
-									} else if (board.getField(wd[d][0], wd[d][1]).getValue() == mark) {
-										tribbleIt--; // if enemy got another field in there..
-									} else if (board.getField(wd[d][0], wd[d][1]).getValue() == mark % 2 + 1) {
-										tribbleIt++; // if we got another field in there...
+
+									if (board.getField(wd[d][0], wd[d][1])
+											.isFree()) {
+
+									} else if (board.getField(wd[d][0],
+											wd[d][1]).getValue() == mark) {
+										tribbleIt--; // if enemy got another
+														// field in there..
+									} else if (board.getField(wd[d][0],
+											wd[d][1]).getValue() == mark % 2 + 1) {
+										tribbleIt++; // if we got another field
+														// in there...
 									}
 								}
 						}
-						
+
 						if (board.getField(tx, ty).isFree()) {
 							t1[0] = tx;
 							t1[1] = ty;
@@ -157,17 +169,17 @@ public class DecisionGrid {
 						} else if (board.getField(tx, ty).getValue() == mark % 2 + 1) {
 						}
 					}
-	
-					//g.
-					if (t2 >= wLen-1 && t1[0] != -1 && t1[1] != -1)
-						grid[t1[0]][t1[1]] = 2000; //XXX causing trouble
-					
-					//f.
-					if(tribbleIt>0 && t1[0] != -1 && t1[1] != -1) {
-						grid[t1[0]][t1[1]] *=3;
+
+					// g.
+					if (t2 >= wLen - 1 && t1[0] != -1 && t1[1] != -1)
+						grid[t1[0]][t1[1]] = 2000;
+
+					// f.
+					if (tribbleIt > 0 && t1[0] != -1 && t1[1] != -1) {
+						grid[t1[0]][t1[1]] *= 3;
 					}
 				}
-	
+
 			}
 	}
 
@@ -315,7 +327,7 @@ public class DecisionGrid {
 	public static int[][][][][] initWins() {
 		int[][][][][] wins = new int[4][][][][];
 
-		// 3x3
+		// 3x3 : 3
 		wins[0] = new int[1][][][];
 		wins[0][0] = new int[8][3][2];
 		wins[0][0][0] = new int[][] { { 0, 0 }, { 0, 1 }, { 0, 2 } };
@@ -327,6 +339,87 @@ public class DecisionGrid {
 		wins[0][0][6] = new int[][] { { 0, 0 }, { 1, 1 }, { 2, 2 } };
 		wins[0][0][7] = new int[][] { { 0, 2 }, { 1, 1 }, { 2, 0 } };
 
+		// 4x4
+		wins[1] = new int[2][][][];
+		// XXX deprecated: 4x4 : 3
+		// 4x4 : 4
+		wins[1][1] = new int[10][3][2];
+		wins[1][1][0] = new int[][] { { 0, 0 }, { 0, 1 }, { 0, 2 }, { 0, 3 } };
+		wins[1][1][1] = new int[][] { { 1, 0 }, { 1, 1 }, { 1, 2 }, { 1, 3 } };
+		wins[1][1][2] = new int[][] { { 2, 0 }, { 2, 1 }, { 2, 2 }, { 2, 3 } };
+		wins[1][1][3] = new int[][] { { 3, 0 }, { 3, 1 }, { 3, 2 }, { 3, 3 } };
+		wins[1][1][4] = new int[][] { { 0, 0 }, { 1, 0 }, { 2, 0 }, { 3, 0 } };
+		wins[1][1][5] = new int[][] { { 0, 1 }, { 1, 1 }, { 2, 1 }, { 3, 1 } };
+		wins[1][1][6] = new int[][] { { 0, 2 }, { 1, 2 }, { 2, 2 }, { 3, 2 } };
+		wins[1][1][7] = new int[][] { { 0, 3 }, { 1, 3 }, { 2, 3 }, { 3, 3 } };
+		wins[1][1][8] = new int[][] { { 0, 0 }, { 1, 1 }, { 2, 2 }, { 3, 3 } };
+		wins[1][1][9] = new int[][] { { 0, 3 }, { 1, 2 }, { 2, 1 }, { 3, 0 } };
+
+		// 5x5
+		wins[2] = new int[3][][][];
+		// XXX deprecated: 5x5 : 3
+		// 5x5 : 4
+		wins[2][1] = new int[26][4][2];
+		wins[2][1][0] = new int[][] { { 0, 0 }, { 0, 1 }, { 0, 2 }, { 0, 3 } };
+		wins[2][1][1] = new int[][] { { 1, 0 }, { 1, 1 }, { 1, 2 }, { 1, 3 } };
+		wins[2][1][2] = new int[][] { { 2, 0 }, { 2, 1 }, { 2, 2 }, { 2, 3 } };
+		wins[2][1][3] = new int[][] { { 3, 0 }, { 3, 1 }, { 3, 2 }, { 3, 3 } };
+		wins[2][1][4] = new int[][] { { 4, 0 }, { 4, 1 }, { 4, 2 }, { 4, 3 } };
+		wins[2][1][5] = new int[][] { { 0, 0 }, { 1, 0 }, { 2, 0 }, { 3, 0 } };
+		wins[2][1][6] = new int[][] { { 0, 1 }, { 1, 1 }, { 2, 1 }, { 3, 1 } };
+		wins[2][1][7] = new int[][] { { 0, 2 }, { 1, 2 }, { 2, 2 }, { 3, 2 } };
+		wins[2][1][8] = new int[][] { { 0, 3 }, { 1, 3 }, { 2, 3 }, { 3, 3 } };
+		wins[2][1][9] = new int[][] { { 0, 4 }, { 1, 4 }, { 2, 4 }, { 3, 4 } };
+		wins[2][1][10] = new int[][] { { 0, 1 }, { 0, 2 }, { 0, 3 }, { 0, 4 } };
+		wins[2][1][11] = new int[][] { { 1, 1 }, { 1, 2 }, { 1, 3 }, { 1, 4 } };
+		wins[2][1][12] = new int[][] { { 2, 1 }, { 2, 2 }, { 2, 3 }, { 2, 4 } };
+		wins[2][1][13] = new int[][] { { 3, 1 }, { 3, 2 }, { 3, 3 }, { 3, 4 } };
+		wins[2][1][14] = new int[][] { { 4, 1 }, { 4, 2 }, { 4, 3 }, { 4, 4 } };
+		wins[2][1][15] = new int[][] { { 1, 0 }, { 2, 0 }, { 3, 0 }, { 4, 0 } };
+		wins[2][1][16] = new int[][] { { 1, 1 }, { 2, 1 }, { 3, 1 }, { 4, 1 } };
+		wins[2][1][17] = new int[][] { { 1, 2 }, { 2, 2 }, { 3, 2 }, { 4, 2 } };
+		wins[2][1][18] = new int[][] { { 1, 3 }, { 2, 3 }, { 3, 3 }, { 4, 3 } };
+		wins[2][1][19] = new int[][] { { 1, 4 }, { 2, 4 }, { 3, 4 }, { 4, 4 } };
+		wins[2][1][20] = new int[][] { { 0, 0 }, { 1, 1 }, { 2, 2 }, { 3, 3 } };
+		wins[2][1][21] = new int[][] { { 1, 1 }, { 2, 2 }, { 3, 3 }, { 4, 4 } };
+		wins[2][1][22] = new int[][] { { 0, 3 }, { 1, 2 }, { 2, 1 }, { 3, 0 } };
+		wins[2][1][23] = new int[][] { { 0, 4 }, { 1, 3 }, { 2, 2 }, { 3, 1 } };
+		wins[2][1][23] = new int[][] { { 1, 3 }, { 2, 2 }, { 3, 1 }, { 4, 0 } };
+		wins[2][1][24] = new int[][] { { 1, 0 }, { 2, 1 }, { 3, 2 }, { 4, 3 } };
+		wins[2][1][25] = new int[][] { { 0, 1 }, { 1, 2 }, { 2, 3 }, { 3, 4 } };
+
+		// 5x5 : 5
+		wins[2][2] = new int[12][5][2];
+		wins[2][2][0] = new int[][] { { 0, 0 }, { 0, 1 }, { 0, 2 }, { 0, 3 },
+				{ 0, 4 } };
+		wins[2][2][1] = new int[][] { { 1, 0 }, { 1, 1 }, { 1, 2 }, { 1, 3 },
+				{ 1, 4 } };
+		wins[2][2][2] = new int[][] { { 2, 0 }, { 2, 1 }, { 2, 2 }, { 2, 3 },
+				{ 2, 4 } };
+		wins[2][2][3] = new int[][] { { 3, 0 }, { 3, 1 }, { 3, 2 }, { 3, 3 },
+				{ 3, 4 } };
+		wins[2][2][4] = new int[][] { { 4, 0 }, { 4, 1 }, { 4, 2 }, { 4, 3 },
+				{ 4, 4 } };
+		wins[2][2][5] = new int[][] { { 0, 0 }, { 1, 0 }, { 2, 0 }, { 3, 0 },
+				{ 4, 0 } };
+		wins[2][2][6] = new int[][] { { 0, 1 }, { 1, 1 }, { 2, 1 }, { 3, 1 },
+				{ 4, 1 } };
+		wins[2][2][7] = new int[][] { { 0, 2 }, { 1, 2 }, { 2, 2 }, { 3, 2 },
+				{ 4, 2 } };
+		wins[2][2][8] = new int[][] { { 0, 3 }, { 1, 3 }, { 2, 3 }, { 3, 3 },
+				{ 4, 3 } };
+		wins[2][2][9] = new int[][] { { 0, 4 }, { 1, 4 }, { 2, 4 }, { 3, 4 },
+				{ 4, 4 } };
+		wins[2][2][10] = new int[][] { { 0, 0 }, { 1, 1 }, { 2, 2 }, { 3, 3 },
+				{ 4, 4 } };
+		wins[2][2][11] = new int[][] { { 0, 4 }, { 1, 3 }, { 2, 2 }, { 3, 1 },
+				{ 4, 0 } };
+
+		// 6x6
+		wins[3] = new int[4][][][];
+		// XXX deprecated: 6x6 : 3
+		// 6x6 : 4
+		
 		return wins;
 	}
 }
