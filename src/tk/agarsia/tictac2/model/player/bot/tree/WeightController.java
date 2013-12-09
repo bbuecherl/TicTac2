@@ -5,7 +5,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 public class WeightController {
-
 	
 	private static int boardDim;
 	private static int winLength;

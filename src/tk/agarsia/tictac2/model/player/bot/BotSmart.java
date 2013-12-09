@@ -31,8 +31,11 @@ public class BotSmart extends AbstractBot{
 		//if(turnCount > 2){ //for orchestrating certain moves to analyze behavior at certain constellations
 		
 		System.out.println(">> it's smart bots (player# " + game.getCurrentPlayerIndex() + " turn (turn " + marksCount + " of " + marksPerTurn + ")");
+		
 		int dynamicDepth = game.getBoard().getFreeFieldCount();		
+		
 		int cap = 5;
+		
 		if(game.getBoard().getBoardDim() > 4)
 			cap --;
 		if(game.getBoard().getBoardDim() > 5)
@@ -44,13 +47,21 @@ public class BotSmart extends AbstractBot{
 	
 		decisionGraph = new TreeBuilder(dynamicDepth, marksCount, game.getBoard(), game.getCurrentPlayerIndex(), game.getMarksPerTurn());
 		
-		System.out.println("decision made after " + (System.nanoTime() - start) / 1000000  + " miliseconds");
+		long timeNeeded = (System.nanoTime() - start) / 1000000;		
+		System.out.println("decision made after " + timeNeeded + " miliseconds");
 		
 		int chosenIndex = decisionGraph.getChoiceIndex();		
 		int row = chosenIndex / game.getBoardDim();
 		int column = chosenIndex % game.getBoardDim();
 		
-		System.out.println("chosenIndex: " + chosenIndex + " > row: " + row + " column: " + column);		
+		System.out.println("chosenIndex: " + chosenIndex + " > row: " + row + " column: " + column);
+		
+		if(timeNeeded < 400)
+			try {
+				Thread.sleep(300);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}	
 		
 		myChoice(row, column);		
 		
