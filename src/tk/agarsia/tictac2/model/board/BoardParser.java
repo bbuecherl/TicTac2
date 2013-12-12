@@ -28,6 +28,42 @@ public class BoardParser {
 		return i;
 	}
 
+	public static int getEmptyFields(int[] arr, int offset, int length) {
+		int i = 0;
+		for (int x = offset; x < offset+length; x++)
+			if (arr[x] == 0)
+				++i;
+
+		return i;
+	}
+
+
+	//TODO performance test
+	public static String mergeArrIntoString(int[] boardArr){
+		String temp = "";		
+		for(int i = 0; i < boardArr.length; i++)
+			temp += boardArr[i];		
+		return temp;
+	}
+	
+	//TODO performance test
+	public static int[] boardArrCopy(int[] boardArr){		
+		int[] copy = new int[boardArr.length];
+		for(int i = 0; i < boardArr.length; i++)
+			copy[i] = boardArr[i];	
+		return copy;
+	}
+	
+	//performance improved by @agarsia
+	public static boolean areEqual(int[] boardArr1, int[] boardArr2){
+		if(boardArr1.length != boardArr2.length)
+			return false;
+		for(int i = 0; i < boardArr1.length; i++)
+			if(boardArr1[i] != boardArr2[i])
+				return false;	
+		return true;
+	}
+
 	//my performance tests result [~300ns]
 	public static ArrayList<Integer> getEmptyIndize(int[] arr){
 		ArrayList<Integer> temp = new ArrayList<Integer>();
@@ -45,6 +81,16 @@ public class BoardParser {
 		int[] temp = new int[getEmptyFields(arr)];
 		int at = 0; //temp index
 		for(int i = 0 ; i < arr.length;i++)
+			if(arr[i] == 0)
+				temp[at++] = i;
+				
+		return temp;
+	}
+
+	public static int[] getEmptyIndizeOpt(int[] arr, int offset, int length){		
+		int[] temp = new int[getEmptyFields(arr,offset,length)];
+		int at = 0; //temp index
+		for(int i = offset; i < offset+length;i++)
 			if(arr[i] == 0)
 				temp[at++] = i;
 				

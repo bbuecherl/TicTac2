@@ -30,13 +30,13 @@ public class Board {
 	/**
 	 * Copy Constructor of Board.
 	 */
-	@SuppressWarnings("unchecked")
+        @SuppressWarnings("unchecked")
 	public Board(Board board){ // copy-constructor
 		this.boardDim = board.boardDim;
 		this.winLength = board.winLength;
 
-		this.history = (ArrayList<int[]>) board.history.clone();
-		
+        this.history = (ArrayList<int[]>) board.history.clone();
+
 		fields2D = new Field[boardDim][boardDim];
 		new Field(this);
 		
@@ -49,16 +49,15 @@ public class Board {
 	 * Function to reset game board.
 	 */
 	public void reset(){		
+        history = new ArrayList<int[]>();
 		fields2D = new Field[boardDim][boardDim];	
-		
-		history = new ArrayList<int[]>();
 		
 		new Field(this); //pure awesomeness... the whole board is building itself when just the first Field is instantiated :)
 				
-		for(int i = 0; i < boardDim; i++)	
+/*		for(int i = 0; i < boardDim; i++)	
 			for(int j = 0; j < boardDim; j++)
 				System.out.println(fields2D[i][j].show()); // proof
-	}
+*/	}
 	
 	/**
 	 * Function to add a field to the game board.
@@ -111,8 +110,8 @@ public class Board {
 	
 	public boolean setField(int playerIndex, int row, int column){
 		if(fields2D[row][column].isFree()){
-			fields2D[row][column].setValue(playerIndex);		
-			history.add(new int[] {playerIndex,row,column});			
+			fields2D[row][column].setValue(playerIndex);		         
+            history.add(new int[] {playerIndex,row,column});   			
 			return true;
 		}
 		else 
@@ -135,7 +134,14 @@ public class Board {
 	}
 	
 	public int[] getBoardAsArr(){
-		return fields2D[0][0].getBoardAsArrBuilder();
+		//return fields2D[0][0].getBoardAsArrBuilder();
+		
+		int[] boardArr = new int[boardDim * boardDim];
+		
+		for(int i = 0; i < boardDim * boardDim; i++)
+			boardArr[i] = fields2D[i / boardDim][i % boardDim].getValue();
+		
+		return boardArr;
 	}
 	
 	
@@ -150,22 +156,26 @@ public class Board {
 	
 	public void placeRandomly(int currentPlayerIndex) {
 		int choice = (int) (new Random().nextDouble() * getFreeFieldCount());	
-		int row = getFreeFields().get(choice).getRow();
-		int column = getFreeFields().get(choice).getColumn();
-		
+
+        int row = getFreeFields().get(choice).getRow();
+        int column = getFreeFields().get(choice).getColumn();
+
 		getFreeFields().get(choice).setValue(currentPlayerIndex);
-		
-		history.add(new int[] {currentPlayerIndex,row,column});			
+                
+        history.add(new int[] {currentPlayerIndex,row,column});   
 	}
+	
+	public void depositAtSpecificFreeField(int currentPlayerIndex, int target){		        
+        int row = getFreeFields().get(target - 1).getRow();
+        int column = getFreeFields().get(target - 1).getColumn();
+                
+        getFreeFields().get(target - 1).setValue(currentPlayerIndex);
 
-	@Deprecated
-	public void depositAtSpecificFreeField(int currentPlayerIndex, int target){		
-		int row = getFreeFields().get(target - 1).getRow();
-		int column = getFreeFields().get(target - 1).getColumn();
-		
-		getFreeFields().get(target - 1).setValue(currentPlayerIndex);
-
-		history.add(new int[] {currentPlayerIndex,row,column});			
+       	history.add(new int[] {currentPlayerIndex,row,column});      
+	}
+	
+	public Field getSpecificFreeField(int freeIndexTarget){
+		return getFreeFields().get(freeIndexTarget);
 	}
 	
 	public String show(boolean numbering){
