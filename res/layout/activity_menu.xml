@@ -13,7 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:contentDescription="@string/logo"
-            android:src="@drawable/launcher" />
+            android:src="@drawable/logo_big" />
 
         <Button
             android:id="@+id/menu_singleplayer"
@@ -31,22 +31,19 @@
             android:id="@+id/menu_online"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/menu_online"
-            android:enabled="false" />
+            android:text="@string/menu_online" />
 
         <Button
             android:id="@+id/menu_achievements"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/menu_achievements"
-            android:enabled="false" />
+            android:text="@string/menu_achievements" />
 
         <Button
             android:id="@+id/menu_ranks"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/menu_ranks"
-            android:enabled="false" />
+            android:text="@string/menu_ranks" />
     </LinearLayout>
 
 </ScrollView>

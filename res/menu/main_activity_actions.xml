@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" 
-      xmlns:yourapp="http://schemas.android.com/apk/res-auto" >
+      xmlns:agarsia="http://schemas.android.com/apk/res-auto" >
     <item android:id="@+id/action_settings"
           android:icon="@drawable/ic_action_settings"
           android:title="@string/settings"
-          yourapp:showAsAction="always"  />
+          agarsia:showAsAction="always"  />
     <item android:id="@+id/action_about"
           android:icon="@drawable/ic_action_about"
           android:title="@string/about"
-          yourapp:showAsAction="ifRoom"  />
+          agarsia:showAsAction="ifRoom"  />
 </menu>

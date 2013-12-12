@@ -3,6 +3,7 @@ package tk.agarsia.tictac2.view;
 import tk.agarsia.tictac2.R;
 import tk.agarsia.tictac2.controller.AppStackController;
 import tk.agarsia.tictac2.controller.ApplicationControl;
+import tk.agarsia.tictac2.view.options.Options;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,6 +17,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+
+import com.google.android.gms.common.GooglePlayServicesUtil;
 
 /**
  * Abstract activity class for basic functionality.
@@ -39,8 +42,11 @@ public abstract class MainActivity extends ActionBarActivity implements
 
 	/**
 	 * Custom constructor for display configuration.
-	 * @param actions boolean flag if actionbar actions should be displayed
-	 * @param subtitle resource id of an subtitle, 0x0 = no subtitle
+	 * 
+	 * @param actions
+	 *            boolean flag if actionbar actions should be displayed
+	 * @param subtitle
+	 *            resource id of an subtitle, 0x0 = no subtitle
 	 */
 	public MainActivity(boolean actions, int subtitle) {
 		this.actions = actions;
@@ -60,24 +66,29 @@ public abstract class MainActivity extends ActionBarActivity implements
 			AppStackController.toStack(this);
 			return;
 		}
-		
+
 		// set the subtitle
 		if (subtitle != 0)
 			getSupportActionBar().setSubtitle(subtitle);
 
-		//create the alert dialog for about
+		// create the alert dialog for about
 		about = new AlertDialog.Builder(this)
 				.setTitle(R.string.about)
-				.setMessage(R.string.about_text)
+				.setMessage(
+						R.string.about_text
+								+ "\n\n"
+								+ GooglePlayServicesUtil
+										.getOpenSourceSoftwareLicenseInfo(getApplicationContext()))
 				.setNeutralButton(getResources().getString(R.string.close),
 						new DialogInterface.OnClickListener() {
+							@Override
 							public void onClick(DialogInterface dialog,
 									int which) {
 								dialog.dismiss();
 							}
 						});
 	}
-	
+
 	@Override
 	protected void onPause() {
 		AppStackController.toStack(this);
@@ -87,9 +98,9 @@ public abstract class MainActivity extends ActionBarActivity implements
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		if (actions) { //show flag must be true
+		if (actions) { // show flag must be true
 			MenuInflater inflater = getMenuInflater();
-			//show actions in actionbar
+			// show actions in actionbar
 			inflater.inflate(R.menu.main_activity_actions, menu);
 		}
 		return super.onCreateOptionsMenu(menu);
@@ -98,20 +109,22 @@ public abstract class MainActivity extends ActionBarActivity implements
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId() == R.id.action_settings) {
-			//settings icon on actionbar was clicked
+			// settings icon on actionbar was clicked
 			ApplicationControl.start(this, Options.class);
 			return true;
 		} else if (item.getItemId() == R.id.action_about) {
-			//about icon on actionbar was clicked
+			// about icon on actionbar was clicked
 			AlertDialog dialog = about.show();
-			
-			//refresh message layout
-			((TextView) dialog.findViewById(android.R.id.message)).setGravity(Gravity.CENTER);
-			((TextView) dialog.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
+
+			// refresh message layout
+			((TextView) dialog.findViewById(android.R.id.message))
+					.setGravity(Gravity.CENTER);
+			((TextView) dialog.findViewById(android.R.id.message))
+					.setMovementMethod(LinkMovementMethod.getInstance());
 
 			return true;
 		}
-		//nothing was selected
+		// nothing was selected
 		return false;
 	}
 }
