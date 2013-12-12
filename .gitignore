@@ -3,6 +3,8 @@
 /bin/
 /gen/
 target/
+gen/*
+bin/*
  
 # OS Files #
 .DS_Store
