@@ -1041,8 +1041,6 @@ containing a value of this type.
  Minimum width of the search view text entry area. 
          */
         public static final int abc_search_view_text_min_width=0x7f0b000c;
-        /**  Default screen margins, per the Android Design guidelines. 
-         */
         public static final int activity_horizontal_margin=0x7f0b0011;
         public static final int activity_vertical_margin=0x7f0b0012;
     }
