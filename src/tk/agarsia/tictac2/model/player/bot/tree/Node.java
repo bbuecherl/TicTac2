@@ -2,7 +2,6 @@ package tk.agarsia.tictac2.model.player.bot.tree;
 
 import java.util.ArrayList;
 
-import tk.agarsia.tictac2.model.board.BoardParser;
 import tk.agarsia.tictac2.model.board.BoardParserV2;
 
 

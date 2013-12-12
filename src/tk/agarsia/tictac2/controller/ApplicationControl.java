@@ -1,14 +1,12 @@
 package tk.agarsia.tictac2.controller;
 
-import tk.agarsia.tictac2.R;
 import tk.agarsia.tictac2.controller.feedback.SoundController;
 import tk.agarsia.tictac2.controller.feedback.Vibration;
 import tk.agarsia.tictac2.controller.marks.MarkController;
-import tk.agarsia.tictac2.controller.play.PlayController;
-import tk.agarsia.tictac2.controller.play.PlusController;
 import tk.agarsia.tictac2.model.Game;
 import tk.agarsia.tictac2.model.player.human.HumanLocal;
 import tk.agarsia.tictac2.view.activities.GameActivity;
+import tk.agarsia.tictac2.R;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -19,7 +17,7 @@ import android.preference.PreferenceManager;
  * Abstract class supporting static getter, setter and initialisation for the
  * controller framework
  * 
- * @author agarsia (Bernhard Bücherl)
+ * @author agarsia (Bernhard B��cherl)
  * @version 1.0
  * @since 1.0
  */
@@ -27,7 +25,7 @@ public abstract class ApplicationControl {
 	/**
 	 * Static enum used for identifing game type
 	 * 
-	 * @author agarsia (Bernhard Bücherl)
+	 * @author agarsia (Bernhard B��cherl)
 	 * @version 1.0
 	 * @since 1.0
 	 */
@@ -76,11 +74,6 @@ public abstract class ApplicationControl {
 
 		// initialize vibration controller
 		Vibration.init(context);
-
-		// start Google Play Service controller
-		PlayController.init(context);
-		
-		PlusController.init(context);
 
 		// initialize game
 		reinit();

@@ -18,8 +18,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.google.android.gms.common.GooglePlayServicesUtil;
-
 /**
  * Abstract activity class for basic functionality.
  * 
@@ -29,7 +27,7 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
  * ApplicationControl initialisation state and refers to the splash activity if
  * the application needs to initialize.
  * 
- * @author agarsia (Bernhard Bücherl)
+ * @author agarsia (Bernhard B��cherl)
  * @version 1.0
  * @since 1.0
  */
@@ -75,10 +73,7 @@ public abstract class MainActivity extends ActionBarActivity implements
 		about = new AlertDialog.Builder(this)
 				.setTitle(R.string.about)
 				.setMessage(
-						R.string.about_text
-								+ "\n\n"
-								+ GooglePlayServicesUtil
-										.getOpenSourceSoftwareLicenseInfo(getApplicationContext()))
+						R.string.about_text)
 				.setNeutralButton(getResources().getString(R.string.close),
 						new DialogInterface.OnClickListener() {
 							@Override

@@ -1,8 +1,5 @@
 package tk.agarsia.tictac2.model.player.bot.tree;
 
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Map.Entry;
 
 public class WeightController {
 	
