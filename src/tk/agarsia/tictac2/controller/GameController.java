@@ -2,6 +2,9 @@ package tk.agarsia.tictac2.controller;
 
 import java.io.IOException;
 
+import tk.agarsia.tictac2.controller.feedback.Sound;
+import tk.agarsia.tictac2.controller.feedback.SoundController;
+import tk.agarsia.tictac2.controller.feedback.Vibration;
 import tk.agarsia.tictac2.model.Game;
 import android.util.Log;
 

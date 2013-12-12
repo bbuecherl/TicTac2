@@ -3,7 +3,6 @@ package tk.agarsia.tictac2.view.activities;
 import java.util.ArrayList;
 import java.util.Random;
 
-import tk.agarsia.tictac2.R;
 import tk.agarsia.tictac2.controller.ApplicationControl;
 import tk.agarsia.tictac2.controller.ApplicationControl.GameType;
 import tk.agarsia.tictac2.model.player.AbstractPlayer;
@@ -23,6 +22,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import tk.agarsia.tictac2.R;
 
 /**
  * Class for the game options activity.
@@ -61,6 +61,10 @@ public class OptActivity extends MainActivity implements OnItemSelectedListener 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_opt);
+
+		if (!ApplicationControl.isInit())
+			return; 
+			
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		// set start local player text to the local player name
@@ -73,18 +77,21 @@ public class OptActivity extends MainActivity implements OnItemSelectedListener 
 			// not initialized, go back to menu
 			back();
 			break;
-		case SINGLEPLAYER: // hide other player name option (we play vs a bot!)
+		case SINGLE: // hide other player name option (we play vs a bot!)
 			((RadioButton) findViewById(R.id.opt_start_other))
 					.setText(getString(R.string.opt_bot));
 			findViewById(R.id.opt_name_desc).setVisibility(View.GONE);
 			findViewById(R.id.opt_name).setVisibility(View.GONE);
 			findViewById(R.id.space4).setVisibility(View.GONE);
 			break;
-		case MULTIPLAYER: // XXX (not sure if this could be removed) make sure
+		case LOCAL: // XXX (not sure if this could be removed) make sure
 							// to show other player name options
 			findViewById(R.id.opt_name_desc).setVisibility(View.VISIBLE);
 			findViewById(R.id.opt_name).setVisibility(View.VISIBLE);
 			findViewById(R.id.space4).setVisibility(View.VISIBLE);
+			break;
+		case ONLINE:
+			
 			break;
 		}
 
@@ -244,25 +251,26 @@ public class OptActivity extends MainActivity implements OnItemSelectedListener 
 
 		// init other player
 		AbstractPlayer player2 = null;
-		if (ApplicationControl.getGameType() == GameType.SINGLEPLAYER) {
+		if (ApplicationControl.getGameType() == GameType.SINGLE) {
 			// start singleplayer (vs Bot)
 			player2 = new BotRandom(ApplicationControl.getGame());
-		} else if (ApplicationControl.getGameType() == GameType.MULTIPLAYER) {
+		} else if (ApplicationControl.getGameType() == GameType.LOCAL) {
 			// start local (vs other local human)
 			String name = ((EditText) findViewById(R.id.opt_name)).getText()
 					.toString();
 			if (name == null)
 				name = getString(R.string.opt_default);
-			else if(name.length()<=1)
+			else if (name.length() <= 1)
 				name = getString(R.string.opt_default);
-			
+
 			player2 = new HumanLocal(name, ApplicationControl.getGame());
 		}
 
 		// re init local players name...
-		if(ApplicationControl.getMe().getName().length()<=1)
-			ApplicationControl.getMe().setName(getString(R.string.pref_player_default));
-		
+		if (ApplicationControl.getMe().getName().length() <= 1)
+			ApplicationControl.getMe().setName(
+					getString(R.string.pref_player_default));
+
 		// initialize game model
 		ApplicationControl.getGame().initModel(interval, boardDim, winLength,
 				mpt, spi);

@@ -9,7 +9,7 @@ public abstract class AbstractPlayer implements PlayerInterface {
 	protected int gamesWon = 0;
 	protected String winningFields = "";
 	
-	/*
+	/**
 	 * 0 = local human player
 	 * 1 = remote human player
 	 * 2 = local bot

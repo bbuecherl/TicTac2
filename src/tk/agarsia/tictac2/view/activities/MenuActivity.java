@@ -4,18 +4,28 @@ import tk.agarsia.tictac2.R;
 import tk.agarsia.tictac2.controller.AppStackController;
 import tk.agarsia.tictac2.controller.ApplicationControl;
 import tk.agarsia.tictac2.controller.ApplicationControl.GameType;
+import tk.agarsia.tictac2.controller.play.PlayController;
+import tk.agarsia.tictac2.controller.play.PlayValidator;
 import tk.agarsia.tictac2.view.MainActivity;
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
+
+import com.google.android.gms.auth.GoogleAuthUtil;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 
 /**
  * Class for the menu activity
  * 
  * This activity implements MainActivity, displays the (TODO logo and) menu and
- * implements the menu button actions.
- * The layout file is located at res/layout/activity_menu.xml
+ * implements the menu button actions. The layout file is located at
+ * res/layout/activity_menu.xml
  * 
  * @author agarisa (Bernhard Bücherl)
  * @version 1.0
@@ -39,14 +49,18 @@ public class MenuActivity extends MainActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_menu);
-		
-		//clear previous stack
+
+		if (!ApplicationControl.isInit())
+			return;
+
+		// clear previous stack
 		AppStackController.clearStack();
 
 		// 'todo' alert dialog for unimplemented features
 		todo = new AlertDialog.Builder(this).setMessage(
 				getString(R.string.todo)).setNeutralButton(
 				getString(R.string.ok), new DialogInterface.OnClickListener() {
+					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						dialog.dismiss();
 					}
@@ -67,16 +81,73 @@ public class MenuActivity extends MainActivity {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.menu_singleplayer: // singleplayer button was pressed
-			ApplicationControl.newGame(GameType.SINGLEPLAYER);
+			ApplicationControl.newGame(GameType.SINGLE);
 			ApplicationControl.start(this, OptActivity.class);
 			break;
 		case R.id.menu_local: // local multiplayer button was pressed
-			ApplicationControl.newGame(GameType.MULTIPLAYER);
+			ApplicationControl.newGame(GameType.LOCAL);
 			ApplicationControl.start(this, OptActivity.class);
 			break;
-		default: // all other features are not implemented yet
+		case R.id.menu_online: // online multiplayeer
+			ApplicationControl.newGame(GameType.ONLINE);
+			validate();
+			break;
+		case R.id.menu_achievements:
 			todo.show();
+			// UIController.startOnline(this, AchievementActivity.class);
+			break;
+		case R.id.menu_ranks:
+			todo.show();
+			// UIController.startOnline(this, RankActivity.class);
 			break;
 		}
+	}
+
+	private void validate() {
+		if (PlayController.isPlay()) {
+			// get accounts
+			Account[] accounts = AccountManager.get(getApplicationContext())
+					.getAccountsByType(GoogleAuthUtil.GOOGLE_ACCOUNT_TYPE);
+
+			// TODO let user choose the account to link (currently first)
+			Account chosen = accounts[0];
+
+			new PlayValidator(chosen, this);
+
+			// validated = token != null;
+		} else {
+			GooglePlayServicesUtil.getErrorDialog(PlayController.PLAY, this, 0);
+		}
+	}
+
+	public void finished(final String token) {
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				Toast.makeText(ApplicationControl.getContext(), token,
+						Toast.LENGTH_LONG).show();
+			}
+		});
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (requestCode == 1001) {
+			if (data == null) {
+				Log.i("menu", "unknown error");
+				return;
+			} else if (resultCode == RESULT_OK) {
+				Log.i("menu", "retrying");
+				validate();
+				return;
+			} else if (resultCode == RESULT_CANCELED) {
+				Log.i("menu", "user rejected");
+				return;
+			} else {
+				Log.i("menu", "unknown error");
+				return;
+			}
+		}
+		super.onActivityResult(requestCode, resultCode, data);
 	}
 }

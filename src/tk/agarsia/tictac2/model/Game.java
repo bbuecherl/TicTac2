@@ -12,17 +12,18 @@ public class Game extends Thread {
 	private int winLength; // = 3;
 	private int marksPerTurn; // = 1;	
 	private int markCount = 0;
+	
 	private int startPlayerIndex;
 	private int currentPlayerIndex; // = 1;	
 	private AbstractPlayer currentPlayer;
 	
 	private AbstractPlayer[] players;
+	private AbstractPlayer winner = null;
 	
 	private Board board;
 	
 	private boolean gameRunning = false;
 	private boolean awaitingClick = false;
-	private AbstractPlayer winner = null;
 	
 	public Game(){
 		players = new AbstractPlayer[3];
@@ -144,8 +145,7 @@ public class Game extends Thread {
 	/**
 	 * Function to run the application.
 	 * 
-	 */
-	
+	 */	
 	@Override
 	public void run(){
 		while(gameRunning){
@@ -217,6 +217,7 @@ public class Game extends Thread {
 	/**
 	 * Function to start a game.
 	 */
+	@Override
 	public void start(){	
 		gameRunning = true;
 		System.out.println("game started with players: " + players[1].getName() + " and " + players[2].getName());

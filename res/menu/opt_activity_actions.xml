@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:yourapp="http://schemas.android.com/apk/res-auto">
+      xmlns:agarsia="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/action_back"
           android:icon="@drawable/ic_action_back"
           android:title="@string/back"
-          yourapp:showAsAction="always|withText"  />
+          agarsia:showAsAction="always|withText"  />
     <item android:id="@+id/action_next"
           android:icon="@drawable/ic_action_next"
           android:title="@string/next"
-          yourapp:showAsAction="always|withText"  />
+          agarsia:showAsAction="always|withText"  />
 </menu>

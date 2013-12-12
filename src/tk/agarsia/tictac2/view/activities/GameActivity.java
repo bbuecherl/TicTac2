@@ -1,14 +1,14 @@
 package tk.agarsia.tictac2.view.activities;
 
-import tk.agarsia.tictac2.R;
 import tk.agarsia.tictac2.controller.ApplicationControl;
-import tk.agarsia.tictac2.controller.Vibration;
+import tk.agarsia.tictac2.controller.feedback.Vibration;
 import tk.agarsia.tictac2.model.player.AbstractPlayer;
 import tk.agarsia.tictac2.view.MainActivity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
+import tk.agarsia.tictac2.R;
 
 /**
  * Class for the main game activity.
@@ -38,6 +38,9 @@ public class GameActivity extends MainActivity {
 		super.onCreate(saved);
 		setContentView(R.layout.activity_game);
 
+		if (!ApplicationControl.isInit())
+			return;
+		
 		// disable "up" navigation
 		getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
@@ -48,6 +51,7 @@ public class GameActivity extends MainActivity {
 				.setMessage(R.string.pause_text)
 				.setPositiveButton(getResources().getString(R.string.resume),
 						new DialogInterface.OnClickListener() {
+							@Override
 							public void onClick(DialogInterface dialog,
 									int which) {
 								dialog.dismiss();
@@ -55,6 +59,7 @@ public class GameActivity extends MainActivity {
 						})
 				.setNegativeButton(getResources().getString(R.string.close),
 						new DialogInterface.OnClickListener() {
+							@Override
 							public void onClick(DialogInterface dialog,
 									int which) {
 								inst.finish();
@@ -116,6 +121,7 @@ public class GameActivity extends MainActivity {
 				// })
 				.setNeutralButton(getString(R.string.ok),
 						new DialogInterface.OnClickListener() {
+							@Override
 							public void onClick(DialogInterface dialog,
 									int which) {
 								Vibration.cancel();
