@@ -1,7 +1,6 @@
 package tk.agarsia.tictac2.model.player.bot;
 
 import tk.agarsia.tictac2.model.Game;
-import tk.agarsia.tictac2.model.player.bot.tree.TreeBuilder;
 
 public class BotSmart extends AbstractBot{
 
@@ -23,6 +22,7 @@ public class BotSmart extends AbstractBot{
 	
 	@Override
 	public void myTurn() {	
+<<<<<<< HEAD
 		
 		marksCount ++;
 		if(marksCount > marksPerTurn)
@@ -77,6 +77,9 @@ public class BotSmart extends AbstractBot{
 			
 			turnCount ++;
 		}*/		
+=======
+		//TODO release 2
+>>>>>>> feature_GPS
 	}
 
 	@Override

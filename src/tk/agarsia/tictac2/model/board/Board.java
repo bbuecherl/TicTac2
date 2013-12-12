@@ -8,17 +8,17 @@ public class Board {
 	protected int boardDim;
 	protected int winLength;
 	protected Field[][] fields2D;
-	protected String history;
+	protected ArrayList<int[]> history;
 	protected boolean winState = false;
-	//protected ArrayList<Island> islands = new ArrayList<Island>(); //TODO
+	//protected ArrayList<Island> islands = new ArrayList<Island>();
 	protected Island winningIsland;
 	
 	/**
-	 * Board Constructor. Initializes a board.
-	 * Calling reset() because it builds the whole board.
+	 * Function to set init game board.
 	 * 
 	 * @param boardDim
 	 * @param winLength
+	 * 
 	 */
 	public Board(int boardDim, int winLength){
 		this.boardDim = boardDim;
@@ -28,14 +28,15 @@ public class Board {
 	}
 	
 	/**
-	 * Copy Constructor.
+	 * Copy Constructor of Board.
 	 */
-	public Board(Board board){// copy-constructor
+        @SuppressWarnings("unchecked")
+	public Board(Board board){ // copy-constructor
 		this.boardDim = board.boardDim;
 		this.winLength = board.winLength;
 
-		this.history = board.history;
-		
+        this.history = (ArrayList<int[]>) board.history.clone();
+
 		fields2D = new Field[boardDim][boardDim];
 		new Field(this);
 		
@@ -46,26 +47,21 @@ public class Board {
 	}
 
 	/**
-	 * Initializing or resetting a board.
-	 * Writes the first line in the history, creates the 2D-array in the right size
-	 * and creates the first field which will then internally create all other fields and "register" them 
-	 * back here with Board so that Board can place them into the 2D-array
+	 * Function to reset game board.
 	 */
 	public void reset(){		
-		history = boardDim + "x" + boardDim + " field:\n";
+        history = new ArrayList<int[]>();
 		fields2D = new Field[boardDim][boardDim];	
 		
-		new Field(this); //the whole board is building itself when the first Field is instantiated
+		new Field(this); //pure awesomeness... the whole board is building itself when just the first Field is instantiated :)
 				
-		for(int i = 0; i < boardDim; i++)	
+/*		for(int i = 0; i < boardDim; i++)	
 			for(int j = 0; j < boardDim; j++)
 				System.out.println(fields2D[i][j].show()); // proof
-	}
+*/	}
 	
 	/**
-	 * Adding a field into the 2D-array. The fields are calling this method while they build their configuration so that
-	 * we have two ways of accessing the fields; either directly through the 2D-array or by asking the first field (at [0][0])
-	 * to walk along the "snakePath" (see Field class) and collect the info we want.
+	 * Function to add a field to the game board.
 	 */
 	public void addField(Field field){
 		fields2D[field.getRow()][field.getColumn()] = field;
@@ -113,7 +109,7 @@ public class Board {
 	
 	public int getWinLength(){
 		return winLength;
-	}	
+	}
 	
 	/**
 	 * Gives access to a field based on its coordinates.
@@ -137,15 +133,15 @@ public class Board {
 	 */
 	public boolean setField(int playerIndex, int row, int column){
 		if(fields2D[row][column].isFree()){
-			fields2D[row][column].setValue(playerIndex);		
-			history += playerIndex + " [" + row + ", " + column + "]\n";			
+			fields2D[row][column].setValue(playerIndex);		         
+            history.add(new int[] {playerIndex,row,column});   			
 			return true;
 		}
 		else 
 			return false;		
 	}
 	
-	public String getHistory(){
+	public ArrayList<int[]> getHistory(){
 		return history;
 	}
 	
@@ -184,7 +180,14 @@ public class Board {
 	 * @return Integer-Array representation of the board
 	 */
 	public int[] getBoardAsArr(){
-		return fields2D[0][0].getBoardAsArrBuilder();
+		//return fields2D[0][0].getBoardAsArrBuilder();
+		
+		int[] boardArr = new int[boardDim * boardDim];
+		
+		for(int i = 0; i < boardDim * boardDim; i++)
+			boardArr[i] = fields2D[i / boardDim][i % boardDim].getValue();
+		
+		return boardArr;
 	}
 	
 	/**
@@ -209,13 +212,27 @@ public class Board {
 	 */
 	public void placeRandomly(int currentPlayerIndex) {
 		int choice = (int) (new Random().nextDouble() * getFreeFieldCount());	
+
+        int row = getFreeFields().get(choice).getRow();
+        int column = getFreeFields().get(choice).getColumn();
+
 		getFreeFields().get(choice).setValue(currentPlayerIndex);
+                
+        history.add(new int[] {currentPlayerIndex,row,column});   
 	}
 	
-	//this was previously used by random bot, when the random-aspect was still taking place there
-/*	public void depositAtSpecificFreeField(int currentPlayerIndex, int target){		
-		getFreeFields().get(target - 1).setValue(currentPlayerIndex);
-	}*/
+	public void depositAtSpecificFreeField(int currentPlayerIndex, int target){		        
+        int row = getFreeFields().get(target - 1).getRow();
+        int column = getFreeFields().get(target - 1).getColumn();
+                
+        getFreeFields().get(target - 1).setValue(currentPlayerIndex);
+
+       	history.add(new int[] {currentPlayerIndex,row,column});      
+	}
+	
+	public Field getSpecificFreeField(int freeIndexTarget){
+		return getFreeFields().get(freeIndexTarget);
+	}
 	
 	/**
 	 * Gives access to a string-representation of the board.
@@ -245,4 +262,5 @@ public class Board {
 		}
 		return buffer;
 	}
+
 }
