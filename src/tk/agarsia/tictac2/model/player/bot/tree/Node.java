@@ -26,7 +26,6 @@ public class Node {
 	private int weightFactorWin = 1;
 	private int weightFactorLoss = 1;
 	
-	
 	/**
 	 * 0: no winner
 	 * 1: i won
@@ -39,7 +38,25 @@ public class Node {
 	private int losers = 0;
 	private int losersWEIGHTED = 0;
 	
+/*	private int x = 0;
+	private int y = 0;
+	
+	public void setX(int x){
+		this.x = x;
+	}
+	
+	public void setY(int y){
+		this.y = y;
+	}
 
+	public int getX(){
+		return x;
+	}
+	
+	public int getY(){
+		return y;
+	}*/
+	
 	public int getForHowManyTurnsLeftIsItMyTurn(){
 		return forHowManyTurnsLeftIsItMyTurn;
 	}
@@ -141,7 +158,10 @@ public class Node {
 		return iPlaceSamePlayerIndexAsMyParents;
 	}
 	
-	public String getExtraInfo(){		
+	public String getExtraInfo(){			
+		
+		//return "";//winners + "|" + losers;// + "\nx: " + x + " y: " + y;
+		
 		return "placed " + playerIndexIplace + " at (" + (indexWhereIplacedMyMark / boardDim) + ", " + (indexWhereIplacedMyMark % boardDim) + ")"
 				+ "\nhow many more turns do i have: " + forHowManyTurnsLeftIsItMyTurn
 				+ "\niPlaceSamePlayerIndexAsMyParents: " + iPlaceSamePlayerIndexAsMyParents

@@ -72,29 +72,26 @@ public class DecisionGrid {
 									if ((wd[d][0] == tx && wd[d][0] == ty)
 											|| grid[tx][ty] == 1000)
 										continue;
+									
+									if (board.getField(wd[d][0], wd[d][1]) == 0) {
 
-									if (board.getField(wd[d][0], wd[d][1])
-											.isFree()) {
-
-									} else if (board.getField(wd[d][0],
-											wd[d][1]).getValue() == mark) {
+									} else if (board.getField(wd[d][0], wd[d][1]) == mark) {
 										doubleIt++; // if enemy got another
 													// field in there..
-									} else if (board.getField(wd[d][0],
-											wd[d][1]).getValue() == mark % 2 + 1) {
+									} else if (board.getField(wd[d][0], wd[d][1]) == mark % 2 + 1) {
 										doubleIt--; // if we got another field
 													// in there...
 									}
 								}
 						}
 
-						if (board.getField(tx, ty).isFree()) {
+						if (board.getField(tx, ty) == 0) {
 							grid[tx][ty]++;
 							t1[0] = tx;
 							t1[1] = ty;
-						} else if (board.getField(tx, ty).getValue() == mark) {
+						} else if (board.getField(tx, ty) == mark) {
 							t2++; // if enemy got another field in there..
-						} else if (board.getField(tx, ty).getValue() == mark % 2 + 1) {
+						} else if (board.getField(tx, ty) == mark % 2 + 1) {
 						}
 					}
 
@@ -146,27 +143,24 @@ public class DecisionGrid {
 											|| grid[tx][ty] == 2000)
 										continue;
 
-									if (board.getField(wd[d][0], wd[d][1])
-											.isFree()) {
+									if (board.getField(wd[d][0], wd[d][1]) == 0) {
 
-									} else if (board.getField(wd[d][0],
-											wd[d][1]).getValue() == mark) {
+									} else if (board.getField(wd[d][0],wd[d][1]) == mark) {
 										tribbleIt--; // if enemy got another
 														// field in there..
-									} else if (board.getField(wd[d][0],
-											wd[d][1]).getValue() == mark % 2 + 1) {
+									} else if (board.getField(wd[d][0], wd[d][1]) == mark % 2 + 1) {
 										tribbleIt++; // if we got another field
 														// in there...
 									}
 								}
 						}
 
-						if (board.getField(tx, ty).isFree()) {
+						if (board.getField(tx, ty) == 0) {
 							t1[0] = tx;
 							t1[1] = ty;
-						} else if (board.getField(tx, ty).getValue() == mark) {
+						} else if (board.getField(tx, ty) == mark) {
 							t2++; // if we got another field in there...
-						} else if (board.getField(tx, ty).getValue() == mark % 2 + 1) {
+						} else if (board.getField(tx, ty) == mark % 2 + 1) {
 						}
 					}
 
@@ -226,7 +220,7 @@ public class DecisionGrid {
 
 		for (int x = 0; x < grid.length; x++) {
 			for (int y = 0; y < grid[x].length; y++) {
-				if (board.getField(x, y).isFree())
+				if (board.getField(x, y) == 0)
 					if (out[0][0] < grid[x][y]) {
 						out[0][0] = grid[x][y];
 						out[0][1] = x;

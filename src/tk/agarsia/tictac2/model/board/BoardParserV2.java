@@ -54,6 +54,8 @@ public class BoardParserV2 {
         
         public void testBoardForWinner(int[] arr, int len, int wLen) {
                 totalCount = 0;
+                winner = 0;
+                flush();
                 
                 this.arr = arr;
                 this.len = len;

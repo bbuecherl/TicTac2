@@ -93,7 +93,7 @@ public class Game extends Thread {
 		System.out.println("board after mark from " + currentPlayer.getName());
 		System.out.println(board.show(true));
 		
-		if(!board.getWinState()){	
+		if(board.getWinner() == 0){	
 			if(!board.full()){
 				markCount ++;
 				
@@ -115,7 +115,6 @@ public class Game extends Thread {
 		else{			
 			winner = currentPlayer;
 			winner.incrementGameWon();
-			winner.setWinningFields(board.getWinnersPositions());
 			gameRunning = false;
 		}
 		

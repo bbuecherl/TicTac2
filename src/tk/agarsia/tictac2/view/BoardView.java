@@ -166,9 +166,9 @@ public class BoardView extends View {
 				left = tl / 2 + i * width + tl * i;
 				top = offset + tl / 2 + j * width + tl * j;
 
-				if (game.getBoard().getField(i, j).getValue() == 1) {
+				if (game.getBoard().getField(i, j) == 1) {
 					me.draw(paint, canvas, left, top, width);
-				} else if (game.getBoard().getField(i, j).getValue() == 2) {
+				} else if (game.getBoard().getField(i, j) == 2) {
 					you.draw(paint, canvas, left, top, width);
 				}
 			}

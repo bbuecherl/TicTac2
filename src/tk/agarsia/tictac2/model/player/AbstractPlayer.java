@@ -44,12 +44,4 @@ public abstract class AbstractPlayer implements PlayerInterface {
 		gamesWon = 0;
 	}
 	
-	public void setWinningFields(String winningFields){
-		this.winningFields = winningFields;
-	}
-	
-	public String getWinningFields(){
-		return winningFields;
-	}
-	
 }

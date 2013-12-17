@@ -29,6 +29,10 @@ public class TreeBuilder {
 		return indexWhereNodeWithMaxDiffPlacedMark;
 	}
 	
+	public int getMaxDepth(){
+		return maxDepth;
+	}
+	
 	public TreeBuilder(int maxDepth, int marksCount, Board board, int whosTurn, int marksPerTurn) {
 		this.maxDepth = maxDepth;
 		this.boardDim = board.getBoardDim();
@@ -39,7 +43,7 @@ public class TreeBuilder {
 		WeightController.setParams(boardDim, winLength, marksPerTurn, myPlayerIndex, maxDepth);				
 		Node.setStaticParams(board.getBoardDim(), maxDepth, board.getWinLength(), myPlayerIndex);
 			
-		int[] boardArr = board.getBoardAsArr(); //System.out.println("boardArr: " + BoardParser.mergeArrIntoString(boardArr) + " " + boardArr.length); //debug
+		int[] boardArr = board.getBoardArr(); //System.out.println("boardArr: " + BoardParser.mergeArrIntoString(boardArr) + " " + boardArr.length); //debug
 		rootnode = new Node(null, BoardParser.mergeArrIntoString(boardArr), boardArr, -1, -1); //-1 because this node doesn't place a mark, so it's just a dummy
 		nodes.put(rootnode.getID(), rootnode);
 				
@@ -91,14 +95,21 @@ public class TreeBuilder {
 		System.out.println("Created a graph with " + nodes.size() + " nodes and " + edges.size() + " edges that goes down " + maxDepth + " levels.\nNow counting win/loss from bottom up and assigning weight according to WeightController.");
 		
 		//count win/loss on each node AND standard weight BOTTOM UP
+		int maxLevelsize = 0;
+		int maxLevel = 0;
 		for(int i = maxDepth; i >= 0; i--){			
 			level.clear();
 			level = getNodesAtLevel(i);	
+			if(level.size() > maxLevelsize){
+				maxLevelsize = level.size();
+				maxLevel = i;
+			}
 			for(Node node : level){
 				node.countWinLoss();
 				WeightController.setWEIGHT(node);
 			}
 		}
+		System.out.println("maxLevel at " + maxLevel + "  with size: " + maxLevelsize);
 
 		System.out.println("These are the " + rootnode.getChildren().size() + " rootnode children of whom one will be chosen as best option for next turn:");
 		
@@ -134,13 +145,15 @@ public class TreeBuilder {
 		System.out.println("maxWeightedDiff is owned by [" + rootnodeChildWithMaxDiff.getID() + "] " + 
 				(collectMaxDiffs.size() > 1 ? (" (chosen randomly among " + collectMaxDiffs.size() + " rootnode children of equal value) ") : "")
 				+ "with weighted difference of: " + rootnodeChildWithMaxDiff.getWeightedDifference());
+	
+		//Layout layouting = new Layout(this);	
 	}	
 	
 	
 	public void export(){
 		try {
 			Exporter.setBoardDim(boardDim);
-			Exporter.doExport(this, "GRAPH_boardDim" + boardDim + "_winLength" + winLength + "_marksPerTurn" + marksPerTurn + "_depth" + maxDepth + "_nodes"+ nodes.size() + "_edges" + edges.size() + ".graphml");
+			Exporter.doExport(this, "GRAPH_boardDim" + boardDim + "_winLength" + winLength + "_marksPerTurn" + marksPerTurn + "_depth" + maxDepth + "_nodes"+ nodes.size() + "_edges" + edges.size());
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -149,7 +162,7 @@ public class TreeBuilder {
 	}
 	
 	
-	private ArrayList<Node> getNodesAtLevel(int vertical){	
+	public ArrayList<Node> getNodesAtLevel(int vertical){	
 		return getNodesAtLevel(nodes, vertical);
 	}
 	
