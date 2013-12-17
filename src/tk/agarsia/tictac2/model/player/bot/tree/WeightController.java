@@ -11,7 +11,7 @@ public class WeightController {
 	
 	private static int weightFactorWinEXPONENT = 3;
 	private static int weightFactorLossEXPONENT = 4;
-	private static int bonusFactorWinRun = 1;
+	private static int bonusFactorWinRun = 2;
 	private static int bonusFactorLossRun = 2;
 	
 	//private static ArrayList<Node> collect = new ArrayList<Node>();
@@ -26,16 +26,7 @@ public class WeightController {
 	}
 	
 	public static void setWEIGHT(Node node){	
-		
-		for(Node child : node.getChildren()){		
-			node.addToWinnersWEIGHTED(child.getWinnersWEIGHTED());
-			node.addToLosersWEIGHTED(child.getLosersWEIGHTED());			
-			if(child.iWon())
-				node.addToWinnersWEIGHTED(child.getWeightFactorWin() * bonusFactorWinRun);
-			if(child.iLost())
-				node.addToLosersWEIGHTED(child.getWeightFactorLoss() * bonusFactorLossRun);	
-		}			
-		
+	
 		 //WEIGHT FACTOR
         int linearFactor = maxDepth - node.getVertical() + 1;
         int weightFactorWin = (int) Math.pow(linearFactor, weightFactorWinEXPONENT); // could also be as high as linearFactor^linearFactor
@@ -49,6 +40,22 @@ public class WeightController {
 	    }
 	    if(node.iLost())
 	    	node.addToLosersWEIGHTED(weightFactorLoss);
+		
+		//collect from children
+		for(Node child : node.getChildren()){		
+			node.addToWinnersWEIGHTED(child.getWinnersWEIGHTED());
+			node.addToLosersWEIGHTED(child.getLosersWEIGHTED());			
+			
+			// win/loss runs, only looking to parent though
+			if(child.getIPlaceSamePlayerIndexAsMyParents()){	
+				if(child.iWon())
+					node.addToWinnersWEIGHTED(child.getWeightFactorWin() * bonusFactorWinRun);
+				if(child.iLost())
+					node.addToLosersWEIGHTED(child.getWeightFactorLoss() * bonusFactorLossRun);	
+			}
+		}			
+		
+
 	}	
 	
 	

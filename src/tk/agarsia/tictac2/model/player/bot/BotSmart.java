@@ -61,7 +61,7 @@ public class BotSmart extends AbstractBot{
 				Thread.sleep(300);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
-			}	
+			}
 		
 		myChoice(row, column);		
 		
