@@ -7,10 +7,10 @@ import tk.agarsia.tictac2.model.player.AbstractPlayer;
 
 public class Game extends Thread {
 	
-	private int interval; // in ms
-	private int boardDim; // = 3;
-	private int winLength; // = 3;
-	private int marksPerTurn; // = 1;	
+	private int interval; // in s
+	private int boardDim;
+	private int winLength;
+	private int marksPerTurn;	
 	private int markCount = 0;
 	
 	private int startPlayerIndex;
@@ -128,6 +128,14 @@ public class Game extends Thread {
 	 */
 	public boolean getGameRunning(){
 		return gameRunning;
+	}
+	
+	
+	/**
+	 * @return the interval in seconds. 0 means no time limit for a turn of human player
+	 */
+	public int getInterval(){
+		return interval;
 	}
 	
 	

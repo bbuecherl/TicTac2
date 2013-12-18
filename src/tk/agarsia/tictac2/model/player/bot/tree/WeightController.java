@@ -17,6 +17,14 @@ public class WeightController {
 	//private static ArrayList<Node> collect = new ArrayList<Node>();
 	
 	
+	/**
+	 * setting the parameters. a few are not used at this stage, but left in there for possible later use
+	 * @param boardDim
+	 * @param winLength
+	 * @param marksPerTurn
+	 * @param playerIthinkFor
+	 * @param maxDepth
+	 */
 	public static void setParams(int boardDim, int winLength, int marksPerTurn, int playerIthinkFor, int maxDepth){
 		WeightController.boardDim = boardDim;
 		WeightController.winLength = winLength;
@@ -25,6 +33,10 @@ public class WeightController {
 		WeightController.maxDepth = maxDepth;		
 	}
 	
+	/**
+	 * setting the weight according to rules
+	 * @param node the node that is "asking" to know it's weight
+	 */
 	public static void setWEIGHT(Node node){	
 	
 		 //WEIGHT FACTOR

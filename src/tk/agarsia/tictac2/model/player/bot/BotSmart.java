@@ -34,8 +34,10 @@ public class BotSmart extends AbstractBot{
 		
 		int dynamicDepth = game.getBoard().getFreeFieldCount();		
 		
-		int cap = 5;
+		int cap = 6;
 		
+		if(game.getBoard().getBoardDim() > 3)
+			cap --;
 		if(game.getBoard().getBoardDim() > 4)
 			cap --;
 		if(game.getBoard().getBoardDim() > 5)
