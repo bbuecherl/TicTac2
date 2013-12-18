@@ -15,9 +15,14 @@ public class Timer extends Thread{
 	 */
 	public Timer(HumanLocal humanPlayer, int interval){	
 		this.interval = interval;
-		this.humanPlayer = humanPlayer;		
+		this.humanPlayer = humanPlayer;			
+	}
+	
+	public void restart(){
+		timePassed = 0;
+		intervalOver = false;
 		startTime = System.nanoTime();
-		start();
+		run();
 	}
 		
 	/**

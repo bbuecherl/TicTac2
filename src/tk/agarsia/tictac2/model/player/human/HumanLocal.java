@@ -14,6 +14,7 @@ public class HumanLocal extends AbstractPlayer{
 		setPlayerType(0);
 		setName(name);	
 		interval = game.getInterval();
+		timer = new Timer(this, interval);
 	}
 
 	/**
@@ -25,9 +26,8 @@ public class HumanLocal extends AbstractPlayer{
 		
 		game.awaitingClick();
 			
-		if(interval != 0)
-			timer = new Timer(this, interval);
-	
+		timer.restart();
+		
 /*		if(turnCount > 3)
 			game.awaitingClick();
 		else{
@@ -44,6 +44,8 @@ public class HumanLocal extends AbstractPlayer{
 		}*/
 				
 	}
+	
+	
 
 	@Override
 	public boolean myChoice(int row, int column) {
