@@ -23,8 +23,6 @@ public class MarkListPreference extends ListPreference {
 		setEntries(entries[1]);
 		setEntryValues(entries[0]);
 		setDefaultValue(entries[0][0]);
-		
-		Log.i("debug",ApplicationControl.getStringPref("pref_mark"));
 	}
 
 	@Override

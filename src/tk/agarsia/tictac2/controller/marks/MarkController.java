@@ -56,6 +56,7 @@ public class MarkController {
 				// critical...
 				jex.printStackTrace();
 			}
+			
 		}
 	}
 	
@@ -64,6 +65,12 @@ public class MarkController {
 	}
 	
 	public static CharSequence[][] getEntries() {
+		if(DB==null) {
+			CharSequence[][] o =  new CharSequence[2][1];
+			o[1][0] = "default";
+			o[0][0] = "0";
+			return o;
+		}
 		CharSequence[][] out = new CharSequence[2][DB.length()];
 
 		for(int i = 0; i < DB.length(); i++) {
@@ -80,6 +87,12 @@ public class MarkController {
 	}
 	
 	public static JSONObject getCurrent() {
+		if(DB==null)
+			try {
+			return new JSONObject("{\"name\":\"default\",\"elements\":[{\"tag\":\"rect\",\"centerX\":50,\"centerY\":50,\"width\":100,\"height\":100,\"rotate\":0}]}");
+			} catch(Exception e) {
+				return new JSONObject();
+			}
 		String pref = ApplicationControl.getStringPref("pref_mark");
 		int index = 0;
 		if(pref!=null&&pref.length()>=1)
@@ -97,6 +110,8 @@ public class MarkController {
 	}
 
 	public static void delete(int ind) {
+		if(DB==null)
+			return;
 		JSONArray tmp = new JSONArray();
 		
 		for(int i = 0; i < DB.length(); i++)
@@ -112,6 +127,8 @@ public class MarkController {
 	}
 	
 	public static boolean save() {
+		if(DB==null)
+			return true;
 		try {
 			if(!FileController.exists(DB_PATH))
 				FileController.get(DB_PATH).createNewFile();

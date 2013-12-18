@@ -60,15 +60,16 @@ public abstract class ApplicationControl {
 		// initialize file controller
 		FileController.init();
 		
-		//initialize mark controller
-		MarkController.init();
-		
 		// load preferences
 		PreferenceManager.setDefaultValues(context, R.xml.prefs, false);
 
 		// initialize preferences
 		prefs = PreferenceManager.getDefaultSharedPreferences(context);
+
 		
+		//initialize mark controller
+		MarkController.init();
+				
 		// initialize sound controller
 		SoundController.init(context);
 
