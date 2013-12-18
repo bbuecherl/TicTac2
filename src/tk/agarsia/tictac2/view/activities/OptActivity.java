@@ -12,6 +12,7 @@ import tk.agarsia.tictac2.model.player.human.HumanLocal;
 import tk.agarsia.tictac2.view.MainActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -238,8 +239,10 @@ public class OptActivity extends MainActivity implements OnItemSelectedListener 
 
 		int interval = 0; // 0 = no quickmode 
 
-		if(((ToggleButton) findViewById(R.id.opt_quickmode)).isChecked()) 
+		if(ApplicationControl.getGameType()==GameType.SINGLE&&((ToggleButton) findViewById(R.id.opt_quickmode)).isChecked()) 
 			interval = Integer.parseInt(ApplicationControl.getStringPref("pref_quickmode","0"));
+		
+		Log.i("QUICK", ""+interval);
 		
 		int boardDim = 3 + size.getSelectedItemPosition(); // board dimension
 															// (3x3,4x4,5x5,6x6)
