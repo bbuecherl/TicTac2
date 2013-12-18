@@ -41,7 +41,8 @@ public class MarkView extends View implements View.OnLongClickListener,
 			this.pref = pref;
 			this.value = value;
 
-			parent.setOnLongClickListener(this);
+			if(MarkListPreference.MARKCREATOR_ENABLED)
+				parent.setOnLongClickListener(this);
 			parent.setOnClickListener(this);
 
 			rdio = ((RadioButton) parent.findViewById(R.id.mark_active));

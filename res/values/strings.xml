@@ -12,7 +12,7 @@
     <string name="next">Next</string>
     <string name="back">Back</string>
     <string name="logo">TicTac2</string>
-    <string name="about_text">TicTac2 v1.0\nRelease Edition\n\nContributors:\n<a href="http://benjaminaaron.wordpress.com/">benjaminaaron</a>\n<a href="http://agarsia.tk">agarsia</a>\n<a href="https://github.com/TuttiRH">tuttirh</a>\n<a href="https://github.com/gherndl">gherndl</a>\n\nProject website:\n<a href="http://agarsia.tk/tictac2/">http://agarsia.tk/tictac2</a>\n\nSounds from <a href="http://freesound.org">http://freesound.org/</a></string>
+    <string name="about_text">TicTac2 v2.0\nRelease Edition\n\nContributors:\n<a href="http://benjaminaaron.wordpress.com/">benjaminaaron</a>\n<a href="http://bbuecherl.tk">bbuecherl</a>\n<a href="https://github.com/TuttiRH">tuttirh</a>\n<a href="https://github.com/gherndl">gherndl</a>\n\nProject on GitHub:\n<a href="https://github.com/bbuecherl/tictac2/">https://github.com/bbuecherl/tictac2</a>\n\nSounds from <a href="http://freesound.org">http://freesound.org/</a></string>
 	<string name="ok">OK</string>
 	<string name="share">Share</string>
 	<string name="edit">Edit</string>
@@ -57,6 +57,20 @@
         <item>#720000</item>
         <item>#000072</item>
     </string-array>
+    <string name="pref_quickmode">Turn time</string>
+    <string name="pref_quickmode_desc">Time for a turn in quick mode</string>
+    <string-array name="pref_quickmode_entries">
+        <item>1 Seconds</item>
+        <item>2 Seconds</item>
+        <item>5 Seconds</item>
+        <item>10 Seconds</item>
+    </string-array>
+    <string-array name="pref_quickmode_values">
+        <item>1</item>
+        <item>2</item>
+        <item>5</item>
+        <item>10</item>
+    </string-array>
     
     <!-- Mark Creator Activity -->
 	<string name="markcreator">Markcreator</string>
@@ -80,6 +94,12 @@
     <string name="opt_start">Who starts the game</string>
     <string name="opt_random">Random</string>
     <string name="opt_bot">Computer</string>
+    <string name="opt_quickmode">Quickmode</string>
+    <string name="opt_botint">Computer intelligence</string>
+    <string name="opt_botint_weak">Weak (placing random)</string>
+    <string name="opt_botint_med">Medium (predecision grids)</string>
+    <string name="opt_botint_hard">Hard (decision tree)</string>
+    
     
     <!-- Game Activity -->
     <string name="game_won">You won!</string>

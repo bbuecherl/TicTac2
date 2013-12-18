@@ -12,6 +12,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 
 public class MarkListPreference extends ListPreference {
+	public static final boolean MARKCREATOR_ENABLED = false; //will be enabled as soon as completely implemented
 
 	private Options act;
 
@@ -29,7 +30,8 @@ public class MarkListPreference extends ListPreference {
 	@Override
 	protected void onPrepareDialogBuilder(Builder builder) {
 		builder.setPositiveButton(null, null);
-		builder.setNeutralButton(R.string.pref_mark_add, this);
+		if(MARKCREATOR_ENABLED)
+			builder.setNeutralButton(R.string.pref_mark_add, this);
 		builder.setAdapter(new MarkAdapter(this), new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface arg0, int arg1) {
@@ -50,6 +52,7 @@ public class MarkListPreference extends ListPreference {
 	}
 	
 	public void openCreator(int id) {
-		act.onOpenCreator(id);
+		if(MARKCREATOR_ENABLED)
+			act.onOpenCreator(id);
 	}
 }

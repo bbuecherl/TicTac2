@@ -16,7 +16,8 @@ public class BotSmart extends AbstractBot {
 	private boolean debug;
 	private boolean hard;
 	private int mark;
-
+	private boolean first;
+	
 	/**
 	 * Constructor
 	 * 
@@ -46,12 +47,17 @@ public class BotSmart extends AbstractBot {
 		mark = 0;
 		setPlayerType(2);
 		setName("SmartBotV2[" + Integer.toHexString(hashCode()) + "]");
-		decisiongrid = DecisionGrid.get(game);
+		first = true;
 	}
 
 	@Override
 	public void myTurn() {
+		if(first)
+			decisiongrid = DecisionGrid.get(game);
+
+		first = false;
 		if (mark++ == 0) {
+
 			if (hard && game.getBoard().getHistory().size() != 0)
 				DecisionGrid.refactor(decisiongrid, game.getBoard(),
 						game.getMarksPerTurn(), game.getWinLength());

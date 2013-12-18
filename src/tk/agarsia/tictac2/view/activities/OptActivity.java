@@ -3,6 +3,7 @@ package tk.agarsia.tictac2.view.activities;
 import java.util.ArrayList;
 import java.util.Random;
 
+import tk.agarsia.tictac2.R;
 import tk.agarsia.tictac2.controller.ApplicationControl;
 import tk.agarsia.tictac2.controller.ApplicationControl.GameType;
 import tk.agarsia.tictac2.model.player.AbstractPlayer;
@@ -22,7 +23,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
-import tk.agarsia.tictac2.R;
+import android.widget.ToggleButton;
 
 /**
  * Class for the game options activity.
@@ -43,6 +44,7 @@ public class OptActivity extends MainActivity implements OnItemSelectedListener 
 	private Spinner size;
 	private ArrayAdapter<CharSequence> sizeAdapter;
 	private Spinner win;
+	private int winstart;
 	private ArrayAdapter<CharSequence> winAdapter;
 	private Spinner mpr;
 	private ArrayAdapter<CharSequence> mprAdapter;
@@ -82,16 +84,17 @@ public class OptActivity extends MainActivity implements OnItemSelectedListener 
 					.setText(getString(R.string.opt_bot));
 			findViewById(R.id.opt_name_desc).setVisibility(View.GONE);
 			findViewById(R.id.opt_name).setVisibility(View.GONE);
-			findViewById(R.id.space4).setVisibility(View.GONE);
+			findViewById(R.id.opt_botint_box).setVisibility(View.VISIBLE);
+			findViewById(R.id.opt_quickmode_box).setVisibility(View.GONE);
 			break;
 		case LOCAL: // XXX (not sure if this could be removed) make sure
 							// to show other player name options
 			findViewById(R.id.opt_name_desc).setVisibility(View.VISIBLE);
 			findViewById(R.id.opt_name).setVisibility(View.VISIBLE);
-			findViewById(R.id.space4).setVisibility(View.VISIBLE);
+			findViewById(R.id.opt_botint_box).setVisibility(View.GONE);
+			findViewById(R.id.opt_quickmode_box).setVisibility(View.VISIBLE);
 			break;
-		case ONLINE:
-			
+		default:
 			break;
 		}
 
@@ -143,14 +146,17 @@ public class OptActivity extends MainActivity implements OnItemSelectedListener 
 	 */
 	private void winAdapt(int i) {
 		winAdapter.clear();
-		if (i >= 0)
+		winstart = 0;
+		if (i == 0)  { // solving game parameter bug [#22]
 			winAdapter.insert("3", 0);
+			winstart = 1;
+		}
 		if (i >= 1)
-			winAdapter.insert("4", 1);
+			winAdapter.insert("4", winstart);
 		if (i >= 2)
-			winAdapter.insert("5", 2);
+			winAdapter.insert("5", winstart+1);
 		if (i >= 3)
-			winAdapter.insert("6", 3);
+			winAdapter.insert("6", winstart+2);
 		winAdapter.notifyDataSetChanged();
 	}
 
@@ -230,12 +236,17 @@ public class OptActivity extends MainActivity implements OnItemSelectedListener 
 		// fetch option views
 		RadioGroup index = (RadioGroup) findViewById(R.id.opt_start);
 
-		int interval = 0; // XXX interval currently alwas 0 (do we even
-							// implement the speedmode?
+		int interval = 0; // 0 = no quickmode 
+
+		if(((ToggleButton) findViewById(R.id.opt_quickmode)).isChecked()) 
+			interval = Integer.parseInt(ApplicationControl.getStringPref("pref_quickmode","0"));
+		
 		int boardDim = 3 + size.getSelectedItemPosition(); // board dimension
 															// (3x3,4x4,5x5,6x6)
 		int winLength = 3 + win.getSelectedItemPosition(); // win length
 															// (3,4,5,6)
+		winLength += winstart==0?1:0; //bug fix
+		
 		int mpt = 1 + mpr.getSelectedItemPosition(); // marks per turn (1,2,3)
 		int spi = 1 + rand.nextInt(2); // preinitialize start player index with
 										// random
@@ -253,7 +264,17 @@ public class OptActivity extends MainActivity implements OnItemSelectedListener 
 		AbstractPlayer player2 = null;
 		if (ApplicationControl.getGameType() == GameType.SINGLE) {
 			// start singleplayer (vs Bot)
-			player2 = new BotRandom(ApplicationControl.getGame());
+			switch(((RadioGroup) findViewById(R.id.opt_botint)).getCheckedRadioButtonId()) {
+			case R.id.opt_botint_hard:
+				player2 = new tk.agarsia.tictac2.model.player.bot.BotSmart(ApplicationControl.getGame());
+				break;
+			case R.id.opt_botint_med:
+				player2 = new tk.agarsia.tictac2.model.player.bot.smartV2.BotSmart(ApplicationControl.getGame(),true,true);
+				break;
+			default:
+				player2 = new BotRandom(ApplicationControl.getGame());				
+				break;
+			}
 		} else if (ApplicationControl.getGameType() == GameType.LOCAL) {
 			// start local (vs other local human)
 			String name = ((EditText) findViewById(R.id.opt_name)).getText()
