@@ -60,10 +60,16 @@ public class WeightController {
 			
 			// win/loss runs, only looking to parent though
 			if(child.getIPlaceSamePlayerIndexAsMyParents()){	
-				if(child.iWon())
+				if(child.iWon()){
 					node.addToWinnersWEIGHTED(child.getWeightFactorWin() * bonusFactorWinRun);
-				if(child.iLost())
+					child.addExtraInfoFromOutside("caused win-run-bonus for my parent");
+					node.addExtraInfoFromOutside("received win-run-bonus from my child");
+				}
+				if(child.iLost()){
 					node.addToLosersWEIGHTED(child.getWeightFactorLoss() * bonusFactorLossRun);	
+					child.addExtraInfoFromOutside("caused loss-run-bonus for my parent");
+					node.addExtraInfoFromOutside("received loss-run-bonus from my child");
+				}
 			}
 		}			
 		

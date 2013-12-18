@@ -17,6 +17,7 @@ public class Node {
 
 	private int[] boardArr;
 	private int indexWhereIplacedMyMark = -1;
+	private String extraInfoFromOutside = "";
 	private int forHowManyTurnsLeftIsItMyTurn = 0;
 	private int playerIndexIplace = 0;
 	private boolean iPlaceSamePlayerIndexAsMyParents = false;
@@ -158,8 +159,11 @@ public class Node {
 		return iPlaceSamePlayerIndexAsMyParents;
 	}
 	
-	public String getExtraInfo(){			
-		
+	public void addExtraInfoFromOutside(String txt){
+		extraInfoFromOutside += "\n" + txt;
+	}
+	
+	public String getExtraInfo(){				
 		//return "";//winners + "|" + losers;// + "\nx: " + x + " y: " + y;
 		
 		return "placed " + playerIndexIplace + " at (" + (indexWhereIplacedMyMark / boardDim) + ", " + (indexWhereIplacedMyMark % boardDim) + ")"
@@ -167,7 +171,8 @@ public class Node {
 				+ "\niPlaceSamePlayerIndexAsMyParents: " + iPlaceSamePlayerIndexAsMyParents
 				+ "\nwin: " + winners + "  loose: " + losers
 				+ "\nwinF+: " + winnersWEIGHTED + "  looseF: " + losersWEIGHTED
-				+ "\nweightFactors(win/loss): " + weightFactorWin + "/" + weightFactorLoss + "  diff(winW-lossW): " + getWeightedDifference();
+				+ "\nweightFactors(win/loss): " + weightFactorWin + "/" + weightFactorLoss + "  diff(winW-lossW): " + getWeightedDifference()
+				+ extraInfoFromOutside;
 	}
 	
 	public int getVertical(){

@@ -57,7 +57,7 @@ public class Exporter {
                 " x=\"" + x + "\" y=\"" + y + "\"/>" +                		
                 "<y:Fill color=\"" + (!wonOrLost ? "#FFCC00" : (iWon ? "#00CCFF" : "#FF0000")) + "\" transparent=\"false\"/>" +
                 "<y:BorderStyle color=\"#FFFFFF\" type=\"line\" width=\"0.5\"/>" +
-                "<y:NodeLabel textColor=\"#000000\">" + value + extraInfo + "</y:NodeLabel>" + //"\n" + details + "\n" + wonOrLost + "\n" + iWon +
+                "<y:NodeLabel textColor=\"#000000\">" + value + "</y:NodeLabel>" + //"\n" + details + "\n" + wonOrLost + "\n" + iWon +
                 "<y:Shape type=\"roundrectangle\"/></y:ShapeNode></data></node>");
     	//outputCSVnodes.println(ID + ",\"" + value + extraInfo + "\"");
     }
