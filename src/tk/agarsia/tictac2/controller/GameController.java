@@ -6,6 +6,7 @@ import tk.agarsia.tictac2.controller.feedback.Sound;
 import tk.agarsia.tictac2.controller.feedback.SoundController;
 import tk.agarsia.tictac2.controller.feedback.Vibration;
 import tk.agarsia.tictac2.model.Game;
+import tk.agarsia.tictac2.view.BoardView;
 import android.util.Log;
 
 /**
@@ -21,6 +22,7 @@ import android.util.Log;
 public class GameController {
 	private Game game;
 	private Sound[] sounds;
+	private BoardView board;
 
 	/**
 	 * Custom constructor
@@ -84,5 +86,13 @@ public class GameController {
 						sounds[2].play(Sound.LOUD);
 			}
 		}
+	}
+
+	public void registerBoard(BoardView b) {
+		board = b;
+	}
+	
+	public void invalidateBoard() {
+		board.postInvalidate();
 	}
 }

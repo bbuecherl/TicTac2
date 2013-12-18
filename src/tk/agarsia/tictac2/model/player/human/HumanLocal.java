@@ -1,20 +1,19 @@
 package tk.agarsia.tictac2.model.player.human;
 
+import tk.agarsia.tictac2.controller.ApplicationControl;
 import tk.agarsia.tictac2.model.Game;
 import tk.agarsia.tictac2.model.player.AbstractPlayer;
-import tk.agarsia.tictac2.model.player.bot.tree.TreeBuilder;
 
 public class HumanLocal extends AbstractPlayer{
 	
-	private int interval;
+	private Game game;
 	private Timer timer;
 	
 	public HumanLocal(String name, Game game) {
 		super(game);
 		setPlayerType(0);
 		setName(name);	
-		interval = game.getInterval();
-		timer = new Timer(this, interval);
+		this.game = game;
 	}
 
 	/**
@@ -26,6 +25,9 @@ public class HumanLocal extends AbstractPlayer{
 		
 		game.awaitingClick();
 			
+		if(timer==null)		
+			timer = new Timer(this, game.getInterval());
+
 		timer.restart();
 		
 /*		if(turnCount > 3)
@@ -49,10 +51,12 @@ public class HumanLocal extends AbstractPlayer{
 
 	@Override
 	public boolean myChoice(int row, int column) {
+		timer.cancel();
 		return game.placeMark(row, column);
 	}
 
 	public void intervalPassed() {
 		myChoice(-1, -1);		
+		ApplicationControl.getGameController().invalidateBoard();
 	}	
 }

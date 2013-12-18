@@ -47,6 +47,8 @@ public class BoardView extends View {
 		// for easier reference
 		game = ApplicationControl.getGame();
 
+		ApplicationControl.getGameController().registerBoard(this);
+
 		// touch listener
 		listener = new BoardTouchListener(this);
 		this.setOnTouchListener(listener);

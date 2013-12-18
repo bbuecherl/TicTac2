@@ -1,5 +1,7 @@
 package tk.agarsia.tictac2.model.player.human;
 
+import android.util.Log;
+
 public class Timer extends Thread{
 
 	private long startTime;
@@ -14,15 +16,24 @@ public class Timer extends Thread{
 	 * @param interval in s
 	 */
 	public Timer(HumanLocal humanPlayer, int interval){	
-		this.interval = interval;
-		this.humanPlayer = humanPlayer;			
+		this.interval = interval*1000;
+		this.humanPlayer = humanPlayer;		
+		start();
 	}
 	
 	public void restart(){
 		timePassed = 0;
 		intervalOver = false;
-		startTime = System.nanoTime();
-		run();
+		startTime = System.currentTimeMillis();
+		
+		Log.i("test", "" + interval);
+		
+		if(interval<=0)
+			cancel();
+	}
+	
+	public void cancel() {
+		intervalOver = true;
 	}
 		
 	/**
@@ -31,10 +42,16 @@ public class Timer extends Thread{
 	@Override
     public void run() {
     	while(!intervalOver){
-    		timePassed = (System.nanoTime() - startTime) / 1000000;
-    		if(timePassed >= (interval * 1000)){
+    		timePassed = System.currentTimeMillis() - startTime;
+    		if(timePassed >= interval){
     			humanPlayer.intervalPassed();
     			intervalOver = true;
+    		}
+    		
+    		try {
+    			Thread.sleep(10);
+    		} catch (Exception e) {
+    			e.printStackTrace();
     		}
     	}
     }	

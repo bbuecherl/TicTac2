@@ -239,10 +239,8 @@ public class OptActivity extends MainActivity implements OnItemSelectedListener 
 
 		int interval = 0; // 0 = no quickmode 
 
-		if(ApplicationControl.getGameType()==GameType.SINGLE&&((ToggleButton) findViewById(R.id.opt_quickmode)).isChecked()) 
+		if(ApplicationControl.getGameType()==GameType.LOCAL&&((ToggleButton) findViewById(R.id.opt_quickmode)).isChecked()) 
 			interval = Integer.parseInt(ApplicationControl.getStringPref("pref_quickmode","0"));
-		
-		Log.i("QUICK", ""+interval);
 		
 		int boardDim = 3 + size.getSelectedItemPosition(); // board dimension
 															// (3x3,4x4,5x5,6x6)
