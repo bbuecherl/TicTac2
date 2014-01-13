@@ -3,7 +3,7 @@ TicTac2 v2.0
 
 Caution
 -------
-Please refer to v1.0 as stable release, since we have encountered some major bugs in two features of v2.0.
+Please refer to v1.0 as stable release, since we have encountered some major bugs in two features of v2.0. We will fix these as soon as possible.
 
 How to play
 -----------
