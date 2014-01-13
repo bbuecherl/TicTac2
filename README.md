@@ -1,5 +1,9 @@
-TicTac2 v1.0
+TicTac2 v2.0
 ============
+
+Caution
+-------
+Please refer to v1.0 as stable release, since we have encountered some major bugs in two features of v2.0.
 
 How to play
 -----------
